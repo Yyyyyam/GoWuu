@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <cn.edu.neusoft.ypq.gowuu.utils.ImageViewCircle
+        android:id="@+id/itm_goods_evlt_iv_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/itm_goods_evlt_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="二狗"
+        android:textSize="16sp"
+        android:textColor="@color/goods_black"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@id/itm_goods_evlt_iv_avatar"
+        app:layout_constraintStart_toEndOf="@id/itm_goods_evlt_iv_avatar"/>
+
+    <TextView
+        android:id="@+id/itm_goods_evlt_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2022/3/24"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/itm_goods_evlt_tv_name"
+        app:layout_constraintStart_toStartOf="@id/itm_goods_evlt_tv_name"/>
+
+    <TextView
+        android:id="@+id/itm_goods_evlt_tv_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="老板人很好，东西也不错，一种情怀，能买到还是很开心的。游戏也很多，以后又需要还回来"
+        android:textColor="@color/goods_black"
+        android:textSize="15sp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/itm_goods_evlt_iv_avatar"
+        app:layout_constraintTop_toBottomOf="@id/itm_goods_evlt_iv_avatar" />
+
+    <com.youth.banner.Banner
+        android:id="@+id/itm_goods_evlt_banner"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/itm_goods_evlt_tv_detail"
+        app:layout_constraintStart_toStartOf="@id/itm_goods_evlt_tv_detail"
+        app:layout_constraintTop_toBottomOf="@id/itm_goods_evlt_tv_detail" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

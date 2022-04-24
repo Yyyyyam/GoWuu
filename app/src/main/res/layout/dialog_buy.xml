@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="450dp"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/dialog_buy_iv_goods"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    
+    <TextView
+        android:id="@+id/dialog_buy_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥"
+        android:textColor="@color/orange"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toEndOf="@id/dialog_buy_iv_goods"
+        app:layout_constraintTop_toTopOf="@id/dialog_buy_iv_goods"/>
+    
+    <TextView
+        android:id="@+id/dialog_buy_tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11.9"
+        android:textSize="18sp"
+        android:textColor="@color/orange"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_buy_tv1"
+        app:layout_constraintStart_toEndOf="@id/dialog_buy_tv1"/>
+    
+    <TextView
+        android:id="@+id/dialog_buy_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="库存量:"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@id/dialog_buy_tv1"
+        app:layout_constraintStart_toStartOf="@id/dialog_buy_tv1"/>
+
+    <TextView
+        android:id="@+id/dialog_buy_tv_goods_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="115"
+        android:textSize="14sp"
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_buy_tv2"
+        app:layout_constraintStart_toEndOf="@id/dialog_buy_tv2"/>
+
+    <TextView
+        android:id="@+id/dialog_buy_tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请选择购买数量"
+        android:textSize="14sp"
+        android:textColor="@color/back_gray"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@id/dialog_buy_tv2"
+        app:layout_constraintStart_toStartOf="@id/dialog_buy_tv2"/>
+    
+    <View
+        android:id="@+id/dialog_buy_view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/background_gray"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_buy_iv_goods"/>
+    
+    <TextView
+        android:id="@+id/dialog_buy_tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="购买数量"
+        android:textSize="16sp"
+        android:textColor="@color/back_gray"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/dialog_buy_view"
+        app:layout_constraintStart_toStartOf="@id/dialog_buy_view"/>
+
+    <ImageButton
+        android:id="@+id/dialog_buy_bt_add"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:src="@drawable/cstm_cart_ic_goods_count_add"
+        android:background="@color/gray3"
+        app:layout_constraintTop_toTopOf="@id/dialog_buy_tv4"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_buy_tv4"
+        app:layout_constraintEnd_toEndOf="@id/dialog_buy_view"/>
+
+    <TextView
+        android:id="@+id/dialog_buy_tv_buy_count"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/goods_black"
+        android:textSize="16sp"
+        android:background="@color/gray2"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_buy_bt_add"
+        app:layout_constraintEnd_toStartOf="@id/dialog_buy_bt_add"
+        app:layout_constraintTop_toTopOf="@id/dialog_buy_bt_add" />
+
+    <ImageButton
+        android:id="@+id/dialog_buy_bt_sub"
+        android:layout_width="35dp"
+        android:layout_height="30dp"
+        android:background="@color/gray1"
+        android:layout_marginEnd="1dp"
+        android:src="@drawable/cstm_cart_ic_goods_count_sub"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_buy_tv4"
+        app:layout_constraintEnd_toStartOf="@+id/dialog_buy_tv_buy_count"
+        app:layout_constraintTop_toTopOf="@id/dialog_buy_tv4" />
+
+    <Button
+        android:id="@+id/dialog_buy_bt_buy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="立即购买"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_changed_shape"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    
+</androidx.constraintlayout.widget.ConstraintLayout>

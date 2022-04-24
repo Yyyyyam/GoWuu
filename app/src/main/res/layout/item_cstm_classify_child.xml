@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:paddingBottom="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/item_shape_fillet">
+
+    <TextView
+        android:id="@+id/classify_child_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="数码配件"
+        android:textColor="@color/back_gray"
+        android:textSize="18sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/classify_child_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/classify_child_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

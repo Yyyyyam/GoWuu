@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_gray">
+
+    <ImageButton
+        android:id="@+id/address_edit_ib_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/background_gray"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/address_edit_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="编辑收货地址"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/address_edit_ib_back"
+        app:layout_constraintBottom_toBottomOf="@+id/address_edit_ib_back" />
+
+    <TextView
+        android:id="@+id/address_edit_tv_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:textSize="18sp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/address_edit_tv_title"
+        app:layout_constraintBottom_toBottomOf="@id/address_edit_tv_title"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/address_edit_cstrlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_shape_fillet"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/address_edit_ib_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/address_edit_tv_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收货人"
+            android:textSize="16sp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <EditText
+            android:id="@+id/address_edit_et_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:hint="请输入收货人"
+            android:textSize="16sp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingEnd="120dp"
+            app:layout_constraintBottom_toBottomOf="@+id/address_edit_tv_tv1"
+            app:layout_constraintStart_toStartOf="@+id/address_edit_et_phone"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_tv1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/background_gray"
+            android:layout_marginEnd="18dp"
+            app:layout_constraintTop_toBottomOf="@id/address_edit_tv_tv1"
+            app:layout_constraintBottom_toTopOf="@id/address_edit_tv_tv2"
+            app:layout_constraintStart_toStartOf="@id/address_edit_tv_tv1"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/address_edit_tv_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号码"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_tv_tv1"
+            app:layout_constraintStart_toStartOf="@+id/address_edit_tv_tv1"/>
+
+        <TextView
+            android:id="@+id/address_edit_tv_phone_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号格式有误"
+            android:maxLength="11"
+            android:textColor="@color/orange"
+            android:layout_marginEnd="18dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@id/address_edit_et_phone"
+            app:layout_constraintBottom_toBottomOf="@id/address_edit_et_phone"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <EditText
+            android:id="@+id/address_edit_et_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="24dp"
+            android:background="@color/white"
+            android:maxLength="11"
+            android:inputType="number"
+            android:hint="请输入手机号码"
+            android:textSize="16sp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingEnd="120dp"
+            app:layout_constraintBottom_toBottomOf="@+id/address_edit_tv_tv2"
+            app:layout_constraintStart_toEndOf="@+id/address_edit_tv_tv2"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_tv2" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/background_gray"
+            android:layout_marginEnd="18dp"
+            app:layout_constraintTop_toBottomOf="@id/address_edit_tv_tv2"
+            app:layout_constraintBottom_toTopOf="@id/address_edit_tv_tv3"
+            app:layout_constraintStart_toStartOf="@id/address_edit_tv_tv1"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/address_edit_tv_tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所在地区"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_tv_tv2"
+            app:layout_constraintStart_toStartOf="@+id/address_edit_tv_tv2"/>
+
+        <Spinner
+            android:id="@+id/address_edit_sp_province"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/not_define"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_tv3"
+            app:layout_constraintStart_toStartOf="@+id/address_edit_et_phone"/>
+
+        <Spinner
+            android:id="@+id/address_edit_sp_city"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:entries="@array/not_define"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_sp_province"
+            app:layout_constraintStart_toEndOf="@+id/address_edit_sp_province"/>
+
+        <Spinner
+            android:id="@+id/address_edit_sp_area"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:entries="@array/not_define"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_sp_province"
+            app:layout_constraintStart_toStartOf="@+id/address_edit_et_phone"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/background_gray"
+            android:layout_marginEnd="18dp"
+            app:layout_constraintTop_toBottomOf="@id/address_edit_sp_area"
+            app:layout_constraintBottom_toTopOf="@id/address_edit_tv_tv4"
+            app:layout_constraintStart_toStartOf="@id/address_edit_tv_tv1"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/address_edit_tv_tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="详细地址"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="48dp"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_sp_area"
+            app:layout_constraintStart_toStartOf="@+id/address_edit_tv_tv3"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <EditText
+            android:id="@+id/address_edit_et_etDetail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:hint="请输入详细地址"
+            android:textSize="16sp"
+            android:maxLength="40"
+            android:paddingBottom="30dp"
+            android:paddingEnd="120dp"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_tv4"
+            app:layout_constraintStart_toStartOf="@+id/address_edit_et_phone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_shape_fillet"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/address_edit_cstrlayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/address_edit_tv_tv5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <EditText
+            android:id="@+id/address_edit_et_tag"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="48dp"
+            android:background="@color/white"
+            android:hint="家"
+            android:maxLength="2"
+            android:paddingTop="8dp"
+            android:paddingEnd="200dp"
+            android:paddingBottom="8dp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/address_edit_tv_tv5"
+            app:layout_constraintStart_toEndOf="@+id/address_edit_tv_tv5"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_tv5" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/background_gray"
+            android:layout_marginEnd="18dp"
+            app:layout_constraintTop_toBottomOf="@id/address_edit_tv_tv5"
+            app:layout_constraintBottom_toTopOf="@id/address_edit_tv_tv6"
+            app:layout_constraintStart_toStartOf="@id/address_edit_tv_tv5"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/address_edit_tv_tv6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置为默认地址"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_tv_tv5"
+            app:layout_constraintStart_toStartOf="@+id/address_edit_tv_tv5"/>
+
+        <TextView
+            android:id="@+id/address_edit_tv_tv7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:hint="提示：下单会优先使用该地址"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintTop_toBottomOf="@id/address_edit_tv_tv6"
+            app:layout_constraintStart_toStartOf="@id/address_edit_tv_tv6"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/address_edit_sw_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toTopOf="@id/address_edit_tv_tv6"
+            app:layout_constraintBottom_toBottomOf="@id/address_edit_tv_tv7"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/address_edit_bt_confirm"
+        android:layout_width="260dp"
+        android:layout_height="45dp"
+        android:text="提交"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_changed_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

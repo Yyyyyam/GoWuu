@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/mod_pas_ib_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/background_gray"
+        android:src="@drawable/ic_back"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mod_pas_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="100dp"
+        android:text="修改密码"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/mod_pas_et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:hint="请输入手机号"
+        android:inputType="number"
+        android:maxLength="11"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mod_pas_tv_title" />
+
+    <TextView
+        android:id="@+id/mod_pas_tv_phone_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="手机号格式有误，请检查后输入"
+        android:textColor="@color/orange"
+        app:layout_constraintStart_toStartOf="@id/mod_pas_et_phone"
+        app:layout_constraintTop_toBottomOf="@id/mod_pas_et_phone"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/mod_pas_et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:hint="请输入邮箱"
+        android:maxLength="24"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mod_pas_et_phone" />
+
+    <TextView
+        android:id="@+id/mod_pas_tv_email_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="邮箱格式有误，请检查后输入"
+        android:textColor="@color/orange"
+        app:layout_constraintStart_toStartOf="@id/mod_pas_et_email"
+        app:layout_constraintTop_toBottomOf="@id/mod_pas_et_email"
+        android:visibility="gone"/>
+
+    <EditText
+        android:id="@+id/mod_pas_et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:maxLength="24"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mod_pas_et_email" />
+
+    <EditText
+        android:id="@+id/mod_pas_et_cfmpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:hint="请再次确认密码"
+        android:inputType="textPassword"
+        android:maxLength="24"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mod_pas_et_password" />
+
+    <TextView
+        android:id="@+id/mod_pas_cfm_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="21"
+        android:textColor="@color/orange"
+        android:text="请输入相关信息，以更改密码"
+        app:layout_constraintStart_toStartOf="@+id/mod_pas_et_cfmpassword"
+        app:layout_constraintTop_toBottomOf="@+id/mod_pas_et_cfmpassword" />
+
+    <Button
+        android:id="@+id/mod_pas_bt_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_changed_shape"
+        android:text="修改"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/mod_pas_cfm_text"
+        app:layout_constraintStart_toStartOf="@+id/mod_pas_cfm_text"
+        app:layout_constraintTop_toBottomOf="@+id/mod_pas_cfm_text" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

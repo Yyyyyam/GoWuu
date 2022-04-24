@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/goods_evlt_constraint_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/goods_evlt_iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发表评价"
+            android:textSize="24sp"
+            android:textColor="@color/goods_black"
+            app:layout_constraintTop_toTopOf="@id/goods_evlt_iv_back"
+            app:layout_constraintBottom_toBottomOf="@id/goods_evlt_iv_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/goods_evlt_bt_commit"
+        app:layout_constraintTop_toBottomOf="@id/goods_evlt_constraint_title">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/goods_evlt_constraint_goods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/item_shape_fillet"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/goods_evlt_iv_goods"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/goods_evlt_tv_goods_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="小黄人款曼秀雷敦新碧儿童防晒户外防晒乳"
+                    android:textSize="16sp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="@id/goods_evlt_iv_goods"
+                    app:layout_constraintStart_toEndOf="@id/goods_evlt_iv_goods"/>
+
+                <TextView
+                    android:id="@+id/goods_evlt_tv_goods_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="日常用品-护肤品-防晒"
+                    android:textSize="14sp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@id/goods_evlt_tv_goods_name"
+                    app:layout_constraintTop_toBottomOf="@id/goods_evlt_tv_goods_name"/>
+
+                <TextView
+                    android:id="@+id/goods_evlt_tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品评价"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/goods_evlt_iv_goods"
+                    app:layout_constraintStart_toStartOf="@id/goods_evlt_iv_goods"/>
+
+                <RadioGroup
+                    android:id="@+id/goods_evlt_radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@id/goods_evlt_tv1"
+                    app:layout_constraintTop_toTopOf="@id/goods_evlt_tv1">
+                    <RadioButton
+                        android:id="@+id/goods_evlt_rb_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/MainButtonStyle"
+                        android:text="好评"
+                        android:textSize="16sp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:background="@color/no_color"
+                        android:drawableStart="@drawable/ic_goods_evlt_positive_selector"/>
+
+                    <RadioButton
+                        android:id="@+id/goods_evlt_rb_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/MainButtonStyle"
+                        android:text="中评"
+                        android:textSize="16sp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:background="@color/no_color"
+                        android:drawableStart="@drawable/ic_goods_evlt_negative_selector"/>
+
+                    <RadioButton
+                        android:id="@+id/goods_evlt_rb_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/MainButtonStyle"
+                        android:text="差评"
+                        android:textSize="16sp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:background="@color/no_color"
+                        android:drawableStart="@drawable/ic_goods_evlt_negative_selector"/>
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/goods_evlt_et_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/no_color"
+                    android:gravity="top"
+                    android:hint="客观公正的评价商品，可以帮助更多想要购买的人"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/goods_evlt_tv1"
+                    app:layout_constraintStart_toStartOf="@id/goods_evlt_tv1"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/goods_evlt_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="评价图片"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@id/goods_evlt_et_detail"
+                    app:layout_constraintStart_toStartOf="@id/goods_evlt_tv1"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/goods_evlt_rv"
+                    android:layout_width="0dp"
+                    android:layout_height="260dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintStart_toStartOf="@id/goods_evlt_et_detail"
+                    app:layout_constraintEnd_toEndOf="@id/goods_evlt_et_detail"
+                    app:layout_constraintTop_toBottomOf="@id/goods_evlt_tv2"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageButton
+                    android:id="@+id/cstm_request_ib_add"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_add"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_evlt_rv"
+                    app:layout_constraintEnd_toEndOf="@id/goods_evlt_rv"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/goods_evlt_constraint_bzns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_shape_fillet"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/goods_evlt_constraint_goods"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/goods_evlt_tv_bzns_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="好宝宝进口生活会馆"
+                    android:textSize="18sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/goods_evlt_tv_bzns_mark1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="描述相符"
+                    android:textSize="18sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/goods_evlt_tv_bzns_name"
+                    app:layout_constraintStart_toStartOf="@id/goods_evlt_tv_bzns_name"/>
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/goods_evlt_rating_bar1"
+                    style="@style/myRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:numStars="5"
+                    android:stepSize="1.0"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:isIndicator="false"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toEndOf="@+id/goods_evlt_tv_bzns_mark1"
+                    app:layout_constraintTop_toTopOf="@+id/goods_evlt_tv_bzns_mark1" />
+
+                <TextView
+                    android:id="@+id/goods_evlt_tv_bzns_mark2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="物流服务"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/goods_evlt_tv_bzns_mark1"
+                    app:layout_constraintStart_toStartOf="@id/goods_evlt_tv_bzns_mark1"/>
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/goods_evlt_rating_bar2"
+                    style="@style/myRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:numStars="5"
+                    android:stepSize="1.0"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:isIndicator="false"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toEndOf="@+id/goods_evlt_tv_bzns_mark2"
+                    app:layout_constraintTop_toTopOf="@+id/goods_evlt_tv_bzns_mark2" />
+
+                <TextView
+                    android:id="@+id/goods_evlt_tv_bzns_mark3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="服务态度"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/goods_evlt_tv_bzns_mark1"
+                    app:layout_constraintTop_toBottomOf="@id/goods_evlt_tv_bzns_mark2" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/goods_evlt_rating_bar3"
+                    style="@style/myRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:numStars="5"
+                    android:stepSize="1.0"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:isIndicator="false"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintStart_toEndOf="@+id/goods_evlt_tv_bzns_mark3"
+                    app:layout_constraintTop_toTopOf="@+id/goods_evlt_tv_bzns_mark3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/goods_evlt_bt_commit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_changed_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

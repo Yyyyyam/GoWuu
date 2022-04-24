@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/goods_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/goods_frame_ib_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/no_color"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/goods_frame_bottom_guide_line1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.15" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/goods_frame_bottom_guide_line2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/goods_frame_bottom_guide_line3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.65" />
+        
+        <TextView
+            android:id="@+id/goods_frame_tv_store"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:drawableTop="@drawable/cstm_me_ic_store"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:text="店铺"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/goods_frame_bottom_guide_line1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/goods_frame_tv_favorite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:drawableTop="@drawable/ic_favorite"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:text="收藏"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/goods_frame_bottom_guide_line1"
+            app:layout_constraintEnd_toEndOf="@id/goods_frame_bottom_guide_line2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/goods_frame_bt_buy"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/item_shape_half_fillet_end"
+            android:text="立即购买"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/goods_frame_bottom_guide_line3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/goods_frame_bt_sp_cart"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:background="@drawable/item_shape_half_fillet_start"
+            android:text="加入购物车"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/goods_frame_bottom_guide_line2"
+            app:layout_constraintEnd_toStartOf="@+id/goods_frame_bottom_guide_line3"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

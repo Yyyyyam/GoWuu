@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/item_shape_fillet">
+
+    <TextView
+        android:id="@+id/itm_odr_tv_business_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/item_order_icon"
+        android:drawableEnd="@drawable/ic_go"
+        android:text="店家名称"
+        android:textColor="@color/goods_black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/itm_odr_tv_order_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="交易成功"
+        android:textColor="@color/orange"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/itm_odr_tv_business_name"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/itm_odr_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itm_odr_tv_business_name" />
+
+    <TextView
+        android:id="@+id/itm_odr_tv_tag1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="实付款￥"
+        android:textSize="16sp"
+        android:textColor="@color/goods_black"
+        app:layout_constraintBottom_toBottomOf="@+id/itm_odr_tv_price"
+        app:layout_constraintEnd_toStartOf="@+id/itm_odr_tv_price"/>
+
+    <TextView
+        android:id="@+id/itm_odr_tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15.80"
+        android:textSize="18sp"
+        android:textColor="@color/goods_black"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@id/itm_odr_recyclerview"
+        app:layout_constraintTop_toBottomOf="@id/itm_odr_recyclerview"/>
+
+
+    <Button
+        android:id="@+id/itm_odr_bt_1"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/item_shape_fillet_gray"
+        android:text="取消订单"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@+id/itm_odr_bt_2"
+        app:layout_constraintTop_toBottomOf="@+id/itm_odr_tv_price" />
+
+    <Button
+        android:id="@+id/itm_odr_bt_2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/item_shape_fillet_orange"
+        android:text="确认付款"
+        android:textColor="@color/orange"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itm_odr_tv_price" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

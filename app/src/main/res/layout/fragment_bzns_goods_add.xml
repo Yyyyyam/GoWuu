@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageButton
+        android:id="@+id/bzns_goods_add_ib_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/background_gray"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/bzns_goods_add_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加商品"
+        android:textSize="22sp"
+        app:layout_constraintTop_toTopOf="@+id/bzns_goods_add_ib_back"
+        app:layout_constraintBottom_toBottomOf="@+id/bzns_goods_add_ib_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/bzns_goods_add_tv_delete"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="删除"
+        android:visibility="gone"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toTopOf="@id/bzns_goods_add_ib_back"
+        app:layout_constraintBottom_toBottomOf="@id/bzns_goods_add_ib_back"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_ib_back"
+        app:layout_constraintBottom_toTopOf="@id/bzns_goods_add_bt_commit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bzns_goods_add_ib_back">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tools_cl1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_shape_fillet"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/bzns_goods_add_tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品信息"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_gray"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_tv1"
+                    app:layout_constraintBottom_toTopOf="@id/bzns_goods_add_tv2"/>
+
+                <TextView
+                    android:id="@+id/bzns_goods_add_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品名称"
+                    android:textSize="16sp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_tv1"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_tv1" />
+
+
+                <EditText
+                    android:id="@+id/bzns_goods_add_et_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:layout_marginStart="24dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="120dp"
+                    android:hint="请输入商品名称"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@id/bzns_goods_add_tv2"
+                    app:layout_constraintTop_toTopOf="@id/bzns_goods_add_tv2"
+                    app:layout_constraintBottom_toBottomOf="@id/bzns_goods_add_tv2"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_gray"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_et_name"
+                    app:layout_constraintBottom_toTopOf="@id/bzns_goods_add_sp1"/>
+
+                <TextView
+                    android:id="@+id/bzns_goods_add_tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品类型"
+                    android:textSize="16sp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_tv2"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_tv2" />
+
+                <Spinner
+                    android:id="@+id/bzns_goods_add_sp1"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/SpinnerStyle"
+                    android:entries="@array/not_define"
+                    app:layout_constraintTop_toTopOf="@id/bzns_goods_add_tv3"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_et_name" />
+
+                <Spinner
+                    android:id="@+id/bzns_goods_add_sp2"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/SpinnerStyle"
+                    android:entries="@array/not_define"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_sp1"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_et_name" />
+
+                <Spinner
+                    android:id="@+id/bzns_goods_add_sp3"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/SpinnerStyle"
+                    android:entries="@array/not_define"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_sp2"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_et_name" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_gray"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_sp3"
+                    app:layout_constraintBottom_toTopOf="@id/bzns_goods_add_et_price"/>
+
+                <TextView
+                    android:id="@+id/bzns_goods_add_tv4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品价格"
+                    android:textSize="16sp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_sp3"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_tv3"/>
+
+                <EditText
+                    android:id="@+id/bzns_goods_add_et_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:inputType="numberDecimal|number"
+                    android:hint="199.9"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="120dp"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="@id/bzns_goods_add_tv4"
+                    app:layout_constraintBottom_toBottomOf="@id/bzns_goods_add_tv4"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_et_name"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_gray"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_et_price"
+                    app:layout_constraintBottom_toTopOf="@id/bzns_goods_add_et_count"/>
+
+                <TextView
+                    android:id="@+id/bzns_goods_add_tv5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品数量"
+                    android:textSize="16sp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_tv4"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_tv4"/>
+
+                <EditText
+                    android:id="@+id/bzns_goods_add_et_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:hint="2000"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="120dp"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="@id/bzns_goods_add_tv5"
+                    app:layout_constraintBottom_toBottomOf="@id/bzns_goods_add_tv5"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_et_name"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_gray"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_et_count"
+                    app:layout_constraintBottom_toTopOf="@id/bzns_goods_add_switch_state"/>
+
+                <TextView
+                    android:id="@+id/bzns_goods_add_tv6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="是否上架"
+                    android:textSize="16sp"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_tv5"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_tv5"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/bzns_goods_add_switch_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:checked="true"
+                    app:layout_constraintStart_toStartOf="@id/bzns_goods_add_et_count"
+                    app:layout_constraintTop_toTopOf="@id/bzns_goods_add_tv6"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                <TextView
+                    android:id="@+id/bzns_goods_add_tv8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="折扣"
+                    android:textSize="16sp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="@id/bzns_goods_add_tv6"
+                    app:layout_constraintBottom_toBottomOf="@id/bzns_goods_add_tv6"
+                    app:layout_constraintStart_toEndOf="@id/bzns_goods_add_switch_state"/>
+
+                <EditText
+                    android:id="@+id/bzns_goods_add_et_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:background="@color/white"
+                    android:inputType="numberDecimal|number"
+                    android:maxLength="4"
+                    android:hint="0.9"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="60dp"
+                    android:textSize="16sp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="@id/bzns_goods_add_tv8"
+                    app:layout_constraintBottom_toBottomOf="@id/bzns_goods_add_tv8"
+                    app:layout_constraintStart_toEndOf="@id/bzns_goods_add_tv8"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tools_cl2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/item_shape_fillet"
+                app:layout_constraintTop_toBottomOf="@id/tools_cl1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/bzns_goods_add_tv7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品图片"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_gray"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_tv7"
+                    app:layout_constraintBottom_toTopOf="@id/bzns_goods_add_rv"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bzns_goods_add_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/bzns_goods_add_tv7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageButton
+                    android:id="@+id/bzns_goods_add_ib_add"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_add"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/bzns_goods_add_rv"
+                    app:layout_constraintEnd_toEndOf="@id/bzns_goods_add_rv"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/bzns_goods_add_bt_commit"
+        android:layout_width="260dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_changed_shape"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

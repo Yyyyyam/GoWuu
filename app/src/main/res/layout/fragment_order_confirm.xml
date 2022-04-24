@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/order_cfm_constraint_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_shape_fillet"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/order_cfm_iv_address"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/cstm_order_cfm_ic_address"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/order_cfm_tv_address_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="区域：辽宁省-大连市-甘井子区"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/order_cfm_tv_addressee_name"
+                    app:layout_constraintTop_toBottomOf="@id/order_cfm_tv_addressee_phone" />
+
+                <TextView
+                    android:id="@+id/order_cfm_tv_address_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:maxEms="15"
+                    android:text="地址：软件园数码路8号大连东软信息学院三期派物流代收"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/order_cfm_tv_addressee_name"
+                    app:layout_constraintTop_toBottomOf="@id/order_cfm_tv_address_area" />
+
+                <TextView
+                    android:id="@+id/order_cfm_tv_addressee_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓名：二狗"
+                    android:textSize="18sp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/order_cfm_iv_address" />
+
+                <TextView
+                    android:id="@+id/order_cfm_tv_addressee_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="电话：15042132458"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/order_cfm_tv_addressee_name"
+                    app:layout_constraintTop_toBottomOf="@id/order_cfm_tv_addressee_name" />
+
+                <ImageButton
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_go"
+                    android:background="@color/white"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toTopOf="@id/order_cfm_iv_address"
+                    app:layout_constraintBottom_toBottomOf="@id/order_cfm_iv_address"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/order_cfm_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/order_cfm_constraint_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

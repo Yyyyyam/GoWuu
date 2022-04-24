@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/admin_home_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="24dp"
+        android:text="管理员"
+        android:textColor="@color/goods_black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/admin_home_constraint_system"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@drawable/item_shape_fillet"
+        app:layout_constraintTop_toBottomOf="@id/admin_home_tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/admin_home_tv_system_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="系统信息"
+            android:textSize="17sp"
+            android:textColor="@color/back_gray"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_user_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="用户数量:0"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_system_title"
+            app:layout_constraintStart_toStartOf="@id/admin_home_tv_system_title"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_goods_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商品数量:0"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_user_count"
+            app:layout_constraintStart_toStartOf="@id/admin_home_tv_system_title"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/admin_home_guideline_system"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_bzns_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="商家数量:0"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_system_title"
+            app:layout_constraintStart_toStartOf="@id/admin_home_guideline_system"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_order_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="订单数量:0"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/admin_home_tv_bzns_count"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_bzns_count" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/admin_home_constraint_request"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/item_shape_fillet"
+        android:paddingBottom="16dp"
+        app:layout_constraintStart_toStartOf="@id/admin_home_constraint_system"
+        app:layout_constraintEnd_toEndOf="@id/admin_home_constraint_system"
+        app:layout_constraintTop_toBottomOf="@id/admin_home_constraint_system">
+
+        <TextView
+            android:id="@+id/admin_home_tv_request_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="申请和举报"
+            android:textSize="17sp"
+            android:textColor="@color/back_gray"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_request_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="申请数量:0"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_request_title"
+            app:layout_constraintStart_toStartOf="@id/admin_home_tv_request_title"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_unhandled_request_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未处理申请:0"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_request_count"
+            app:layout_constraintStart_toStartOf="@id/admin_home_tv_request_title"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/admin_home_guideline_request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_report_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="举报数量:0"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_request_title"
+            app:layout_constraintStart_toStartOf="@id/admin_home_guideline_request"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_unhandled_report_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="未处理举报:0"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/admin_home_tv_report_count"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_report_count" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/admin_home_constraint_statistic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/item_shape_fillet"
+        android:paddingBottom="16dp"
+        app:layout_constraintStart_toStartOf="@id/admin_home_constraint_request"
+        app:layout_constraintEnd_toEndOf="@id/admin_home_constraint_request"
+        app:layout_constraintTop_toBottomOf="@id/admin_home_constraint_request">
+
+        <TextView
+            android:id="@+id/admin_home_tv_statistic_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="统计"
+            android:textSize="17sp"
+            android:textColor="@color/back_gray"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_dealt_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="成交数量:0"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_statistic_title"
+            app:layout_constraintStart_toStartOf="@id/admin_home_tv_statistic_title"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_dealt_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="成交额度￥0"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_dealt_count"
+            app:layout_constraintStart_toStartOf="@id/admin_home_tv_statistic_title"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/admin_home_guideline_statistic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_dealing_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="交易中数量:0"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_statistic_title"
+            app:layout_constraintStart_toStartOf="@id/admin_home_guideline_statistic"/>
+
+        <TextView
+            android:id="@+id/admin_home_tv_dealing_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="交易中额度￥0"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/admin_home_tv_dealing_count"
+            app:layout_constraintTop_toBottomOf="@id/admin_home_tv_dealing_count" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/f_main_frameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background_gray"
+        app:layout_constraintBottom_toTopOf="@+id/rg_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/navigate_gray"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            style="@style/MainButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/no_color"
+            android:drawableTop="@drawable/ic_button_home_selector"
+            android:text="主页"
+            android:textSize="13sp"/>
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            style="@style/MainButtonStyle"
+            android:background="@color/no_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_button_classify_selector"
+            android:text="分类"
+            android:textSize="13sp"/>
+
+        <RadioButton
+            android:id="@+id/rb_3"
+            style="@style/MainButtonStyle"
+            android:background="@color/no_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_button_cart_selector"
+            android:text="购物车"
+            android:textSize="13sp"/>
+
+        <RadioButton
+            android:id="@+id/rb_4"
+            style="@style/MainButtonStyle"
+            android:background="@color/no_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_button_me_selector"
+            android:text="我的"
+            android:textSize="13sp"/>
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

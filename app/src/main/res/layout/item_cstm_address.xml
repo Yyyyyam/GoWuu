@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/item_shape_fillet">
+
+    <TextView
+        android:id="@+id/itm_address_tv_default"
+        android:layout_width="32dp"
+        android:layout_height="18dp"
+        android:gravity="center"
+        android:text="默认"
+        android:textSize="12dp"
+        android:textColor="@color/white"
+        android:background="@drawable/background_red"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/itm_address_tv_tag"
+        android:layout_width="32dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/background_blue"
+        android:gravity="center"
+        android:text="公司"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@+id/itm_address_tv_default"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/itm_address_tv_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="辽宁省大连市甘井子区凌水街道"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/itm_address_tv_tag"
+        app:layout_constraintTop_toTopOf="@id/itm_address_tv_tag"/>
+
+    <TextView
+        android:id="@+id/itm_address_tv_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ems="16"
+        android:text="凌水街道软件园数码路8号大连东软信息学院三期派物流代收"
+        android:textColor="@color/goods_black"
+        android:textSize="16sp"
+        android:layout_marginStart="12dp"
+        app:layout_goneMarginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itm_address_tv_area" />
+
+    <TextView
+        android:id="@+id/itm_address_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="颜培琦"
+        app:layout_goneMarginTop="4dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/itm_address_tv_detail"
+        app:layout_constraintTop_toBottomOf="@id/itm_address_tv_detail" />
+
+    <TextView
+        android:id="@+id/itm_address_tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13470219681"
+        android:layout_marginStart="30dp"
+        app:layout_constraintTop_toTopOf="@id/itm_address_tv_name"
+        app:layout_constraintStart_toEndOf="@id/itm_address_tv_name" />
+
+    <ImageButton
+        android:id="@+id/itm_address_ib_edit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:minWidth="32dp"
+        android:minHeight="32dp"
+        android:src="@drawable/cstm_me_ic_address_edit"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/background_gray"
+        app:layout_constraintStart_toStartOf="@id/itm_address_tv_name"
+        app:layout_constraintEnd_toEndOf="@id/itm_address_ib_edit"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

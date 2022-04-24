@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/search_ib_back"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/background_gray"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_et_goods_name"
+        app:srcCompat="@drawable/ic_back" />
+
+    <EditText
+        android:id="@+id/search_et_goods_name"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/home_search_shape"
+        android:drawableEnd="@drawable/img_search_layer_list"
+        android:textSize="16sp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="55dp"
+        android:singleLine="true"
+        android:maxLength="18"
+        android:imeOptions="actionSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/search_ib_back"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/search_bt_search"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_changed_shape"
+        android:text="搜索"
+        android:layout_marginEnd="2dp"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/search_et_goods_name"
+        app:layout_constraintEnd_toEndOf="@id/search_et_goods_name"
+        app:layout_constraintTop_toTopOf="@id/search_et_goods_name" />
+
+    <LinearLayout
+        android:id="@+id/search_ll_history"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/search_et_goods_name"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
