@@ -32,6 +32,7 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
+import cn.edu.neusoft.ypq.gowuu.user.bean.User;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FileUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
@@ -48,11 +49,18 @@ public class ChangeAvatarFragment extends BaseFragment {
 
     private File imgFile = null;
     private String picPath = null;
+    private User user;
+    private boolean isManage = false;
 
     @BindView(R.id.usr_iv_change_avatar)
     ImageView imgAvatar;
     @BindView(R.id.usr_bt_change_avatar)
     Button btChange;
+
+    public ChangeAvatarFragment(User user, boolean isManage){
+        this.user = user;
+        this.isManage = isManage;
+    }
 
     @Override
     public View initView() {
@@ -63,11 +71,11 @@ public class ChangeAvatarFragment extends BaseFragment {
     }
 
     public void initImg(){
-        String avatar = MainActivity.user.getAvatar();
+        String avatar = user.getAvatar();
         if (avatar == null){
             imgAvatar.setImageResource(R.drawable.ic_launcher_foreground);
         } else {
-            String url = Constants.RES_URL+MainActivity.user.getAvatar();
+            String url = Constants.RES_URL+user.getAvatar();
             GlideUtils.setImage(mContext, url, imgAvatar);
         }
     }
@@ -88,7 +96,7 @@ public class ChangeAvatarFragment extends BaseFragment {
     }
 
     public void uploadImg() {
-        String url = Constants.SERVICE_URL+"users/change_avatar";
+        String url = Constants.USR_URL+"/change_avatar";
         //提交数据
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params =new RequestParams();
@@ -98,8 +106,8 @@ public class ChangeAvatarFragment extends BaseFragment {
             Toast.makeText(mContext,"请选择新的头像",Toast.LENGTH_SHORT).show();
             return;
         }
-        params.put("uid", MainActivity.user.getUid());
-        params.put("path",MainActivity.user.getAvatar());
+        params.put("uid", user.getUid());
+        params.put("path",user.getAvatar());
         client.post(url, params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -110,10 +118,10 @@ public class ChangeAvatarFragment extends BaseFragment {
                         PostMessage<String> postMessage = new Gson().fromJson(response, type);
                         if (postMessage.getMessage()==null){
                             String src = postMessage.getData();
-                            MainActivity.user.setAvatar(src);
+                            user.setAvatar(src);
                             Toast.makeText(mContext,"修改成功",Toast.LENGTH_SHORT).show();
                             //保存数据到SharedPreferences
-                            FileUtils.saveUserInfo(mContext);
+                            if (!isManage) FileUtils.saveUserInfo(mContext);
                             FragmentUtils.popBack(getActivity());
                         }else {
                             Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();

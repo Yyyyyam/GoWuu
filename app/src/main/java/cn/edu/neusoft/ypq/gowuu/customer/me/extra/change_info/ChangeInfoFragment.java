@@ -24,6 +24,7 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
+import cn.edu.neusoft.ypq.gowuu.user.bean.User;
 import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FileUtils;
@@ -39,6 +40,8 @@ import cz.msebera.android.httpclient.Header;
 public class ChangeInfoFragment extends BaseFragment {
 
     private int gender = -1;
+    private User user;
+    private boolean isManage = false;
 
     @BindView(R.id.usr_et_name)
     EditText etName;
@@ -61,13 +64,22 @@ public class ChangeInfoFragment extends BaseFragment {
     @BindView(R.id.usr_rb_unknow)
     Button rbUnknow;
 
+    public ChangeInfoFragment(User user, boolean isManage){
+        this.user = user;
+        if (user.getUid() == MainActivity.user.getUid()) {
+            isManage = false;
+        } else {
+            this.isManage = isManage;
+        }
+    }
+
     @Override
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_cstm_change_info, null);
         ButterKnife.bind(this, view);
 
-        Integer gender = MainActivity.user.getGender();
-        etName.setText(MainActivity.user.getUsername());
+        Integer gender = user.getGender();
+        etName.setText(user.getUsername());
         if (gender == 0){
             rgGender.check(R.id.usr_rb_unknow);
         } else if (gender == 1){
@@ -75,8 +87,8 @@ public class ChangeInfoFragment extends BaseFragment {
         } else {
             rgGender.check(R.id.usr_rb_woman);
         }
-        etPhone.setText(MainActivity.user.getPhone());
-        etEmail.setText(MainActivity.user.getEmail());
+        etPhone.setText(user.getPhone());
+        etEmail.setText(user.getEmail());
 
         CheckUtils.startPhoneCheck(etPhone, tvPhoneCheck);
         CheckUtils.startEmailCheck(etEmail, tvEmailCheck);
@@ -98,17 +110,17 @@ public class ChangeInfoFragment extends BaseFragment {
 
         if (name.isEmpty()||phone.isEmpty()||email.isEmpty()){
             Toast.makeText(mContext,"请输入全部信息",Toast.LENGTH_SHORT).show();
-        } else if (name.equals(MainActivity.user.getUsername())
-                && gender == MainActivity.user.getGender()
-                && phone.equals(MainActivity.user.getPhone())
-                && email.equals(MainActivity.user.getEmail())){
+        } else if (name.equals(user.getUsername())
+                && gender == user.getGender()
+                && phone.equals(user.getPhone())
+                && email.equals(user.getEmail())){
             Toast.makeText(mContext,"修改信息不能与原信息全部一致",Toast.LENGTH_SHORT).show();
         } else {
             String url = Constants.SERVICE_URL+"users/change_info";
             //提交数据
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams params =new RequestParams();
-            params.put("uid", MainActivity.user.getUid());
+            params.put("uid", user.getUid());
             params.put("username", name);
             params.put("phone", phone);
             params.put("email", email);
@@ -122,12 +134,14 @@ public class ChangeInfoFragment extends BaseFragment {
                     }.getType();
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage()==null){
-                        MainActivity.user.setUsername(name);
-                        MainActivity.user.setGender(gender);
-                        MainActivity.user.setPhone(phone);
-                        MainActivity.user.setEmail(email);
-                        //保存数据到SharedPreferences
-                        FileUtils.saveUserInfo(mContext);
+                        if (!isManage) {
+                            MainActivity.user.setUsername(name);
+                            MainActivity.user.setGender(gender);
+                            MainActivity.user.setPhone(phone);
+                            MainActivity.user.setEmail(email);
+                            //保存数据到SharedPreferences
+                            FileUtils.saveUserInfo(mContext);
+                        }
                         Toast.makeText(mContext,"修改成功",Toast.LENGTH_SHORT).show();
                         FragmentUtils.popBack(getActivity());
                     }else {

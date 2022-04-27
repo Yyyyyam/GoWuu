@@ -18,8 +18,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
-import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
+import cn.edu.neusoft.ypq.gowuu.user.bean.User;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
@@ -31,6 +31,8 @@ import cz.msebera.android.httpclient.Header;
  * 功能:ChangePasFragment
  */
 public class ChangePasFragment extends BaseFragment {
+    private User user;
+    private boolean isManage = false;
 
     @BindView(R.id.usr_et_old_pas)
     EditText etOldPas;
@@ -41,6 +43,11 @@ public class ChangePasFragment extends BaseFragment {
     @BindView(R.id.usr_bt_pas_confirm)
     Button btConfirm;
 
+    public ChangePasFragment(User user, boolean isManage){
+        this.user = user;
+        this.isManage = isManage;
+    }
+
     @Override
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_cstm_change_pas, null);
@@ -50,7 +57,7 @@ public class ChangePasFragment extends BaseFragment {
 
     @OnClick(R.id.usr_bt_pas_confirm)
     public void onClick() {
-        String url = Constants.SERVICE_URL+"users/change_pas";
+        String url = Constants.USR_URL+"/change_pas";
         String oldPas = etOldPas.getText().toString().trim();
         String newPas = etNewPas.getText().toString().trim();
         String cfmPas = etCfmPas.getText().toString().trim();
@@ -64,7 +71,7 @@ public class ChangePasFragment extends BaseFragment {
             //提交数据
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams params =new RequestParams();
-            params.put("uid", MainActivity.user.getUid());
+            params.put("uid", user.getUid());
             params.put("oldPas", oldPas);
             params.put("newPas", newPas);
             client.post(url, params, new AsyncHttpResponseHandler() {

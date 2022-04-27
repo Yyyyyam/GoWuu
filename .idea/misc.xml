@@ -131,6 +131,7 @@
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_goods_frame.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_home.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_main.xml" value="0.25" />
+        <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_manage.xml" value="0.271484375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_me.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_order_confirm.xml" value="0.3572916666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_order_confirm_frame.xml" value="0.3572916666666667" />
@@ -156,6 +157,7 @@
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_address.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_admin_examine.xml" value="0.33" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_admin_examine_apply.xml" value="0.4041666666666667" />
+        <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_admin_manage_user.xml" value="0.271484375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_cart.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_cart_goods.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_classify_parent.xml" value="0.271484375" />
@@ -170,7 +172,7 @@
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_cstm_message.xml" value="0.33" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_evalution.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_evlution.xml" value="0.673828125" />
-        <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_goods.xml" value="0.5" />
+        <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_goods.xml" value="0.2" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_goods_evaluation.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_load_empty_layout.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/item_load_end.xml" value="0.3619791666666667" />

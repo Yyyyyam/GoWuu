@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/background_gray"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_shape_fillet"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <cn.edu.neusoft.ypq.gowuu.utils.ImageViewCircle
+            android:id="@+id/itm_admin_mng_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/itm_admin_mng_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="二狗二狗二狗二狗"
+            android:textSize="16sp"
+            android:textColor="@color/goods_black"
+            android:maxLength="5"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/itm_admin_mng_iv"
+            app:layout_constraintStart_toStartOf="@id/itm_admin_mng_iv"
+            app:layout_constraintEnd_toEndOf="@id/itm_admin_mng_iv"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
+import cn.edu.neusoft.ypq.gowuu.user.bean.User;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 
 /**
@@ -26,18 +27,18 @@ import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 public class ChangeUsrFragment extends BaseFragment {
 
     private int position;
+    private User user;
+    private boolean isManage;
 
     @BindView(R.id.usr_info_tablayout)
     TabLayout tabLayout;
     @BindView(R.id.usr_info_viewpager)
     ViewPager2 viewPager2;
 
-    public ChangeUsrFragment(){
-    }
-
-    @SuppressLint("ValidFragment")
-    public ChangeUsrFragment(int position){
+    public ChangeUsrFragment(int position, User user, boolean isManage){
         this.position = position;
+        this.user = user;
+        this.isManage = isManage;
     }
 
     @Override
@@ -48,9 +49,9 @@ public class ChangeUsrFragment extends BaseFragment {
             @Override
             public androidx.fragment.app.Fragment createFragment(int position) {
                 switch (position){
-                    case 0: return new ChangeInfoFragment();
-                    case 1: return new ChangePasFragment();
-                    case 2: return new ChangeAvatarFragment();
+                    case 0: return new ChangeInfoFragment(user, isManage);
+                    case 1: return new ChangePasFragment(user, isManage);
+                    case 2: return new ChangeAvatarFragment(user, isManage);
                     default: return null;
                 }
             }

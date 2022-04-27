@@ -159,14 +159,14 @@ public class MeFragment extends BaseFragment {
                 if (MainActivity.user.getUid() == null){
                     FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new LoginFragment());
                 } else {
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ChangeUsrFragment());
+                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ChangeUsrFragment(0, MainActivity.user, false));
                 }
                 break;
             case R.id.me_img_avatar:
                 if (MainActivity.user.getUid() == null){
                     FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new LoginFragment());
                 } else {
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ChangeUsrFragment(2));
+                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ChangeUsrFragment(2, MainActivity.user, false));
                 }
                 break;
             case R.id.me_tv_order_all:
