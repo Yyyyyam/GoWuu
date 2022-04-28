@@ -107,7 +107,7 @@ public class ExamineApplyFragment extends BaseFragment<Examine> {
         adapter.setOnItemClickListener(new OnItemClickListener<Examine>() {
             @Override
             public void onItemClick(ViewHolder holder, Examine data, int position) {
-                String stateUrl = Constants.ADMIN_URL+"/examine/response";
+                String stateUrl = Constants.ADMIN_URL+"/examine/response_for_apply";
                 AsyncHttpClient client = new AsyncHttpClient();
                 RequestParams params = new RequestParams();
                 params.put("uid", data.getUid());

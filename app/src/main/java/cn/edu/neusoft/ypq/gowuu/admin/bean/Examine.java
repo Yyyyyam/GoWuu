@@ -10,10 +10,11 @@ import java.util.Objects;
  * @create 2022/3/12 - 13:30
  */
 public class Examine implements Serializable {
+    private int rid;
     private int uid;
+    private Integer gid;
     private String avatar;
     private String name;
-    private int rid;
     private String time;
     private int type;
     private String detail;
@@ -24,17 +25,26 @@ public class Examine implements Serializable {
     public Examine() {
     }
 
-    public Examine(int uid, String avatar, String name, int rid, String time, int type, String detail, int state, List<String> requestPic, String businessName) {
+    public Examine(int rid, int uid, Integer gid, String avatar, String name, String time, int type, String detail, int state, List<String> requestPic, String businessName) {
+        this.rid = rid;
         this.uid = uid;
+        this.gid = gid;
         this.avatar = avatar;
         this.name = name;
-        this.rid = rid;
         this.time = time;
         this.type = type;
         this.detail = detail;
         this.state = state;
         this.requestPic = requestPic;
         this.businessName = businessName;
+    }
+
+    public Integer getGid() {
+        return gid;
+    }
+
+    public void setGid(Integer gid) {
+        this.gid = gid;
     }
 
     public int getUid() {

@@ -244,7 +244,7 @@ public class MeFragment extends BaseFragment {
                         Type type = new TypeToken<PostMessage<Void>>(){}.getType();
                         PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                         if (postMessage.getMessage() == null){
-                            FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new RequestFragment());
+                            FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new RequestFragment(true, null));
                         } else {
                             Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                         }

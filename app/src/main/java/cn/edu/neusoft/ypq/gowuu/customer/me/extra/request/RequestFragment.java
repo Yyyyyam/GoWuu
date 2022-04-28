@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -43,6 +44,9 @@ import cz.msebera.android.httpclient.Header;
  */
 public class RequestFragment extends BaseFragment<Uri> {
 
+    private boolean isRequest = false;
+    private Integer gid;
+
     @BindView(R.id.cstm_request_rv)
     RecyclerView recyclerView;
     @BindView(R.id.cstm_request_et_detail)
@@ -50,10 +54,19 @@ public class RequestFragment extends BaseFragment<Uri> {
     @BindView(R.id.cstm_request_et_name)
     EditText etName;
 
+    public RequestFragment(boolean isRequest, Integer gid) {
+        this.isRequest = isRequest;
+        this.gid = gid;
+    }
+
     @Override
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_cstm_request, null);
         ButterKnife.bind(this, view);
+
+        TextView textView = view.findViewById(R.id.cstm_request_tv1);
+        textView.setText("举报理由");
+        etName.setHint("请输入举报理由");
 
         dataList = new ArrayList<>();
         //通过Adapter加载Uri到recyclerView
@@ -81,7 +94,12 @@ public class RequestFragment extends BaseFragment<Uri> {
 
     @OnClick(R.id.cstm_request_bt_confirm)
     public void confirm(){
-        String url = Constants.REQUEST_URL+"/add_request";
+        String url;
+        if (isRequest) {
+            url = Constants.REQUEST_URL+"/add_request";
+        } else {
+            url = Constants.REQUEST_URL+"/add_report";
+        }
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         String name = etName.getText().toString().trim();
@@ -98,7 +116,12 @@ public class RequestFragment extends BaseFragment<Uri> {
         } else {
             //提交数据
             params.put("uid", MainActivity.user.getUid());
-            params.put("type",0);
+            if (isRequest) {
+                params.put("type",0);
+            } else {
+                params.put("type",1);
+                params.put("gid", gid);
+            }
             params.put("detail",detail);
             params.put("others", name);
             try {

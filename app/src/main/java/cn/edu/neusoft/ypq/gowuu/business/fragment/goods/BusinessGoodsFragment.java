@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
+import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 
 /**
@@ -25,7 +26,6 @@ import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
  * 功能:GoodsBrowseFragment
  */
 public class BusinessGoodsFragment extends BaseFragment<Void> {
-    public static boolean isEdit = false;
 
     @BindView(R.id.pages_tablayout)
     TabLayout tabLayout;
@@ -74,8 +74,7 @@ public class BusinessGoodsFragment extends BaseFragment<Void> {
 
     @OnClick(R.id.pages_flt_bt_add)
     public void addGoods(){
-        isEdit = false;
-        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsEditFragment());
+        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsEditFragment(new Goods(), false));
     }
 
 }

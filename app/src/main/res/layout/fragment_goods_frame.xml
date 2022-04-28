@@ -25,6 +25,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/goods_frame_ib_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/no_color"
+        android:alpha="0.85"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:src="@drawable/cstm_goods_ic_report"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"

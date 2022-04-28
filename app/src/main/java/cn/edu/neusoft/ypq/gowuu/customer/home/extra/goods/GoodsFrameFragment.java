@@ -27,6 +27,7 @@ import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.CartHeader;
 import cn.edu.neusoft.ypq.gowuu.customer.home.bean.Favorite;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.dialog.BuyDialogFragment;
+import cn.edu.neusoft.ypq.gowuu.customer.me.extra.request.RequestFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
@@ -214,5 +215,10 @@ public class GoodsFrameFragment extends BaseFragment<Void> {
                 Toast.makeText(mContext, "GoodsFrameFragment(store):请求失败", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @OnClick(R.id.goods_frame_ib_report)
+    public void report() {
+        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new RequestFragment(false, goods.getGid()));
     }
 }

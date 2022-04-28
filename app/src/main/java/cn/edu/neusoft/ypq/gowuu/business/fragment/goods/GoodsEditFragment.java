@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,8 @@ import cz.msebera.android.httpclient.Header;
  * 功能:GoodsEditFragment
  */
 public class GoodsEditFragment extends BaseFragment<Uri> {
-    public static Goods goods = new Goods();
+    private Goods goods;
+    private boolean isEdit;
     String[] category = new String[3];
 
     private String url = Constants.GOODS_CATEGORY_URL;
@@ -82,12 +84,17 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
     EditText etPrice;
     @BindView(R.id.bzns_goods_add_tv_title)
     TextView tvTitle;
-    @BindView(R.id.bzns_goods_add_tv_delete)
-    TextView tvDelete;
     @BindView(R.id.bzns_goods_add_tv8)
     TextView tvTag;
     @BindView(R.id.bzns_goods_add_et_discount)
     EditText etDiscount;
+    @BindView(R.id.bzns_goods_add_ib_delete)
+    ImageButton ibDelete;
+
+    public GoodsEditFragment(Goods goods, boolean isEdit) {
+        this.goods = goods;
+        this.isEdit = isEdit;
+    }
 
     @Override
     public View initView() {
@@ -105,22 +112,22 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
     @Override
     public void initData() {
         super.initData();
-        if (BusinessGoodsFragment.isEdit) {
+        if (isEdit) {
             tvTitle.setText("编辑商品");
             etName.setText(goods.getName());
             etPrice.setText(String.valueOf(goods.getPrice()));
             etCount.setText(String.valueOf(goods.getCount()));
             if (goods.getState() == 0) swState.setChecked(false);
             else swState.setChecked(true);
-            tvDelete.setVisibility(View.VISIBLE);
             tvTag.setVisibility(View.VISIBLE);
             etDiscount.setVisibility(View.VISIBLE);
+            ibDelete.setVisibility(View.VISIBLE);
         }
     }
 
     //网络请求分类信息
     private void initCategory(){
-        if (BusinessGoodsFragment.isEdit) category = goods.getCategory().split("-");
+        if (isEdit) category = goods.getCategory().split("-");
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("parentId", 0);
@@ -139,7 +146,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                     ctgrAdapter = new ArrayAdapter<>(mContext , android.R.layout.simple_spinner_item, sList1);
                     ctgrAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spType1.setAdapter(ctgrAdapter);
-                    if (BusinessGoodsFragment.isEdit){
+                    if (isEdit){
                         spType1.setSelection(sList1.indexOf(category[0]));
                     }
                     spType1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -165,7 +172,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                                         ctgrAdapter = new ArrayAdapter<>(mContext , android.R.layout.simple_spinner_item, sList2);
                                         ctgrAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                         spType2.setAdapter(ctgrAdapter);
-                                        if (BusinessGoodsFragment.isEdit){
+                                        if (isEdit){
                                             spType2.setSelection(sList2.indexOf(category[1]));
                                         }
                                         spType2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -191,7 +198,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                                                             ctgrAdapter = new ArrayAdapter<>(mContext , android.R.layout.simple_spinner_item, sList3);
                                                             ctgrAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                                             spType3.setAdapter(ctgrAdapter);
-                                                            if (BusinessGoodsFragment.isEdit){
+                                                            if (isEdit){
                                                                 spType3.setSelection(sList3.indexOf(category[0]));
                                                             }
                                                             spType3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -274,9 +281,9 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                 ||etCount.getText().toString().trim().isEmpty()
                 ||etPrice.getText().toString().trim().isEmpty()){
             Toast.makeText(mContext,"请完整填写内容",Toast.LENGTH_SHORT).show();
-        } else if (BusinessGoodsFragment.isEdit && etDiscount.getText().toString().isEmpty()) {
+        } else if (isEdit && etDiscount.getText().toString().isEmpty()) {
             Toast.makeText(mContext,"请设置折扣",Toast.LENGTH_SHORT).show();
-        } else if (BusinessGoodsFragment.isEdit&&(Double.parseDouble(etDiscount.getText().toString().trim())>1||Double.parseDouble(etDiscount.getText().toString().trim())<0)) {
+        } else if (isEdit&&(Double.parseDouble(etDiscount.getText().toString().trim())>1||Double.parseDouble(etDiscount.getText().toString().trim())<0)) {
             Toast.makeText(mContext,"折扣在0-1之间",Toast.LENGTH_SHORT).show();
         } else if (dataList.size() == 0){
             Toast.makeText(mContext,"至少添加一张图片",Toast.LENGTH_SHORT).show();
@@ -291,7 +298,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
             } else {
                 goods.setState(2);
             }
-            if (BusinessGoodsFragment.isEdit){
+            if (isEdit){
                 url = Constants.GOODS_URL+"/edit";
             } else {
                 url = Constants.GOODS_URL+"/add";
@@ -309,7 +316,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
             } else {
                 params.put("state", 2);
             }
-            if (BusinessGoodsFragment.isEdit) {
+            if (isEdit) {
                 params.put("discount", Double.valueOf(etPrice.getText().toString().trim()));
                 params.put("gid", goods.getGid());
             }
@@ -326,7 +333,6 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage() == null){
                         Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
-                        BusinessGoodsFragment.isEdit = false;
                         FragmentUtils.popBack(getActivity());
                     } else {
                         Toast.makeText(mContext,postMessage.getMessage(),Toast.LENGTH_SHORT).show();
@@ -334,11 +340,38 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                 }
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Toast.makeText(mContext,"GoodsEditFragment(286):请求失败",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,"GoodsEditFragment(341):请求失败",Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
+
+    @OnClick(R.id.bzns_goods_add_ib_delete)
+    public void deleteGoods() {
+        String url = Constants.GOODS_URL+"/goods_delete";
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("gid", goods.getGid());
+        client.post(url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = new String(responseBody, StandardCharsets.UTF_8);
+                Type type = new TypeToken<PostMessage<Void>>(){}.getType();
+                PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                if (postMessage.getMessage() == null){
+                    Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
+                    FragmentUtils.popBack(getActivity());
+                } else {
+                    Toast.makeText(mContext,postMessage.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(mContext,"GoodsEditFragment(369):请求失败",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @OnClick(R.id.bzns_goods_add_ib_back)
     public void back(){FragmentUtils.popBack(getActivity());}
 }

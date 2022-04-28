@@ -153,9 +153,7 @@ public class ManageGoodsFragment extends BaseFragment<Goods> {
         adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
             @Override
             public void onItemClick(ViewHolder holder, Goods data, int position) {
-                BusinessGoodsFragment.isEdit = true;
-                GoodsEditFragment.goods.setGoods(data);
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsEditFragment());
+                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsEditFragment(data, true));
             }
         });
     }
