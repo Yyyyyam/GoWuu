@@ -43,8 +43,8 @@ import cz.msebera.android.httpclient.Header;
  * 功能:ClassifyGoodsFragment
  */
 public class ClassifyGoodsFragment extends BaseFragment<Goods> {
-    public static Integer cid;
-    public static String category;
+    private Integer cid;
+    private String category;
 
     @BindView(R.id.cstm_type_tv_title)
     TextView tvTitle;
@@ -52,6 +52,11 @@ public class ClassifyGoodsFragment extends BaseFragment<Goods> {
     TextView tvScore;
     @BindView(R.id.cstm_bzns_goods_rv)
     RecyclerView recyclerView;
+
+    public ClassifyGoodsFragment(Integer cid, String category) {
+        this.cid = cid;
+        this.category = category;
+    }
 
     @Override
     public View initView() {

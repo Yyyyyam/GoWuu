@@ -64,9 +64,11 @@ public class RequestFragment extends BaseFragment<Uri> {
         View view = View.inflate(mContext, R.layout.fragment_cstm_request, null);
         ButterKnife.bind(this, view);
 
-        TextView textView = view.findViewById(R.id.cstm_request_tv1);
-        textView.setText("举报理由");
-        etName.setHint("请输入举报理由");
+        if (!isRequest) {
+            TextView textView = view.findViewById(R.id.cstm_request_tv1);
+            textView.setText("举报理由");
+            etName.setHint("请输入举报理由");
+        }
 
         dataList = new ArrayList<>();
         //通过Adapter加载Uri到recyclerView

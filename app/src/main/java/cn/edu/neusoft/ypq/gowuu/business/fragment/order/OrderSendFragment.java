@@ -74,7 +74,6 @@ public class OrderSendFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        setClickListener();
         getOrderPage();
     }
 
@@ -108,9 +107,5 @@ public class OrderSendFragment extends BaseFragment {
                 Toast.makeText(mContext,"OrderALL(117):请求失败",Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void setClickListener(){
-
     }
 }

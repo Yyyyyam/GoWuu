@@ -22,10 +22,18 @@ import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
  */
 public class ImageAdapter extends BannerAdapter<String,ImageAdapter.BannerViewHolder> {
 
+    boolean isHome = false;
+
     public ImageAdapter(List<String> paths) {
         super(paths);
         //设置数据，也可以调用banner提供的方法,或者自己在adapter中实现
 
+    }
+
+    public ImageAdapter(List<String> paths, boolean isHome) {
+        super(paths);
+        //设置数据，也可以调用banner提供的方法,或者自己在adapter中实现
+        this.isHome = isHome;
     }
 
     //创建ViewHolder，可以用viewType这个字段来区分不同的ViewHolder
@@ -43,6 +51,14 @@ public class ImageAdapter extends BannerAdapter<String,ImageAdapter.BannerViewHo
     public void onBindView(BannerViewHolder holder, String data, int position, int size) {
         GlideUtils.setImage(holder.imageView.getContext(), data, holder.imageView);
 //        Glide.with(holder.imageView.getContext()).load(data).into(holder.imageView);
+        if (isHome) {
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onClick(data, position);
+                }
+            });
+        }
     }
 
     class BannerViewHolder extends RecyclerView.ViewHolder {
@@ -52,5 +68,15 @@ public class ImageAdapter extends BannerAdapter<String,ImageAdapter.BannerViewHo
             super(view);
             this.imageView = view;
         }
+    }
+
+    private OnClickListener onClickListener;
+
+    public interface OnClickListener{
+        void onClick(String data, int position);
+    }
+
+    public void onClick(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 }

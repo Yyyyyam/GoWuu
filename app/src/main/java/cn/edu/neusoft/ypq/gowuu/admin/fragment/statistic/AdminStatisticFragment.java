@@ -19,6 +19,7 @@ import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.admin.bean.Examine;
 import cn.edu.neusoft.ypq.gowuu.admin.bean.Statistic;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
+import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
 import cz.msebera.android.httpclient.Header;
@@ -97,20 +98,20 @@ public class AdminStatisticFragment extends BaseFragment<Void> {
 
     public void bindData(Statistic statistic) {
         tvWeekDealtCount.setText("成交数量:"+statistic.getWeekDealtCount());
-        tvWeekDealtMoney.setText("成交额度￥"+statistic.getWeekDealtPrice());
+        tvWeekDealtMoney.setText("成交额度￥"+ CheckUtils.doubleTrim(statistic.getWeekDealtPrice()));
         tvWeekDealingCount.setText("交易中数量:"+statistic.getWeekDealingCount());
-        tvWeekDealingMoney.setText("交易中额度￥"+statistic.getWeekDealingPrice());
+        tvWeekDealingMoney.setText("交易中额度￥"+CheckUtils.doubleTrim(statistic.getWeekDealingPrice()));
         tvMonthDealtCount.setText("成交数量:"+statistic.getMonthDealtCount());
-        tvMonthDealtMoney.setText("成交额度￥"+statistic.getMonthDealtPrice());
+        tvMonthDealtMoney.setText("成交额度￥"+CheckUtils.doubleTrim(statistic.getMonthDealtPrice()));
         tvMonthDealingCount.setText("交易中数量:"+statistic.getMonthDealingCount());
-        tvMonthDealingMoney.setText("交易中额度￥"+statistic.getMonthDealingPrice());
+        tvMonthDealingMoney.setText("交易中额度￥"+CheckUtils.doubleTrim(statistic.getMonthDealingPrice()));
         tvYearDealtCount.setText("成交数量:"+statistic.getYearDealtCount());
-        tvYearDealtMoney.setText("成交额度￥"+statistic.getYearDealtPrice());
+        tvYearDealtMoney.setText("成交额度￥"+CheckUtils.doubleTrim(statistic.getYearDealtPrice()));
         tvYearDealingCount.setText("交易中数量:"+statistic.getYearDealingCount());
-        tvYearDealingMoney.setText("交易中额度￥"+statistic.getYearDealingPrice());
+        tvYearDealingMoney.setText("交易中额度￥"+CheckUtils.doubleTrim(statistic.getYearDealingPrice()));
         tvAllDealtCount.setText("成交数量:"+statistic.getTotalDealtCount());
-        tvAllDealtMoney.setText("成交额度￥"+statistic.getTotalDealtPrice());
+        tvAllDealtMoney.setText("成交额度￥"+CheckUtils.doubleTrim(statistic.getTotalDealtPrice()));
         tvAllDealingCount.setText("交易中数量:"+statistic.getTotalDealingCount());
-        tvAllDealingMoney.setText("交易中额度￥"+statistic.getTotalDealingPrice());
+        tvAllDealingMoney.setText("交易中额度￥"+CheckUtils.doubleTrim(statistic.getTotalDealingPrice()));
     }
 }

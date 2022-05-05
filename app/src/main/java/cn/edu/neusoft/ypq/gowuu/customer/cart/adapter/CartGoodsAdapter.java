@@ -16,6 +16,7 @@ import java.util.List;
 
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.CartGoods;
+import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
 
@@ -85,7 +86,7 @@ public class CartGoodsAdapter extends RecyclerView.Adapter<CartGoodsAdapter.MyHo
             cartGoods = data;
             tvName.setText(data.getGoods().getName());
             tvCategory.setText(data.getGoods().getCategory());
-            tvPrice.setText(String.valueOf(data.getGoods().getPrice()));
+            tvPrice.setText(String.valueOf(CheckUtils.doubleTrim(data.getGoods().getPrice()*data.getGoods().getDiscount())));
             tvCount.setText(String.valueOf(data.getCount()));
             GlideUtils.setImage(mContext, Constants.RES_URL+data.getGoods().getPathList().get(0), image);
             cbSelect.setChecked(data.getSelect());

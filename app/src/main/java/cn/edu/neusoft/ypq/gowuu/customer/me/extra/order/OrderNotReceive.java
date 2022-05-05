@@ -137,7 +137,7 @@ public class OrderNotReceive extends BaseFragment<Order> {
                                     List<OrderGoods> goodsList = OrderAll.adapter.goodsAdapterList.get(p).getDataList();
                                     for (int i=0; i<goodsList.size(); i++){
                                         OrderGoods goods = goodsList.get(i);
-                                        goods.setState(2);
+                                        goods.setState(1);
                                         OrderAll.adapter.goodsAdapterList.get(p).notifyItemChanged(i);
                                     }
                                 }

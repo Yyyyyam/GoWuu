@@ -12,6 +12,7 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.admin.bean.Admin;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
+import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 
 /**
  * 作者:颜培琦
@@ -73,9 +74,9 @@ public class AdminHomeFragment extends BaseFragment<Void> {
         tvReportCount.setText("举报数量"+admin.getReportCount());
         tvReportUnhandled.setText("未处理举报:"+admin.getReportUnHandledCount());
         tvDealtCount.setText("成交数量:"+admin.getDealtCount());
-        tvDealtMoney.setText("成交额度￥"+admin.getDealtMoney());
+        tvDealtMoney.setText("成交额度￥"+CheckUtils.doubleTrim(admin.getDealtMoney()));
         tvDealingCount.setText("交易中数量:"+admin.getDealingCount());
-        tvDealingMoney.setText("交易中额度￥"+admin.getDealingMoney());
+        tvDealingMoney.setText("交易中额度￥"+ CheckUtils.doubleTrim(admin.getDealingMoney()));
     }
 
     @OnClick(R.id.admin_home_constraint_request)

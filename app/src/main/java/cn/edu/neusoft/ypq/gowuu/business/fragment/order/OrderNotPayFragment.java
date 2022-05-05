@@ -188,8 +188,8 @@ public class OrderNotPayFragment extends BaseFragment<Order> {
                 }.getType();
                 PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage() == null){
-                    if (OrderNotPayFragment.adapter != null){
-                        int p = OrderNotPayFragment.adapter.getDataList().indexOf(order);
+                    if (OrderAllFragment.adapter != null){
+                        int p = OrderAllFragment.adapter.getDataList().indexOf(order);
                         if (p != -1){
                             OrderAllFragment.adapter.getDataList().get(p).setPrice(price);
                             OrderAllFragment.adapter.notifyItemChanged(p);

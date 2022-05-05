@@ -220,8 +220,8 @@ public class CartFragment extends BaseFragment<Cart> {
             for (int j = 0; j< goodsList.size(); j++){
                 if (goodsList.get(j).getSelect()){
                     Integer count = goodsList.get(j).getCount();
-                    Double goodsPrice = goodsList.get(j).getGoods().getPrice();
-                    price = CheckUtils.doubleTrim(price+count*goodsPrice);
+                    Double goodsPrice = goodsList.get(j).getGoods().getPrice()*goodsList.get(j).getGoods().getDiscount();
+                    price = CheckUtils.doubleTrim(price+CheckUtils.doubleTrim(count*goodsPrice));
                 }
             }
         }

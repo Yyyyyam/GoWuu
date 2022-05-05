@@ -194,7 +194,9 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
             for (int j = 0; j< goodsList.size(); j++){
                 count += goodsList.get(j).getCount();
                 Double goodsPrice = goodsList.get(j).getGoods().getPrice();
-                price = CheckUtils.doubleTrim(price+goodsList.get(j).getCount()*goodsPrice);
+                price = CheckUtils.doubleTrim(price
+                                +CheckUtils.doubleTrim(goodsList.get(j).getCount()
+                                *goodsPrice*goodsList.get(j).getGoods().getDiscount()));
             }
         }
         tvCount.setText("共"+count+"件");
@@ -210,7 +212,7 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
                 String url = Constants.ORDER_URL+"/create_order";
                 AsyncHttpClient client = new AsyncHttpClient();
                 RequestParams params = new RequestParams();
-                params.put("orderJson", (String)new Gson().toJson(orderList));
+                params.put("orderJson", new Gson().toJson(orderList));
                 client.post(url, params, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -256,10 +258,13 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
                 orderGoods.setGid(goods.getGoods().getGid());
                 orderGoods.setName(goods.getGoods().getName());
                 orderGoods.setPic(goods.getGoods().getPathList().get(0));
-                orderGoods.setPrice(CheckUtils.doubleTrim(goods.getGoods().getPrice()));
+                orderGoods.setPrice(CheckUtils.doubleTrim(goods.getGoods().getPrice()
+                                        * goods.getGoods().getDiscount()));
                 orderGoods.setCategory(goods.getGoods().getCategory());
                 orderGoods.setCount(goods.getCount());
-                price = CheckUtils.doubleTrim(price + goods.getGoods().getPrice()*goods.getCount());
+                price = CheckUtils.doubleTrim(price +
+                            CheckUtils.doubleTrim(goods.getGoods().getDiscount()
+                                    * goods.getGoods().getPrice() * goods.getCount()));
                 goodsList.add(orderGoods);
             }
             order.setPrice(price);

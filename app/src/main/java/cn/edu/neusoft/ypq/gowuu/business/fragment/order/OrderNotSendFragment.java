@@ -135,6 +135,7 @@ public class OrderNotSendFragment extends BaseFragment<Order> {
                             }
                             if (OrderSendFragment.adapter != null && OrderSendFragment.pageEnd){
                                 Order receivedData = adapter.getDataList().get(position);
+                                receivedData.setState(2);
                                 OrderSendFragment.adapter.insert(receivedData);
                             }
                             int p = adapter.getDataList().indexOf(order);

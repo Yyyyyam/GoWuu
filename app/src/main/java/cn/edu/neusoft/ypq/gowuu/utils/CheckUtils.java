@@ -74,7 +74,7 @@ public class CheckUtils {
 
     public static Double doubleTrim(Double value){
         BigDecimal b = new BigDecimal(value);
-        value = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        value = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
         return value;
     }
 

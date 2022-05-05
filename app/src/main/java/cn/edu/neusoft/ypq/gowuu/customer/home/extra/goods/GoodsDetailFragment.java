@@ -36,6 +36,7 @@ import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.adapter.EvaluationAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Evaluation;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
+import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.CustomScrollView;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
@@ -102,7 +103,7 @@ public class GoodsDetailFragment extends BaseFragment<Goods> implements CustomSc
         }
         banner.setAdapter(new ImageAdapter(pathList));
         banner.setLoopTime(6000);
-        tvPrice.setText(String.valueOf(goods.getPrice()));
+        tvPrice.setText(String.valueOf(CheckUtils.doubleTrim(goods.getPrice()*goods.getDiscount())));
         tvName.setText(goods.getName());
         tvCount.setText("库存数量:"+goods.getCount());
         tvSale.setText("已售:"+goods.getSale());
@@ -112,9 +113,10 @@ public class GoodsDetailFragment extends BaseFragment<Goods> implements CustomSc
     }
 
     private void getGoodsPage(){
-        String url = Constants.GOODS_URL+"/get_all_goods";
+        String url = Constants.GOODS_URL+"/goods_classify";
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
+        params.put("cid", goods.getCid3());
         params.put("page",page+=1);
         params.put("pageSize",pageSize);
         client.get(url, params, new AsyncHttpResponseHandler() {

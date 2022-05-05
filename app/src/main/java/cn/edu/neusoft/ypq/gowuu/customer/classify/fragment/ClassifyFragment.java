@@ -149,9 +149,7 @@ public class ClassifyFragment extends BaseFragment {
         childAdapter.setOnSelectListener(new ChildAdapter.OnItemSelectListener() {
             @Override
             public void setOnSelectListener(ViewHolder holder, GoodsClassifyItem data, int position) {
-                ClassifyGoodsFragment.cid = data.getId();
-                ClassifyGoodsFragment.category = data.getName();
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ClassifyGoodsFragment());
+                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ClassifyGoodsFragment(data.getId(), data.getName()));
             }
         });
     }

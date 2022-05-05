@@ -43,13 +43,14 @@ public class FavoriteAdapter extends BaseAdapter<Favorite> {
             holder.setVisibility(R.id.itm_favorite_goods_cb, View.GONE);
         }
         holder.setChecked(R.id.itm_favorite_goods_cb, data.getIsChecked());
-        double compare = data.getPrice() - data.getGoods().getPrice();
+        double compare = data.getPrice()
+                - CheckUtils.doubleTrim(data.getGoods().getPrice()*data.getGoods().getDiscount());
         if (compare != 0){
             if (compare < 0){
                 compare = -compare;
-                holder.setText(R.id.itm_favorite_goods_tv_compare, "距收藏降￥"+ CheckUtils.doubleTrim(compare));
+                holder.setText(R.id.itm_favorite_goods_tv_compare, "距收藏涨￥"+ CheckUtils.doubleTrim(compare));
             } else {
-                holder.setText(R.id.itm_favorite_goods_tv_compare, "距收藏涨￥"+CheckUtils.doubleTrim(compare));
+                holder.setText(R.id.itm_favorite_goods_tv_compare, "距收藏降￥"+CheckUtils.doubleTrim(compare));
             }
             holder.setVisibility(R.id.itm_favorite_goods_tv_compare, View.VISIBLE);
         } else {

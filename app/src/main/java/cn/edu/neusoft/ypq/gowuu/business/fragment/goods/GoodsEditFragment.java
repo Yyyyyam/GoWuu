@@ -317,7 +317,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                 params.put("state", 2);
             }
             if (isEdit) {
-                params.put("discount", Double.valueOf(etPrice.getText().toString().trim()));
+                params.put("discount", Double.valueOf(etDiscount.getText().toString().trim()));
                 params.put("gid", goods.getGid());
             }
             try {

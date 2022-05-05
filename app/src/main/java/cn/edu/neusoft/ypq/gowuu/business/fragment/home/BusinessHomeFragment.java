@@ -12,6 +12,7 @@ import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Business;
 import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
+import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 
 /**
  * 作者:颜培琦
@@ -77,8 +78,8 @@ public class BusinessHomeFragment extends BaseFragment<Void> {
         tvOrderFinished.setText("收款订单:"+BusinessFragment.business.getData().getOrderFinished());
         tvOrderNotPay.setText("未支付订单:"+BusinessFragment.business.getData().getOrderNotPay());
         tvOrderNotSend.setText("未发货订单:"+BusinessFragment.business.getData().getOrderNotSend());
-        tvStatisticFinished.setText("已入账￥"+BusinessFragment.business.getData().getEarnings());
-        tvStatisticNotFinished.setText("未入账￥"+BusinessFragment.business.getData().getNotEarnings());
+        tvStatisticFinished.setText("已入账￥"+ CheckUtils.doubleTrim(BusinessFragment.business.getData().getEarnings()));
+        tvStatisticNotFinished.setText("未入账￥"+CheckUtils.doubleTrim(BusinessFragment.business.getData().getNotEarnings()));
     }
 
     @OnClick(R.id.bzns_home_constraint_goods)
