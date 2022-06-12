@@ -63,6 +63,7 @@
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable-v24/usr_ic_address_edit.xml" value="0.378125" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable-v24/usr_request_ic_delete.xml" value="0.378125" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/button_changed_shape.xml" value="0.378125" />
+        <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/bzns_ic_goods_delete.xml" value="0.28359375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/circle_shape.xml" value="0.378125" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/goods_evlt_negative.xml" value="0.28359375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/goods_evlt_negative_select.xml" value="0.28359375" />
@@ -79,6 +80,7 @@
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/ic_checkbox_selector.xml" value="0.28359375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/ic_goods_evlt_negative_selector.xml" value="0.28359375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/ic_goods_evlt_positive_selecter.xml" value="0.28359375" />
+        <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/ic_launcher_background.xml" value="0.28359375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/img_search_layer_list.xml" value="0.378125" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/item_shape_fillet.xml" value="0.378125" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/drawable/item_shape_fillet_blue.xml" value="0.378125" />
@@ -116,11 +118,13 @@
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_favorite.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_goods_type.xml" value="0.271484375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_home.xml" value="0.33" />
+        <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_info.xml" value="0.271484375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_main.xml" value="0.18229166666666666" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_me.xml" value="0.33" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_message.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_request.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_search.xml" value="0.3619791666666667" />
+        <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_cstm_search_result.xml" value="0.26796875" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_evaluation.xml" value="0.271484375" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_exm_apply.xml" value="0.3619791666666667" />
         <entry key="..\:/WorkSpace/Java/GoWuu/app/src/main/res/layout/fragment_exm_report.xml" value="0.3619791666666667" />

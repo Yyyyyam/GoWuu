@@ -135,7 +135,7 @@ public class MeFragment extends BaseFragment {
      */
     private void setAvatar(){
         String url = Constants.RES_URL+MainActivity.user.getAvatar();
-        GlideUtils.setImage(mContext, url, ivAvatar);
+        GlideUtils.setImageNoCache(mContext, url, ivAvatar);
     }
 
     /**
@@ -145,7 +145,7 @@ public class MeFragment extends BaseFragment {
         if (MainActivity.user.getUid()==null) {
             Toast.makeText(mContext, "请先登录", Toast.LENGTH_SHORT).show();
         }else {
-            FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, fragment);
+            FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, fragment);
         }
     }
 
@@ -157,16 +157,16 @@ public class MeFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.me_tv_user_name:
                 if (MainActivity.user.getUid() == null){
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new LoginFragment());
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new LoginFragment());
                 } else {
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ChangeUsrFragment(0, MainActivity.user, false));
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new ChangeUsrFragment(0, MainActivity.user, false));
                 }
                 break;
             case R.id.me_img_avatar:
                 if (MainActivity.user.getUid() == null){
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new LoginFragment());
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new LoginFragment());
                 } else {
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ChangeUsrFragment(2, MainActivity.user, false));
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new ChangeUsrFragment(2, MainActivity.user, false));
                 }
                 break;
             case R.id.me_tv_order_all:
@@ -220,7 +220,7 @@ public class MeFragment extends BaseFragment {
                         PostMessage<Business> postMessage = new Gson().fromJson(response, type);
                         if (postMessage.getMessage() == null){
                             if (postMessage.getData() != null){
-                                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new BusinessFragment());
+                                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new BusinessFragment());
                                 BusinessFragment.business = postMessage.getData();
                             }
                         }else {
@@ -244,7 +244,7 @@ public class MeFragment extends BaseFragment {
                         Type type = new TypeToken<PostMessage<Void>>(){}.getType();
                         PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                         if (postMessage.getMessage() == null){
-                            FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new RequestFragment(true, null));
+                            FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new RequestFragment(true, null));
                         } else {
                             Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                         }
@@ -271,7 +271,7 @@ public class MeFragment extends BaseFragment {
                 PostMessage<Admin> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage() == null){
                     Admin admin = postMessage.getData();
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new AdminFragment(admin));
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new AdminFragment(admin));
                 } else {
                     Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                 }
@@ -286,7 +286,7 @@ public class MeFragment extends BaseFragment {
     private void quitAccount(){
         MainActivity.user.clearUser();
         //清除本地用户信息存储文件
-        SharedPreferences preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.commit();

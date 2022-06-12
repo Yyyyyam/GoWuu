@@ -38,24 +38,4 @@ public class FragmentUtils {
                 .beginTransaction()
                 .remove(fragment);
     }
-
-    public static void hideFragment(FragmentActivity activity, Fragment fragment){
-        activity
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .hide(fragment)
-                .commit();
-    }
-
-    public static void showFragment(FragmentActivity activity, Fragment fragment){
-        activity
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .show(fragment)
-                .commit();
-    }
-
-    public static void switchFragment(FragmentActivity activity, Fragment from, Fragment to){
-
-    }
 }

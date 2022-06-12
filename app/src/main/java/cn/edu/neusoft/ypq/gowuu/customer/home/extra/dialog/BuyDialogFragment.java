@@ -89,7 +89,7 @@ public class BuyDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-        Dialog dialog = new Dialog(getActivity(), R.style.BottomFragmentDialog);
+        Dialog dialog = new Dialog(requireActivity(), R.style.BottomFragmentDialog);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         return dialog;
@@ -125,6 +125,6 @@ public class BuyDialogFragment extends DialogFragment {
         goodsList.add(cartGoods);
         OrderConfirmFragment.cart.setGoodsList(goodsList);
         state = true;
-        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new OrderConfirmFrameFragment());
+        FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new OrderConfirmFrameFragment());
     }
 }

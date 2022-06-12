@@ -1,9 +1,14 @@
 package cn.edu.neusoft.ypq.gowuu.business.fragment.order;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.BusinessOrderAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
+import cn.edu.neusoft.ypq.gowuu.receiver.OrderChangeReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
 import cn.edu.neusoft.ypq.gowuu.utils.RecyclerViewUtils;
@@ -38,6 +43,8 @@ import cz.msebera.android.httpclient.Header;
  */
 public class OrderNotSendFragment extends BaseFragment<Order> {
     public static BusinessOrderAdapter adapter;
+    private OrderChangeReceiver receiver;
+    private LocalBroadcastManager broadcastManager;
 
     @BindView(R.id.fragment_recycler_view)
     RecyclerView recyclerView;
@@ -110,48 +117,72 @@ public class OrderNotSendFragment extends BaseFragment<Order> {
     }
 
     public void setClickListener(){
-        adapter.send(new BusinessOrderAdapter.OnOrderSendListener() {
-            @Override
-            public void send(ViewHolder holder, Order order, int position) {
-                String url = Constants.ORDER_URL+"/change_state";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("oid", order.getOid());
-                params.put("state", 2);
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null){
-                            if (OrderAllFragment.adapter != null){
-                                int p = OrderAllFragment.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderAllFragment.adapter.getDataList().get(p).setState(3);
-                                    OrderAllFragment.adapter.notifyItemChanged(p);
-                                }
+        adapter.send((holder, order, position) -> {
+            String url = Constants.ORDER_URL+"/change_state";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("oid", order.getOid());
+            params.put("state", 2);
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<Void>>() {
+                    }.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null){
+                        if (OrderAllFragment.adapter != null){
+                            int p = OrderAllFragment.adapter.getDataList().indexOf(order);
+                            if (p != -1){
+                                OrderAllFragment.adapter.getDataList().get(p).setState(3);
+                                OrderAllFragment.adapter.notifyItemChanged(p);
                             }
-                            if (OrderSendFragment.adapter != null && OrderSendFragment.pageEnd){
-                                Order receivedData = adapter.getDataList().get(position);
-                                receivedData.setState(2);
-                                OrderSendFragment.adapter.insert(receivedData);
-                            }
-                            int p = adapter.getDataList().indexOf(order);
-                            adapter.getDataList().remove(order);
-                            adapter.notifyItemRemoved(p);
-                        } else {
-                            Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                        if (OrderSendFragment.adapter != null && OrderSendFragment.pageEnd){
+                            Order receivedData = adapter.getDataList().get(position);
+                            receivedData.setState(2);
+                            OrderSendFragment.adapter.insert(receivedData);
+                        }
+                        int p = adapter.getDataList().indexOf(order);
+                        adapter.getDataList().remove(order);
+                        adapter.notifyItemRemoved(p);
+                    } else {
+                        Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(OrderChangeReceiver.ORDER_STATE_SEND);
+        receiver = new OrderChangeReceiver();
+
+        broadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        broadcastManager.registerReceiver(receiver, intentFilter);
+
+        receiver.send(this::send);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(receiver);
+    }
+
+    private void send(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        int position = adapter.getDataList().indexOf(order);
+        if (position != -1) {
+            adapter.getDataList().remove(position);
+            adapter.notifyItemRemoved(position);
+        }
     }
 }

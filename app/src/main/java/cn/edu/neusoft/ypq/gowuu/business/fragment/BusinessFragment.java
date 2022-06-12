@@ -72,7 +72,7 @@ public class BusinessFragment extends BaseFragment<Void>{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new BusinessHomeFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new BusinessHomeFragment());
                 }
             }
         });
@@ -81,7 +81,7 @@ public class BusinessFragment extends BaseFragment<Void>{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     rb2.setCompoundDrawablesWithIntrinsicBounds(null, drawables[1], null, null);
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new BusinessGoodsFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new BusinessGoodsFragment());
                 } else {
                     rb2.setCompoundDrawablesWithIntrinsicBounds(null, drawables[0], null, null);
                 }
@@ -92,7 +92,7 @@ public class BusinessFragment extends BaseFragment<Void>{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     rb3.setCompoundDrawablesWithIntrinsicBounds(null, drawables[3], null, null);
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new BusinessOrderFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new BusinessOrderFragment());
                 } else {
                     rb3.setCompoundDrawablesWithIntrinsicBounds(null, drawables[2], null, null);
                 }
@@ -103,7 +103,7 @@ public class BusinessFragment extends BaseFragment<Void>{
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     rb4.setCompoundDrawablesWithIntrinsicBounds(null, drawables[5], null, null);
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new BusinessStasticFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new BusinessStasticFragment());
                 } else {
                     rb4.setCompoundDrawablesWithIntrinsicBounds(null, drawables[4], null, null);
                 }

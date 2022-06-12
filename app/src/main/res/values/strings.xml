@@ -15,4 +15,11 @@
     <string-array name="not_define">
         <item>未选择</item>
     </string-array>
+
+    <string-array name="sort">
+        <item>默认排序</item>
+        <item>销量降序</item>
+        <item>价格升序</item>
+        <item>价格降序</item>
+    </string-array>
 </resources>

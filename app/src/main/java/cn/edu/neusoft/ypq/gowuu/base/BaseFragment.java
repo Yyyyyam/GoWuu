@@ -20,8 +20,6 @@ import java.util.List;
 
 public abstract class BaseFragment<T> extends Fragment {
 
-    protected Integer fragmentId;
-
     protected View view;
     protected Context mContext;
     protected List<T> dataList;
@@ -33,7 +31,7 @@ public abstract class BaseFragment<T> extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext = getActivity();
+        mContext = requireActivity();
     }
 
     @Nullable
@@ -42,17 +40,11 @@ public abstract class BaseFragment<T> extends Fragment {
         return initView();
     }
 
-    //
     public abstract View initView();
 
-
-    /**
-     * UI的创建：当Activity被创建时回调回调此方法
-     * @param savedInstanceState
-     */
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
         initData();
     }
 

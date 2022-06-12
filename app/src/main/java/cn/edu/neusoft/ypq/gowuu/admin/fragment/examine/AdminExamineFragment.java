@@ -14,7 +14,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
-import cn.edu.neusoft.ypq.gowuu.admin.bean.Examine;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
 
 /**
@@ -51,17 +50,14 @@ public class AdminExamineFragment extends BaseFragment<Void> {
             }
         });
 
-        new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(TabLayout.Tab tab, int position) {
-                switch (position){
-                    case 0:
-                        tab.setText("申请");
-                        break;
-                    case 1:
-                        tab.setText("举报");
-                        break;
-                }
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            switch (position){
+                case 0:
+                    tab.setText("申请");
+                    break;
+                case 1:
+                    tab.setText("举报");
+                    break;
             }
         }).attach();
 

@@ -11,12 +11,10 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
-import cn.edu.neusoft.ypq.gowuu.admin.bean.Examine;
 import cn.edu.neusoft.ypq.gowuu.admin.bean.Statistic;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;

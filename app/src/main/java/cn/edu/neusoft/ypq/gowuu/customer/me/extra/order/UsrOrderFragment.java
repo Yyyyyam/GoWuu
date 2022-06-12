@@ -101,6 +101,6 @@ public class UsrOrderFragment extends BaseFragment {
 
     @OnClick(R.id.usr_odr_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 }

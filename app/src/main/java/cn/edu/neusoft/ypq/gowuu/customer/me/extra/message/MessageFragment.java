@@ -103,6 +103,6 @@ public class MessageFragment extends BaseFragment<Message> {
 
     @OnClick(R.id.cstm_message_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 }

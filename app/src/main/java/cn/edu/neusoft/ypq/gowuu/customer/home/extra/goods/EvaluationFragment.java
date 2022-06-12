@@ -108,6 +108,6 @@ public class EvaluationFragment extends BaseFragment<Evaluation> {
 
     @OnClick(R.id.evaluation_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 }

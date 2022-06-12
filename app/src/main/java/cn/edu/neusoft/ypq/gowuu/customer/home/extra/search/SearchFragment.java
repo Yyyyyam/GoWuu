@@ -75,9 +75,9 @@ public class SearchFragment extends BaseFragment<String> {
     @OnClick(R.id.search_ib_back)
     public void back(){
         searchString = null;
-        hideKeyBoard(getActivity());
-        FragmentUtils.removeFragment(getActivity(), this);
-        FragmentUtils.popBack(getActivity());
+        hideKeyBoard(requireActivity());
+        FragmentUtils.removeFragment(requireActivity(), this);
+        FragmentUtils.popBack(requireActivity());
 
     }
 
@@ -85,7 +85,7 @@ public class SearchFragment extends BaseFragment<String> {
     public void search(){
         if (!etName.getText().toString().isEmpty()) {
             SearchResultFragment.searchName = etName.getText().toString().trim();
-            FragmentUtils.changeRbFragment(getActivity(), R.id.main_frameLayout, new SearchResultFragment());
+            FragmentUtils.changeRbFragment(requireActivity(), R.id.main_frameLayout, new SearchResultFragment());
         } else {
             Toast.makeText(mContext, "请输入搜索信息", Toast.LENGTH_SHORT).show();
         }

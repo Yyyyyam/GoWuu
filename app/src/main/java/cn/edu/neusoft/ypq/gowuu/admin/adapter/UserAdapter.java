@@ -25,12 +25,9 @@ public class UserAdapter extends BaseAdapter<User> {
     protected void convert(ViewHolder holder, User data, int position) {
         holder.setText(R.id.itm_admin_mng_tv_name, data.getUsername());
         holder.setImageView(R.id.itm_admin_mng_iv, Constants.RES_URL+data.getAvatar());
-        holder.setOnClickListener(holder.getConvertView(),new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItemClickListener != null){
-                    mItemClickListener.onItemClick(holder,data,position);
-                }
+        holder.setOnClickListener(holder.getConvertView(), v -> {
+            if (mItemClickListener != null){
+                mItemClickListener.onItemClick(holder,data,position);
             }
         });
     }

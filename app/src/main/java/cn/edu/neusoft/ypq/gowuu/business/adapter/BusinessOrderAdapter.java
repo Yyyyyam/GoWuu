@@ -46,29 +46,20 @@ public class BusinessOrderAdapter extends BaseAdapter<Order> {
                 holder.setText(R.id.itm_odr_bt_2, "更改价格");
                 holder.setVisibility(R.id.itm_odr_bt_2, View.VISIBLE);
 
-                holder.setOnClickListener(R.id.itm_odr_bt_1, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (onOrderCancelListener != null) onOrderCancelListener.cancel(holder, data, position);
-                    }
+                holder.setOnClickListener(R.id.itm_odr_bt_1, v -> {
+                    if (onOrderCancelListener != null) onOrderCancelListener.cancel(holder, data, position);
                 });
 
-                holder.setOnClickListener(R.id.itm_odr_bt_2, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (onOrderChangePriceListener != null) onOrderChangePriceListener.changePrice(holder, data, position);
-                    }
+                holder.setOnClickListener(R.id.itm_odr_bt_2, v -> {
+                    if (onOrderChangePriceListener != null) onOrderChangePriceListener.changePrice(holder, data, position);
                 });
                 break;
             case PAID_NOT_SEND:
                 holder.setText(R.id.itm_odr_tv_order_state, "未发货");
                 holder.setVisibility(R.id.itm_odr_bt_1, View.GONE);
                 holder.setText(R.id.itm_odr_bt_2, "发货");
-                holder.setOnClickListener(R.id.itm_odr_bt_2, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (onOrderSendListener != null) onOrderSendListener.send(holder, data, position);
-                    }
+                holder.setOnClickListener(R.id.itm_odr_bt_2, v -> {
+                    if (onOrderSendListener != null) onOrderSendListener.send(holder, data, position);
                 });
                 break;
             case SEND_NOT_RECEIVE:

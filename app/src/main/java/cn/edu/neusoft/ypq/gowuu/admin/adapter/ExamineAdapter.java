@@ -2,9 +2,7 @@ package cn.edu.neusoft.ypq.gowuu.admin.adapter;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.neusoft.ypq.gowuu.R;
@@ -12,7 +10,6 @@ import cn.edu.neusoft.ypq.gowuu.admin.bean.Examine;
 import cn.edu.neusoft.ypq.gowuu.base.BaseAdapter;
 import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
-import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
 
 /**
  * 作者:颜培琦
@@ -55,22 +52,16 @@ public class ExamineAdapter extends BaseAdapter<Examine> {
             holder.setVisibility(R.id.itm_admin_exm_bt_agree, View.GONE);
             holder.setVisibility(R.id.itm_admin_exm_bt_refuse, View.GONE);
         }
-        holder.setOnClickListener(R.id.itm_admin_exm_bt_refuse, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItemClickListener != null){
-                    data.setState(2);
-                    mItemClickListener.onItemClick(holder,data,position);
-                }
+        holder.setOnClickListener(R.id.itm_admin_exm_bt_refuse, v -> {
+            if (mItemClickListener != null){
+                data.setState(2);
+                mItemClickListener.onItemClick(holder,data,position);
             }
         });
-        holder.setOnClickListener(R.id.itm_admin_exm_bt_agree, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItemClickListener != null){
-                    data.setState(1);
-                    mItemClickListener.onItemClick(holder,data,position);
-                }
+        holder.setOnClickListener(R.id.itm_admin_exm_bt_agree, v -> {
+            if (mItemClickListener != null){
+                data.setState(1);
+                mItemClickListener.onItemClick(holder,data,position);
             }
         });
         holder.setBanner(R.id.itm_admin_exm_banner, data.getRequestPic(), 500000);

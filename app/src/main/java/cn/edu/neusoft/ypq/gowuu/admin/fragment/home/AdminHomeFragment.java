@@ -4,8 +4,6 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,7 +18,7 @@ import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
  * 功能:AdminHomeFragment
  */
 public class AdminHomeFragment extends BaseFragment<Void> {
-    private Admin admin;
+    private final Admin admin;
 
     @BindView(R.id.admin_home_tv_user_count)
     TextView tvUserCount;
@@ -81,13 +79,13 @@ public class AdminHomeFragment extends BaseFragment<Void> {
 
     @OnClick(R.id.admin_home_constraint_request)
     public void toRequest(){
-        RadioButton rbRequest = getActivity().findViewById(R.id.rb_2);
+        RadioButton rbRequest = requireActivity().findViewById(R.id.rb_2);
         rbRequest.setChecked(true);
     }
 
     @OnClick(R.id.admin_home_constraint_statistic)
     public void toStatistic(){
-        RadioButton rbStatistic = getActivity().findViewById(R.id.rb_4);
+        RadioButton rbStatistic = requireActivity().findViewById(R.id.rb_4);
         rbStatistic.setChecked(true);
     }
 }

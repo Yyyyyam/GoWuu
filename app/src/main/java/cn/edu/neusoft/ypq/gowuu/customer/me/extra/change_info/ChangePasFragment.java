@@ -84,7 +84,7 @@ public class ChangePasFragment extends BaseFragment {
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage()==null){
                         Toast.makeText(mContext,"修改成功",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     }else {
                         Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }

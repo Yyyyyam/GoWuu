@@ -24,14 +24,14 @@ public class OrderConfirmFrameFragment extends BaseFragment<Void> {
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_order_confirm_frame, null);
         ButterKnife.bind(this, view);
-        FragmentUtils.changeRbFragment(getActivity(), R.id.order_cfm_frame_layout, new OrderConfirmFragment());
+        FragmentUtils.changeRbFragment(requireActivity(), R.id.order_cfm_frame_layout, new OrderConfirmFragment());
         return view;
     }
 
     @OnClick(R.id.order_cfm_frame_ib_back)
     public void back(){
         OrderConfirmFragment.cart = null;
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 
 }

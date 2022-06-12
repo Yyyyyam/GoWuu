@@ -59,11 +59,11 @@ public class LoginFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_ib_back:
-                FragmentUtils.popBack(getActivity());
+                FragmentUtils.popBack(requireActivity());
                 break;
             case R.id.login_to_register:
                 RegisterFragment rFragment = new RegisterFragment();
-                getActivity()
+                requireActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.main_frameLayout, rFragment)
@@ -72,7 +72,7 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.login_tv_fgtpasword:
                 ModifyPasswordFragment modFragment = new ModifyPasswordFragment();
-                getActivity()
+                requireActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.main_frameLayout, modFragment)
@@ -118,7 +118,7 @@ public class LoginFragment extends BaseFragment {
                         //保存数据到SharedPreferences
                         FileUtils.saveUserInfo(mContext);
                         Toast.makeText(mContext,"登陆成功",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     }else {
                         Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }

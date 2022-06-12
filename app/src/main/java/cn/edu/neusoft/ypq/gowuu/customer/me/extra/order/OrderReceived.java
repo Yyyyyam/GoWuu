@@ -130,7 +130,7 @@ public class OrderReceived extends BaseFragment<Order> {
                 goods.setPosition(position);
                 goodsList.add(goods);
                 GoodsEvaluation.order.setGoodsList(goodsList);
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsEvaluation());
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsEvaluation());
             }
         });
     }

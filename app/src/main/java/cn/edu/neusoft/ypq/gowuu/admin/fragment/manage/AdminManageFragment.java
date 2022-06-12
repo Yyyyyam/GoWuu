@@ -50,17 +50,14 @@ public class AdminManageFragment extends BaseFragment<Void> {
             }
         });
 
-        new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(TabLayout.Tab tab, int position) {
-                switch (position){
-                    case 0:
-                        tab.setText("管理用户");
-                        break;
-                    case 1:
-                        tab.setText("管理商品");
-                        break;
-                }
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            switch (position){
+                case 0:
+                    tab.setText("管理用户");
+                    break;
+                case 1:
+                    tab.setText("管理商品");
+                    break;
             }
         }).attach();
 

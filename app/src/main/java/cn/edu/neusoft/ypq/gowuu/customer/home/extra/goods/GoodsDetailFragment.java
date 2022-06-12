@@ -1,5 +1,8 @@
 package cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods;
 
+import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -25,20 +28,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
-import cn.edu.neusoft.ypq.gowuu.admin.adapter.ExamineAdapter;
 import cn.edu.neusoft.ypq.gowuu.admin.adapter.ImageAdapter;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
 import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
 import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.GoodsAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
-import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.adapter.EvaluationAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Evaluation;
-import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
 import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
-import cn.edu.neusoft.ypq.gowuu.utils.CustomScrollView;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
 import cz.msebera.android.httpclient.Header;
@@ -48,11 +47,11 @@ import cz.msebera.android.httpclient.Header;
  * 时间:2022/3/23
  * 功能:GoodsDetailFragment
  */
-public class GoodsDetailFragment extends BaseFragment<Goods> implements CustomScrollView.OnScrollChangeListener{
+public class GoodsDetailFragment extends BaseFragment<Goods> {
     private Goods goods;
 
     @BindView(R.id.goods_detail_scroll)
-    CustomScrollView scrollView;
+    ScrollView scrollView;
     @BindView(R.id.goods_detail_banner)
     Banner banner;
     @BindView(R.id.goods_detail_tv_price)
@@ -89,7 +88,11 @@ public class GoodsDetailFragment extends BaseFragment<Goods> implements CustomSc
         rvGoods.setNestedScrollingEnabled(false);
         rvGoods.setAdapter(adapter);
 
-        scrollView.setOnScrollChangeListener(this);
+        scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollView.isAttachedToWindow() && scrollY != 0) {
+                onScrollToEnd();
+            }
+        });
 
         return view;
     }
@@ -143,7 +146,6 @@ public class GoodsDetailFragment extends BaseFragment<Goods> implements CustomSc
         });
     }
 
-    @Override
     public void onScrollToEnd() {
         if (!pageEnd&&page<3){
             getGoodsPage();
@@ -188,7 +190,7 @@ public class GoodsDetailFragment extends BaseFragment<Goods> implements CustomSc
         adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
             @Override
             public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
             }
         });
     }
@@ -196,6 +198,6 @@ public class GoodsDetailFragment extends BaseFragment<Goods> implements CustomSc
     @OnClick(R.id.goods_detail_tv_all)
     public void allEvaluation(){
         EvaluationFragment.gid = goods.getGid();
-        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new EvaluationFragment());
+        FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new EvaluationFragment());
     }
 }

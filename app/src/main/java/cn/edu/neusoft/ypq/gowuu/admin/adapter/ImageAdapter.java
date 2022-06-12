@@ -1,14 +1,11 @@
 package cn.edu.neusoft.ypq.gowuu.admin.adapter;
 
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
@@ -52,16 +49,11 @@ public class ImageAdapter extends BannerAdapter<String,ImageAdapter.BannerViewHo
         GlideUtils.setImage(holder.imageView.getContext(), data, holder.imageView);
 //        Glide.with(holder.imageView.getContext()).load(data).into(holder.imageView);
         if (isHome) {
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onClickListener.onClick(data, position);
-                }
-            });
+            holder.imageView.setOnClickListener(v -> onClickListener.onClick(data, position));
         }
     }
 
-    class BannerViewHolder extends RecyclerView.ViewHolder {
+    static class BannerViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
         public BannerViewHolder(@NonNull ImageView view) {

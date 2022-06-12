@@ -46,7 +46,7 @@ public class BusinessGoodsFragment extends BaseFragment<Void> {
                 switch (position){
                     case 0: return new GoodsBrowseFragment();
                     case 1: return new GoodsManageFragment();
-                    default: return null;
+                    default: return new GoodsBrowseFragment();
                 }
             }
 
@@ -74,7 +74,7 @@ public class BusinessGoodsFragment extends BaseFragment<Void> {
 
     @OnClick(R.id.pages_flt_bt_add)
     public void addGoods(){
-        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsEditFragment(new Goods(), false));
+        FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsEditFragment(new Goods(), false));
     }
 
 }

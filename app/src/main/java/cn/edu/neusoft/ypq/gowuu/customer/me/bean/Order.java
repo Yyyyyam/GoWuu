@@ -32,8 +32,6 @@ public class Order implements Serializable {
     public Order() {
     }
 
-
-
     public Order(Order order){
         this.oid = order.getOid();
         this.uid = order.getUid();

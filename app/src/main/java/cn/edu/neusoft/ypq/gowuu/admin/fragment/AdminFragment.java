@@ -2,7 +2,6 @@ package cn.edu.neusoft.ypq.gowuu.admin.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -17,7 +16,6 @@ import cn.edu.neusoft.ypq.gowuu.admin.fragment.home.AdminHomeFragment;
 import cn.edu.neusoft.ypq.gowuu.admin.fragment.manage.AdminManageFragment;
 import cn.edu.neusoft.ypq.gowuu.admin.fragment.statistic.AdminStatisticFragment;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.customer.me.fragment.MeFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 
 /**
@@ -38,8 +36,8 @@ public class AdminFragment extends BaseFragment<Void> {
     @BindView(R.id.rb_4)
     RadioButton rb4;
 
-    private Drawable[] drawables = new Drawable[6];
-    private Admin admin;
+    private final Drawable[] drawables = new Drawable[6];
+    private final Admin admin;
 
     public AdminFragment(Admin admin) {
         this.admin = admin;
@@ -69,46 +67,34 @@ public class AdminFragment extends BaseFragment<Void> {
         rb4.setText("统计");
         rb4.setCompoundDrawablesWithIntrinsicBounds(null, drawables[4], null, null);
 
-        rb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new AdminHomeFragment(admin));
-                }
+        rb1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new AdminHomeFragment(admin));
             }
         });
 
-        rb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    rb2.setCompoundDrawablesWithIntrinsicBounds(null, drawables[1], null, null);
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new AdminExamineFragment());
-                } else {
-                    rb2.setCompoundDrawablesWithIntrinsicBounds(null, drawables[0], null, null);
-                }
+        rb2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                rb2.setCompoundDrawablesWithIntrinsicBounds(null, drawables[1], null, null);
+                FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new AdminExamineFragment());
+            } else {
+                rb2.setCompoundDrawablesWithIntrinsicBounds(null, drawables[0], null, null);
             }
         });
-        rb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    rb3.setCompoundDrawablesWithIntrinsicBounds(null, drawables[3], null, null);
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new AdminManageFragment());
-                } else {
-                    rb3.setCompoundDrawablesWithIntrinsicBounds(null, drawables[2], null, null);
-                }
+        rb3.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                rb3.setCompoundDrawablesWithIntrinsicBounds(null, drawables[3], null, null);
+                FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new AdminManageFragment());
+            } else {
+                rb3.setCompoundDrawablesWithIntrinsicBounds(null, drawables[2], null, null);
             }
         });
-        rb4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    rb4.setCompoundDrawablesWithIntrinsicBounds(null, drawables[5], null, null);
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new AdminStatisticFragment());
-                } else {
-                    rb4.setCompoundDrawablesWithIntrinsicBounds(null, drawables[4], null, null);
-                }
+        rb4.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                rb4.setCompoundDrawablesWithIntrinsicBounds(null, drawables[5], null, null);
+                FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new AdminStatisticFragment());
+            } else {
+                rb4.setCompoundDrawablesWithIntrinsicBounds(null, drawables[4], null, null);
             }
         });
         rb1.setChecked(true);

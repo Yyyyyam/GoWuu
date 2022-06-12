@@ -116,48 +116,45 @@ public class OrderAll extends BaseFragment<Order> {
     }
 
     private void setClickListener(){
-        adapter.cancel(new OrderAdapter.OnOrderCancelListener() {
-            @Override
-            public void cancel(ViewHolder holder, Order order, int position) {
-                String url = Constants.ORDER_URL+"/remove_order";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("oid", order.getOid());
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null){
-                            if (order.getState() == 0 && OrderNotPay.adapter != null){
-                                int p = OrderNotPay.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderNotPay.adapter.getDataList().remove(p);
-                                    OrderNotPay.adapter.notifyItemRemoved(p);
-                                }
-                            } else if (order.getState() == 1 && OrderNotSend.adapter != null){
-                                int p = OrderNotSend.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderNotSend.adapter.getDataList().remove(p);
-                                    OrderNotSend.adapter.notifyItemRemoved(p);
-                                }
+        adapter.cancel((holder, order, position) -> {
+            String url = Constants.ORDER_URL+"/remove_order";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("oid", order.getOid());
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<Void>>() {
+                    }.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null){
+                        if (order.getState() == 0 && OrderNotPay.adapter != null){
+                            int p = OrderNotPay.adapter.getDataList().indexOf(order);
+                            if (p != -1){
+                                OrderNotPay.adapter.getDataList().remove(p);
+                                OrderNotPay.adapter.notifyItemRemoved(p);
                             }
-                            int p = adapter.getDataList().indexOf(order);
-                            adapter.getDataList().remove(order);
-                            adapter.notifyItemRemoved(p);
-                        } else {
-                            Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
+                        } else if (order.getState() == 1 && OrderNotSend.adapter != null){
+                            int p = OrderNotSend.adapter.getDataList().indexOf(order);
+                            if (p != -1){
+                                OrderNotSend.adapter.getDataList().remove(p);
+                                OrderNotSend.adapter.notifyItemRemoved(p);
+                            }
                         }
+                        int p = adapter.getDataList().indexOf(order);
+                        adapter.getDataList().remove(order);
+                        adapter.notifyItemRemoved(p);
+                    } else {
+                        Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         adapter.pay(new OrderAdapter.OnOrderPayListener() {
@@ -260,7 +257,7 @@ public class OrderAll extends BaseFragment<Order> {
                 goods.setPosition(position);
                 goodsList.add(goods);
                 GoodsEvaluation.order.setGoodsList(goodsList);
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsEvaluation());
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsEvaluation());
             }
         });
     }

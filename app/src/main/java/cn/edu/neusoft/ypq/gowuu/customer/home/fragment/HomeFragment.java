@@ -1,5 +1,6 @@
 package cn.edu.neusoft.ypq.gowuu.customer.home.fragment;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -39,6 +40,7 @@ import cn.edu.neusoft.ypq.gowuu.customer.home.extra.discount.DiscountFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsFrameFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.search.SearchFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsDetailFragment;
+import cn.edu.neusoft.ypq.gowuu.receiver.ClearCacheReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
@@ -64,8 +66,6 @@ public class HomeFragment extends BaseFragment<Goods> {
     TextView tvSearchHome;
     @BindView(R.id.rv_home)
     RecyclerView rvHome;
-    @BindView(R.id.ib_top)
-    ImageButton ibTop;
     @BindView(R.id.banner_home)
     Banner banner;
     @BindView(R.id.rv_home_discount)
@@ -76,7 +76,6 @@ public class HomeFragment extends BaseFragment<Goods> {
         view = View.inflate(mContext, R.layout.fragment_cstm_home, null);
         Log.e("TAG", "主页面Fragment的UI被初始化了");
         ButterKnife.bind(this, view);
-        ibTop.setVisibility(View.VISIBLE);
 
         page = 0;
         pageSize = 6;
@@ -115,20 +114,12 @@ public class HomeFragment extends BaseFragment<Goods> {
         setClickListener();
         getGoodsPage();
         getHomeDate();
-        SearchFragment.hideKeyBoard(getActivity());
+        SearchFragment.hideKeyBoard(requireActivity());
     }
 
-    @OnClick({R.id.tv_search_home, R.id.ib_top})
+    @OnClick(R.id.tv_search_home)
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_search_home:
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new SearchFragment());
-                break;
-            case R.id.ib_top:
-                rvHome.setVerticalScrollbarPosition(0);
-                ibTop.setVisibility(View.GONE);
-                break;
-        }
+        FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new SearchFragment());
     }
 
     private void getHomeDate() {
@@ -201,20 +192,20 @@ public class HomeFragment extends BaseFragment<Goods> {
         adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
             @Override
             public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
             }
         });
 
         discountAdapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
             @Override
             public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
             }
         });
     }
 
     @OnClick(R.id.tv_home_discount_all)
     public void discountAll() {
-        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new DiscountFragment());
+        FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new DiscountFragment());
     }
 }

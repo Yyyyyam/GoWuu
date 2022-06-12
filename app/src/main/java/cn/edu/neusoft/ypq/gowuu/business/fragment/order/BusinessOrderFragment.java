@@ -42,7 +42,7 @@ public class BusinessOrderFragment  extends BaseFragment<Void> {
                     case 2: return new OrderNotSendFragment();
                     case 3: return new OrderSendFragment();
                     case 4: return new OrderReceiveFragment();
-                    default: return null;
+                    default: return new OrderAllFragment();
                 }
             }
 
@@ -52,26 +52,23 @@ public class BusinessOrderFragment  extends BaseFragment<Void> {
             }
         });
 
-        new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(TabLayout.Tab tab, int position) {
-                switch (position){
-                    case 0:
-                        tab.setText("全部");
-                        break;
-                    case 1:
-                        tab.setText("待付款");
-                        break;
-                    case 2:
-                        tab.setText("待发货");
-                        break;
-                    case 3:
-                        tab.setText("已发货");
-                        break;
-                    case 4:
-                        tab.setText("已收货");
-                        break;
-                }
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            switch (position){
+                case 0:
+                    tab.setText("全部");
+                    break;
+                case 1:
+                    tab.setText("待付款");
+                    break;
+                case 2:
+                    tab.setText("待发货");
+                    break;
+                case 3:
+                    tab.setText("已发货");
+                    break;
+                case 4:
+                    tab.setText("已收货");
+                    break;
             }
         }).attach();
 

@@ -66,7 +66,7 @@ public class ModifyPasswordFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mod_pas_ib_back:
-                FragmentUtils.popBack(getActivity());
+                FragmentUtils.popBack(requireActivity());
                 break;
             case R.id.mod_pas_bt_confirm:
                 modPass();
@@ -102,7 +102,7 @@ public class ModifyPasswordFragment extends BaseFragment {
                     PostMessage postMessage = new Gson().fromJson(response, PostMessage.class);
                     if (postMessage.getMessage()==null){
                         Toast.makeText(mContext,"修改成功，请重新登录",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     }else {
                         Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }

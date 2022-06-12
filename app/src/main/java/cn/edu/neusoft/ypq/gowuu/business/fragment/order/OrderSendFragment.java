@@ -1,9 +1,14 @@
 package cn.edu.neusoft.ypq.gowuu.business.fragment.order;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +31,7 @@ import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.BusinessOrderAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
+import cn.edu.neusoft.ypq.gowuu.receiver.OrderChangeReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
 import cn.edu.neusoft.ypq.gowuu.utils.RecyclerViewUtils;
@@ -40,6 +46,8 @@ public class OrderSendFragment extends BaseFragment {
     public static boolean pageEnd = false;
 
     public static BusinessOrderAdapter adapter;
+    private OrderChangeReceiver receiver;
+    private LocalBroadcastManager broadcastManager;
 
     @BindView(R.id.fragment_recycler_view)
     RecyclerView recyclerView;
@@ -107,5 +115,30 @@ public class OrderSendFragment extends BaseFragment {
                 Toast.makeText(mContext,"OrderALL(117):请求失败",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(OrderChangeReceiver.ORDER_STATE_SEND);
+        receiver = new OrderChangeReceiver();
+        broadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        broadcastManager.registerReceiver(receiver, intentFilter);
+
+        receiver.send(this::send);
+    }
+
+    private void send(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (pageEnd) {
+            adapter.insert(order);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(receiver);
     }
 }

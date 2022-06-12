@@ -1,13 +1,18 @@
 package cn.edu.neusoft.ypq.gowuu.business.fragment.order;
 
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +22,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -26,11 +32,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.BusinessOrderAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
-import cn.edu.neusoft.ypq.gowuu.customer.me.extra.order.OrderNotPay;
+import cn.edu.neusoft.ypq.gowuu.receiver.OrderChangeReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
 import cn.edu.neusoft.ypq.gowuu.utils.RecyclerViewUtils;
@@ -46,6 +51,8 @@ public class OrderNotPayFragment extends BaseFragment<Order> {
 
     @BindView(R.id.fragment_recycler_view)
     RecyclerView recyclerView;
+    private OrderChangeReceiver receiver;
+    private LocalBroadcastManager broadcastManager;
 
     @Override
     public View initView() {
@@ -115,62 +122,47 @@ public class OrderNotPayFragment extends BaseFragment<Order> {
     }
 
     public void setClickListener(){
-        adapter.cancel(new BusinessOrderAdapter.OnOrderCancelListener() {
-            @Override
-            public void cancel(ViewHolder holder, Order order, int position) {
-                String url = Constants.ORDER_URL+"/remove_order";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("oid", order.getOid());
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null){
-                            if (OrderAllFragment.adapter != null){
-                                int p = OrderAllFragment.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderAllFragment.adapter.getDataList().remove(p);
-                                    OrderAllFragment.adapter.notifyItemRemoved(p);
-                                }
-                            }
-                            int p = adapter.getDataList().indexOf(order);
-                            adapter.getDataList().remove(order);
-                            adapter.notifyItemRemoved(p);
-                        } else {
-                            Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+        adapter.cancel((holder, order, position) -> {
+            String url = Constants.ORDER_URL+"/remove_order";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("oid", order.getOid());
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<Void>>() {
+                    }.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null){
+                        Intent intent = new Intent();
+                        intent.setAction(OrderChangeReceiver.ORDER_STATE_CANCELED);
+                        intent.putExtra("order", new Order(order));
+                        broadcastManager.sendBroadcast(intent);
+                    } else {
+                        Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext, "OrderAllFragment(cancel):请求失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext, "OrderAllFragment(cancel):请求失败", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
-        adapter.changePrice(new BusinessOrderAdapter.OnOrderChangePriceListener() {
-            @Override
-            public void changePrice(ViewHolder holder, Order order, int position) {
-                EditText etPrice = new EditText(mContext);
-                etPrice.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                new AlertDialog.Builder(mContext).setTitle("更改价格")
-                        .setMessage("请输入修改的价格")
-                        .setView(etPrice)
-                        .setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        int p = adapter.getDataList().indexOf(order);
-                                        changePriceCommit(order, p, Double.parseDouble(etPrice.getText().toString()));
-                                    }
-                                })
-                        .setNegativeButton("取消",null).show();
-            }
+        adapter.changePrice((holder, order, position) -> {
+            EditText etPrice = new EditText(mContext);
+            etPrice.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            new AlertDialog.Builder(mContext).setTitle("更改价格")
+                    .setMessage("请输入修改的价格")
+                    .setView(etPrice)
+                    .setPositiveButton("确定",
+                            (dialogInterface, i) -> {
+                                int p = adapter.getDataList().indexOf(order);
+                                changePriceCommit(order, p, Double.parseDouble(etPrice.getText().toString()));
+                            })
+                    .setNegativeButton("取消",null).show();
         });
     }
 
@@ -188,15 +180,11 @@ public class OrderNotPayFragment extends BaseFragment<Order> {
                 }.getType();
                 PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage() == null){
-                    if (OrderAllFragment.adapter != null){
-                        int p = OrderAllFragment.adapter.getDataList().indexOf(order);
-                        if (p != -1){
-                            OrderAllFragment.adapter.getDataList().get(p).setPrice(price);
-                            OrderAllFragment.adapter.notifyItemChanged(p);
-                        }
-                    }
-                    adapter.getDataList().get(position).setPrice(price);
-                    adapter.notifyItemChanged(position);
+                    Intent intent = new Intent();
+                    intent.setAction(OrderChangeReceiver.ORDER_PRICE_MODIFIED);
+                    intent.putExtra("order", new Order(order));
+                    intent.putExtra("price", price);
+                    LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
                 } else {
                     Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -207,5 +195,46 @@ public class OrderNotPayFragment extends BaseFragment<Order> {
                 Toast.makeText(mContext, "OrderAllFragment(cancel):请求失败", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(OrderChangeReceiver.ORDER_STATE_CANCELED);
+        intentFilter.addAction(OrderChangeReceiver.ORDER_PRICE_MODIFIED);
+        receiver = new OrderChangeReceiver();
+
+        broadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        broadcastManager.registerReceiver(receiver, intentFilter);
+
+        receiver.canceled(this::cancel);
+        receiver.modify(this::modify);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(receiver);
+    }
+
+    private void cancel(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        int position = adapter.getDataList().indexOf(order);
+        if (position != -1) {
+            adapter.getDataList().remove(order);
+            adapter.notifyItemRemoved(position);
+        }
+    }
+
+    private void modify(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        Double price = intent.getDoubleExtra("price", 0);
+        if (order != null) {
+            int position = adapter.getDataList().indexOf(order);
+            if (position != -1) {
+                adapter.getDataList().get(position).setPrice(price);
+                adapter.notifyItemChanged(position);
+            }
+        }
     }
 }

@@ -89,6 +89,6 @@ public class ChangeUsrFragment extends BaseFragment {
 
     @OnClick(R.id.usr_info_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 }

@@ -84,7 +84,7 @@ public class AddressFragment extends BaseFragment<Address> {
     public void addAddress(){
         isModify = false;
         AddressEditFragment editFragment = new AddressEditFragment();
-        getActivity()
+        requireActivity()
                 .getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_frameLayout, editFragment)
@@ -128,7 +128,7 @@ public class AddressFragment extends BaseFragment<Address> {
             public void onItemClick(ViewHolder holder, Address data, int position) {
                 address.setAddress(data);
                 isModify = true;
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new AddressEditFragment());
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new AddressEditFragment());
             }
         });
 
@@ -138,7 +138,7 @@ public class AddressFragment extends BaseFragment<Address> {
                 if (OrderConfirmFragment.selectAddress) {
                     OrderConfirmFragment.selectAddress = false;
                     OrderConfirmFragment.address = address;
-                    FragmentUtils.popBack(getActivity());
+                    FragmentUtils.popBack(requireActivity());
                 }
             }
         });
@@ -146,6 +146,6 @@ public class AddressFragment extends BaseFragment<Address> {
 
     @OnClick(R.id.me_address_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 }

@@ -50,20 +50,20 @@ import cz.msebera.android.httpclient.Header;
  * 功能:GoodsEditFragment
  */
 public class GoodsEditFragment extends BaseFragment<Uri> {
-    private Goods goods;
-    private boolean isEdit;
+    private final Goods goods;
+    private final boolean isEdit;
     String[] category = new String[3];
 
-    private String url = Constants.GOODS_CATEGORY_URL;
+    private final String url = Constants.GOODS_CATEGORY_URL;
     private String c1 = "";
     private String c2 = "";
     private String c3 = "";
     private List<GoodsCategory> typeList1 = new ArrayList<>();
     private List<GoodsCategory> typeList2 = new ArrayList<>();
     private List<GoodsCategory> typeList3 = new ArrayList<>();
-    private List<String> sList1 = new ArrayList<>();
-    private List<String> sList2 = new ArrayList<>();
-    private List<String> sList3 = new ArrayList<>();
+    private final List<String> sList1 = new ArrayList<>();
+    private final List<String> sList2 = new ArrayList<>();
+    private final List<String> sList3 = new ArrayList<>();
     private ArrayAdapter<String> ctgrAdapter;
 
     @BindView(R.id.bzns_goods_add_rv)
@@ -117,8 +117,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
             etName.setText(goods.getName());
             etPrice.setText(String.valueOf(goods.getPrice()));
             etCount.setText(String.valueOf(goods.getCount()));
-            if (goods.getState() == 0) swState.setChecked(false);
-            else swState.setChecked(true);
+            swState.setChecked(goods.getState() != 2);
             tvTag.setVisibility(View.VISIBLE);
             etDiscount.setVisibility(View.VISIBLE);
             ibDelete.setVisibility(View.VISIBLE);
@@ -262,13 +261,12 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case 1:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri uri = data.getData();
-                    //根据uri添加图片到UriList
-                    adapter.insert(uri);
-                }
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getData();
+                //根据uri添加图片到UriList
+                adapter.insert(uri);
+            }
         }
     }
 
@@ -288,7 +286,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
         } else if (dataList.size() == 0){
             Toast.makeText(mContext,"至少添加一张图片",Toast.LENGTH_SHORT).show();
         } else {
-            List<String> paths = FileUtils.getPathList(getActivity(), dataList);
+            List<String> paths = FileUtils.getPathList(requireActivity(), dataList);
             File[] files = new File[paths.size()];
             for (int i=0; i<paths.size(); i++){
                 files[i] = new File(paths.get(i));
@@ -333,7 +331,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage() == null){
                         Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     } else {
                         Toast.makeText(mContext,postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }
@@ -360,7 +358,7 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
                 PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage() == null){
                     Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
-                    FragmentUtils.popBack(getActivity());
+                    FragmentUtils.popBack(requireActivity());
                 } else {
                     Toast.makeText(mContext,postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                 }
@@ -373,5 +371,5 @@ public class GoodsEditFragment extends BaseFragment<Uri> {
     }
 
     @OnClick(R.id.bzns_goods_add_ib_back)
-    public void back(){FragmentUtils.popBack(getActivity());}
+    public void back(){FragmentUtils.popBack(requireActivity());}
 }

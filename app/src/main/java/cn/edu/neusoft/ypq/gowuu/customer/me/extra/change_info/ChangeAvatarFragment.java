@@ -2,8 +2,6 @@ package cn.edu.neusoft.ypq.gowuu.customer.me.extra.change_info;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
@@ -30,7 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
-import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
 import cn.edu.neusoft.ypq.gowuu.user.bean.User;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
@@ -48,8 +43,7 @@ import cz.msebera.android.httpclient.Header;
 public class ChangeAvatarFragment extends BaseFragment {
 
     private File imgFile = null;
-    private String picPath = null;
-    private User user;
+    private final User user;
     private boolean isManage = false;
 
     @BindView(R.id.usr_iv_change_avatar)
@@ -66,6 +60,7 @@ public class ChangeAvatarFragment extends BaseFragment {
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_cstm_change_arvatar, null);
         ButterKnife.bind(this, view);
+
         initImg();
         return view;
     }
@@ -122,7 +117,7 @@ public class ChangeAvatarFragment extends BaseFragment {
                             Toast.makeText(mContext,"修改成功",Toast.LENGTH_SHORT).show();
                             //保存数据到SharedPreferences
                             if (!isManage) FileUtils.saveUserInfo(mContext);
-                            FragmentUtils.popBack(getActivity());
+                            FragmentUtils.popBack(requireActivity());
                         }else {
                             Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                         }
@@ -138,15 +133,14 @@ public class ChangeAvatarFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case 0:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri uri = data.getData();
-                    picPath = FileUtils.getPath(getActivity(), uri);
-                    imgFile = new File(picPath);
-                    imgAvatar.setImageURI(uri);
-                    Log.d("result", "uri:"+uri+"filePathForN"+picPath);
-                }
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getData();
+                String picPath = FileUtils.getPath(requireActivity(), uri);
+                imgFile = new File(picPath);
+                imgAvatar.setImageURI(uri);
+                Log.d("result", "uri:" + uri + "filePathForN" + picPath);
+            }
         }
     }
 }

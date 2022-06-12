@@ -1,11 +1,8 @@
 package cn.edu.neusoft.ypq.gowuu.admin.fragment.manage;
 
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,12 +26,6 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.admin.adapter.UserAdapter;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
-import cn.edu.neusoft.ypq.gowuu.business.adapter.GoodsAdapter;
-import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
-import cn.edu.neusoft.ypq.gowuu.business.fragment.goods.BusinessGoodsFragment;
-import cn.edu.neusoft.ypq.gowuu.business.fragment.goods.GoodsEditFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.search.SearchFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.me.extra.change_info.ChangeUsrFragment;
 import cn.edu.neusoft.ypq.gowuu.user.bean.User;
@@ -101,7 +92,7 @@ public class ManageUserFragment extends BaseFragment<User> {
             pageEnd = false;
             page = 0;
             adapter.reset();
-            SearchFragment.hideKeyBoard(getActivity());
+            SearchFragment.hideKeyBoard(requireActivity());
             getGoodsPage(name);
         }
     }
@@ -140,23 +131,15 @@ public class ManageUserFragment extends BaseFragment<User> {
     }
 
     private void initListener() {
-        etName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                // 按下按钮，这里和xml文件中的EditText中属性imeOptions对应;
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    search();
-                    return false;
-                }
-                return true;//返回true，保留软键盘;false，隐藏软键盘
+        etName.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            // 按下按钮，这里和xml文件中的EditText中属性imeOptions对应;
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                search();
+                return false;
             }
+            return true;//返回true，保留软键盘;false，隐藏软键盘
         });
 
-        adapter.setOnItemClickListener(new OnItemClickListener<User>() {
-            @Override
-            public void onItemClick(ViewHolder holder, User data, int position) {
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new ChangeUsrFragment(0, data, true));
-            }
-        });
+        adapter.setOnItemClickListener((holder, data, position) -> FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new ChangeUsrFragment(0, data, true)));
     }
 }

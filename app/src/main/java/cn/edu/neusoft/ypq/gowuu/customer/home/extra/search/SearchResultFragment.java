@@ -2,6 +2,8 @@ package cn.edu.neusoft.ypq.gowuu.customer.home.extra.search;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,11 +47,14 @@ import cz.msebera.android.httpclient.Header;
 public class SearchResultFragment extends BaseFragment<Goods> {
 
     public static String searchName;
+    private int position = 0;
 
     @BindView(R.id.search_result_rv)
     RecyclerView recyclerView;
     @BindView(R.id.search_result_tv_title)
     TextView tvTitle;
+    @BindView(R.id.search_spinner)
+    Spinner spinner;
 
     @Override
     public View initView() {
@@ -94,6 +99,7 @@ public class SearchResultFragment extends BaseFragment<Goods> {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("name", searchName);
+        params.put("sort", position);
         params.put("page",page+=1);
         params.put("pageSize",pageSize);
         client.get(url, params, new AsyncHttpResponseHandler() {
@@ -124,23 +130,38 @@ public class SearchResultFragment extends BaseFragment<Goods> {
         adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
             @Override
             public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
             }
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (SearchResultFragment.this.position != position) {
+                    SearchResultFragment.this.position = position;
+                    adapter.reset();
+                    page = 0;
+                    pageEnd = false;
+                    getSearchPage();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
     @OnClick(R.id.search_result_ib_back)
     public void back(){
         searchName = null;
-        FragmentUtils.removeFragment(getActivity(), this);
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.removeFragment(requireActivity(), this);
+        FragmentUtils.popBack(requireActivity());
     }
 
     @OnClick(R.id.search_result_tv_title)
     public void search(){
         searchName = null;
         SearchFragment.searchString = tvTitle.getHint().toString();
-        FragmentUtils.removeFragment(getActivity(), this);
-        FragmentUtils.changeRbFragment(getActivity(), R.id.main_frameLayout, new SearchFragment());
+        FragmentUtils.removeFragment(requireActivity(), this);
+        FragmentUtils.changeRbFragment(requireActivity(), R.id.main_frameLayout, new SearchFragment());
     }
 }

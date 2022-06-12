@@ -1,18 +1,11 @@
 package cn.edu.neusoft.ypq.gowuu.customer.cart.fragment;
 
-/**
- * 作者:颜培琦
- * 时间:2022/3/4
- * 功能:CartFragment
- */
-
 import static android.content.ContentValues.TAG;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +18,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -37,11 +29,9 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.adapter.CartAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.Cart;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.CartGoods;
-import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsDetailFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsFrameFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.order.OrderConfirmFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.order.OrderConfirmFrameFragment;
@@ -97,20 +87,17 @@ public class CartFragment extends BaseFragment<Cart> {
         recyclerView.setAdapter(adapter);
         setClickListener();
 
-        cbSelectAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Cart> cartList = adapter.getCartList();
-                for (int i=0; i<cartList.size(); i++){
-                    cartList.get(i).setSelect(cbSelectAll.isChecked());
-                    int length = cartList.get(i).getGoodsList().size();
-                    for (int j = 0; j < length; j++) {
-                        cartList.get(i).getGoodsList().get(j).setSelect(cbSelectAll.isChecked());
-                    }
+        cbSelectAll.setOnClickListener(v -> {
+            List<Cart> cartList = adapter.getCartList();
+            for (int i=0; i<cartList.size(); i++){
+                cartList.get(i).setSelect(cbSelectAll.isChecked());
+                int length = cartList.get(i).getGoodsList().size();
+                for (int j = 0; j < length; j++) {
+                    cartList.get(i).getGoodsList().get(j).setSelect(cbSelectAll.isChecked());
                 }
-                adapter.notifyItemRangeChanged(0, cartList.size());
-                updatePrice();
             }
+            adapter.notifyItemRangeChanged(0, cartList.size());
+            updatePrice();
         });
 
         return view;
@@ -154,61 +141,45 @@ public class CartFragment extends BaseFragment<Cart> {
 
     public void setClickListener(){
         //设置全选监听
-        adapter.setOnSelectAllListener(new CartAdapter.OnSelectAllItemListener() {
-            @Override
-            public void setOnSelectAllItemListener(boolean selected, View view, int position) {
-                //商家全选监听
-                List<Cart> cartList = adapter.getCartList();
-                cartList.get(position).setSelect(selected);
-                int length = cartList.get(position).getGoodsList().size();
-                for (int i = 0; i < length; i++) {
-                    cartList.get(position).getGoodsList().get(i).setSelect(selected);
+        adapter.setOnSelectAllListener((selected, view, position) -> {
+            //商家全选监听
+            List<Cart> cartList = adapter.getCartList();
+            cartList.get(position).setSelect(selected);
+            int length = cartList.get(position).getGoodsList().size();
+            for (int i = 0; i < length; i++) {
+                cartList.get(position).getGoodsList().get(i).setSelect(selected);
+            }
+            //底部全选监听
+            int count = 0;
+            int size = 0;
+            for (int i = 0; i< cartList.size(); i++){
+                List<CartGoods> goodsList = cartList.get(i).getGoodsList();
+                for (int j=0; j<goodsList.size(); j++){
+                    if (goodsList.get(j).getSelect()) count+=1;
                 }
-                //底部全选监听
-                int count = 0;
-                int size = 0;
-                for (int i = 0; i< cartList.size(); i++){
-                    List<CartGoods> goodsList = cartList.get(i).getGoodsList();
-                    for (int j=0; j<goodsList.size(); j++){
-                        if (goodsList.get(j).getSelect()) count+=1;
-                    }
-                    size += goodsList.size();
-                }
-                cbSelectAll.setChecked(count == size);
-                updatePrice();
-                adapter.notifyItemChanged(position);
+                size += goodsList.size();
+            }
+            cbSelectAll.setChecked(count == size);
+            updatePrice();
+            adapter.notifyItemChanged(position);
+        });
+
+        adapter.setOnMoneyChangeListener((view, position) -> updatePrice());
+
+        adapter.setOnChildSelectListener((cartList, view, holder, fPosition, position) -> {
+            if (!isEdit) {
+                FragmentUtils.changeFragment(requireActivity(),
+                        R.id.main_frameLayout, new GoodsFrameFragment(cartList.get(fPosition).getGoodsList().get(position).getGoods()));
             }
         });
 
-        adapter.setOnMoneyChangeListener(new CartAdapter.OnMoneyChangeListener() {
-            @Override
-            public void setOnMoneyChangeListener(View view, int position) {
-                updatePrice();
+        adapter.setOnBznsSelectListener((cartList, view, fPosition, position) -> {
+            int count = 0;
+            for (int i=0; i<cartList.size(); i++){
+                if (cartList.get(i).isSelect()) count+=1;
             }
-        });
-
-        adapter.setOnChildSelectListener(new CartAdapter.OnChildSelectListener() {
-            @Override
-            public void setOnChildSelectListener(List<Cart> cartList, View view, CartAdapter.MyHolder holder, int fPosition, int posiotn) {
-                if (!isEdit) {
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsFrameFragment(cartList.get(fPosition).getGoodsList().get(posiotn).getGoods()));
-                } else {
-                    //选中
-                }
-            }
-        });
-
-        adapter.setOnBznsSelectListener(new CartAdapter.OnBznsSelectListener() {
-            @Override
-            public void setOnBznsSelectListener(List<Cart> cartList, View view, int fPosition, int posiotn) {
-                int count = 0;
-                int size = 0;
-                for (int i=0; i<cartList.size(); i++){
-                    if (cartList.get(i).isSelect()) count+=1;
-                }
-                size = cartList.size();
-                cbSelectAll.setChecked(count == size);
-            }
+            int size = cartList.size();
+            cbSelectAll.setChecked(count == size);
         });
     }
 
@@ -259,7 +230,7 @@ public class CartFragment extends BaseFragment<Cart> {
                     Toast.makeText(mContext, "请选中商品后再进行结算！", Toast.LENGTH_SHORT).show();
                 } else {
                     OrderConfirmFragment.cartList = cartList;
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new OrderConfirmFrameFragment());
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new OrderConfirmFrameFragment());
                 }
             }
         } else {

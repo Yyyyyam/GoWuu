@@ -46,7 +46,7 @@ public class FileUtils {
                 String selection = MediaStore.Images.Media._ID + "=" + id;
                 path = getImagePath(activity, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
             } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.parseLong(docId));
                 path = getImagePath(activity, contentUri, null);
             }
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
@@ -60,24 +60,7 @@ public class FileUtils {
     public static List<String> getPathList(FragmentActivity activity, List<Uri> uriList){
         List<String> pathList = new ArrayList<>();
         for (Uri uri : uriList){
-            String path = null;
-            //根据不同的uri进行不同的解析
-            if (DocumentsContract.isDocumentUri(activity, uri)) {
-                String docId = DocumentsContract.getDocumentId(uri);
-                if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-                    String id = docId.split(":")[1];
-                    String selection = MediaStore.Images.Media._ID + "=" + id;
-                    path = getImagePath(activity, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
-                } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                    Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
-                    path = getImagePath(activity, contentUri, null);
-                }
-            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-                path = getImagePath(activity, uri, null);
-            } else if ("file".equalsIgnoreCase(uri.getScheme())) {
-                path = uri.getPath();
-            }
-            pathList.add(path);
+            pathList.add(getPath(activity, uri));
         }
         return pathList;
     }
@@ -92,6 +75,6 @@ public class FileUtils {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("userJson",userJson);
         //commit方法保存数据
-        editor.commit();
+        editor.apply();
     }
 }

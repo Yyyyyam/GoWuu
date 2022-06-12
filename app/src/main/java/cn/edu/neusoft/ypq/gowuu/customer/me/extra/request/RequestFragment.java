@@ -91,7 +91,7 @@ public class RequestFragment extends BaseFragment<Uri> {
 
     @OnClick(R.id.cstm_request_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 
     @OnClick(R.id.cstm_request_bt_confirm)
@@ -106,7 +106,7 @@ public class RequestFragment extends BaseFragment<Uri> {
         RequestParams params = new RequestParams();
         String name = etName.getText().toString().trim();
         String detail = etDetail.getText().toString().trim();
-        List<String> paths = FileUtils.getPathList(getActivity(), dataList);
+        List<String> paths = FileUtils.getPathList(requireActivity(), dataList);
         File[] files = new File[paths.size()];
         for (int i=0; i<paths.size(); i++){
             files[i] = new File(paths.get(i));
@@ -141,10 +141,10 @@ public class RequestFragment extends BaseFragment<Uri> {
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage()==null){
                         Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     }else {
                         Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     }
                 }
 

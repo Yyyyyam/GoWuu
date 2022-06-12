@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <cn.edu.neusoft.ypq.gowuu.utils.ImageViewCircle
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/usr_iv_change_avatar"
+        app:round="50dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@mipmap/ic_launcher"

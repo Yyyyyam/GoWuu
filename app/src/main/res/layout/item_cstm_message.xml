@@ -6,8 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-    <cn.edu.neusoft.ypq.gowuu.utils.ImageViewCircle
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/itm_cstm_message_iv_icon"
+        app:round="25dp"
         android:layout_width="50dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_message"

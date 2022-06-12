@@ -3,7 +3,6 @@ package cn.edu.neusoft.ypq.gowuu.business.adapter;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -33,17 +32,15 @@ public class GoodsAdapter extends BaseAdapter<Goods> {
         if (data.getDiscount() == 1) {
             holder.setVisibility(R.id.itm_goods_tv_discount, View.GONE);
         } else {
-            Integer d = CheckUtils.doubleTrim((1-data.getDiscount())*100).intValue();
+            int d = CheckUtils.doubleTrim((1-data.getDiscount())*100).intValue();
             holder.setText(R.id.itm_goods_tv_discount, "-"+d+"%");
         }
+        if (data.getState() == 2) holder.setVisibility(R.id.itm_goods_tv_state, View.VISIBLE);
         ImageView imageView = holder.getView(R.id.itm_goods_img);
         GlideUtils.setImage(mContext, Constants.RES_URL+data.getPathList().get(0), imageView);
-        holder.setOnClickListener(holder.getConvertView(),new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItemClickListener != null){
-                    mItemClickListener.onItemClick(holder,data,position);
-                }
+        holder.setOnClickListener(holder.getConvertView(), v -> {
+            if (mItemClickListener != null){
+                mItemClickListener.onItemClick(holder,data,position);
             }
         });
     }

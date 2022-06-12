@@ -27,9 +27,7 @@ public class ListCopyUtils {
             @SuppressWarnings("unchecked")
             List<T> dest = (List<T>) in.readObject();
             return dest;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;

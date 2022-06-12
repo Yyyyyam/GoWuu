@@ -1,6 +1,8 @@
 package cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods;
 
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.GoodsAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Business;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
+import cn.edu.neusoft.ypq.gowuu.customer.classify.fragment.ClassifyGoodsFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
@@ -43,6 +46,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class BznsStoreFragment extends BaseFragment<Goods> {
     private Business business;
+    private int position = 0;
 
     @BindView(R.id.cstm_type_tv_title)
     TextView tvTitle;
@@ -50,6 +54,8 @@ public class BznsStoreFragment extends BaseFragment<Goods> {
     TextView tvScore;
     @BindView(R.id.cstm_bzns_goods_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.cstm_bzns_goods_spinner)
+    Spinner spinner;
 
     public BznsStoreFragment(Business business){
         this.business = business;
@@ -96,6 +102,7 @@ public class BznsStoreFragment extends BaseFragment<Goods> {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("bid", business.getBid());
+        params.put("sort", position);
         params.put("page",page+=1);
         params.put("pageSize",pageSize);
         client.get(url, params, new AsyncHttpResponseHandler() {
@@ -127,13 +134,28 @@ public class BznsStoreFragment extends BaseFragment<Goods> {
             @Override
             public void onItemClick(ViewHolder holder, Goods data, int position) {
                 pageEnd = false;
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
             }
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (BznsStoreFragment.this.position != position) {
+                    BznsStoreFragment.this.position = position;
+                    adapter.reset();
+                    page = 0;
+                    pageEnd = false;
+                    getGoodsPage();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
     @OnClick(R.id.cstm_type_goods_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 }

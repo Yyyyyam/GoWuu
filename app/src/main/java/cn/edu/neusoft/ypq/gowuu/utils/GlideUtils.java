@@ -14,6 +14,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 public class GlideUtils {
     public static void setImage(Context context, String  url, ImageView imageView){
         Glide.with(context).load(url)
+                .into(imageView);
+    }
+
+    public static void setImageNoCache(Context context, String  url, ImageView imageView){
+        Glide.with(context).load(url)
                 .skipMemoryCache(true)//跳过内存缓存
                 .diskCacheStrategy(DiskCacheStrategy.NONE)//不缓冲disk硬盘中
                 .into(imageView);

@@ -146,7 +146,7 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
                         if (postMessage.getData().size() == 0) {
                             Toast.makeText(mContext, "暂无地址信息，请添加地址数据", Toast.LENGTH_SHORT).show();
                             selectAddress = true;
-                            FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new AddressFragment());
+                            FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new AddressFragment());
                         } else {
                             address = postMessage.getData().get(0);
                             tvName.setText("姓名："+address.getName());
@@ -174,7 +174,7 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
     @OnClick(R.id.order_cfm_constraint_address)
     public void selectAddress(){
         selectAddress = true;
-        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new AddressFragment());
+        FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new AddressFragment());
     }
 
     @Override
@@ -185,8 +185,8 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
     }
 
     public void updatePrice(List<Cart> cartList){
-        TextView tvPrice = getActivity().findViewById(R.id.order_cfm_frame_tv_price);
-        TextView tvCount = getActivity().findViewById(R.id.order_cfm_frame_tv_count);
+        TextView tvPrice = requireActivity().findViewById(R.id.order_cfm_frame_tv_price);
+        TextView tvCount = requireActivity().findViewById(R.id.order_cfm_frame_tv_count);
         Double price = 0.0;
         Integer count = 0;
         for (int i=0; i<cartList.size(); i++){
@@ -204,7 +204,7 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
     }
 
     public void buyListener(){
-        Button btBuy = getActivity().findViewById(R.id.order_cfm_frame_bt_commit);
+        Button btBuy = requireActivity().findViewById(R.id.order_cfm_frame_bt_commit);
         btBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +224,7 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
                             Toast.makeText(mContext, "提交成功", Toast.LENGTH_SHORT).show();
                             BuyDialogFragment.state = false;
                             //后续弹出是否付款，付款直接提交改变订单状态为1
-                            FragmentUtils.popBack(getActivity());
+                            FragmentUtils.popBack(requireActivity());
                         }
                     }
 

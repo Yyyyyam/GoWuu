@@ -58,7 +58,7 @@ public class MainFragment extends BaseFragment<Void> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new HomeFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new HomeFragment());
                 }
             }
         });
@@ -67,7 +67,7 @@ public class MainFragment extends BaseFragment<Void> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new ClassifyFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new ClassifyFragment());
                 }
             }
         });
@@ -76,11 +76,11 @@ public class MainFragment extends BaseFragment<Void> {
             @Override
             public void onClick(View v) {
                 if (MainActivity.user.getUid() != null && rb3.isChecked()) {
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new CartFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new CartFragment());
                 } else {
                     rb4.setChecked(true);
                     Toast.makeText(mContext, "请先登录", Toast.LENGTH_SHORT).show();
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new LoginFragment());
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new LoginFragment());
                 }
             }
         });
@@ -89,7 +89,7 @@ public class MainFragment extends BaseFragment<Void> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (MainActivity.user.getUid()!= null && isChecked){
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new CartFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new CartFragment());
                 }
             }
         });
@@ -98,7 +98,7 @@ public class MainFragment extends BaseFragment<Void> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    FragmentUtils.changeRbFragment(getActivity(), R.id.f_main_frameLayout, new MeFragment());
+                    FragmentUtils.changeRbFragment(requireActivity(), R.id.f_main_frameLayout, new MeFragment());
                 }
             }
         });

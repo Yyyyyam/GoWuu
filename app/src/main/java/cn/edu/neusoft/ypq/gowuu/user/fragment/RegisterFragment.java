@@ -63,7 +63,7 @@ public class RegisterFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_ib_back:
-                FragmentUtils.popBack(getActivity());
+                FragmentUtils.popBack(requireActivity());
                 break;
             case R.id.register_bt_confirm:
                 reg();
@@ -103,7 +103,7 @@ public class RegisterFragment extends BaseFragment {
                     PostMessage postMessage = new Gson().fromJson(response, PostMessage.class);
                     if (postMessage.getMessage()==null){
                         Toast.makeText(mContext,"注册成功，请登录",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     }else {
                         Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }

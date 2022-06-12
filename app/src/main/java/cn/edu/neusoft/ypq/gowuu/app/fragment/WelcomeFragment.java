@@ -44,7 +44,7 @@ public class WelcomeFragment extends BaseFragment<Void> {
     }
 
     private void initUser(){
-        SharedPreferences preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences preferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         String userJson = preferences.getString("userJson",null);
         if (userJson != null){
             Gson gson = new Gson();

@@ -104,43 +104,40 @@ public class ExamineReportFragment extends BaseFragment<Examine> {
 
     //点击事件的处理
     public void setClickListener(){
-        adapter.setOnItemClickListener(new OnItemClickListener<Examine>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Examine data, int position) {
-                String stateUrl = Constants.ADMIN_URL+"/examine/response_for_report";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("uid", data.getUid());
-                params.put("rid", data.getRid());
-                params.put("gid", data.getGid());
-                params.put("state", data.getState());
-                params.put("type", data.getType());
-                if (data.getState() == 1){
-                    params.put("detail", "举报成功，已将商品下架");
-                } else {
-                    params.put("detail", "举报失败，审核未通过");
-                }
-                client.post(stateUrl, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        //修正泛型无法正常解析问题
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage()==null){
-                            Toast.makeText(mContext,"操作成功",Toast.LENGTH_SHORT).show();
-                            adapter.notifyItemChanged(position);
-                        }else {
-                            Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext,"ExamineApplyFragment(138):请求失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
+        adapter.setOnItemClickListener((holder, data, position) -> {
+            String stateUrl = Constants.ADMIN_URL+"/examine/response_for_report";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("uid", data.getUid());
+            params.put("rid", data.getRid());
+            params.put("gid", data.getGid());
+            params.put("state", data.getState());
+            params.put("type", data.getType());
+            if (data.getState() == 1){
+                params.put("detail", "举报成功，已将商品下架");
+            } else {
+                params.put("detail", "举报失败，审核未通过");
             }
+            client.post(stateUrl, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    //修正泛型无法正常解析问题
+                    Type type = new TypeToken<PostMessage<Void>>() {
+                    }.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage()==null){
+                        Toast.makeText(mContext,"操作成功",Toast.LENGTH_SHORT).show();
+                        adapter.notifyItemChanged(position);
+                    }else {
+                        Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext,"ExamineApplyFragment(138):请求失败",Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 }

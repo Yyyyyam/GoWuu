@@ -50,7 +50,7 @@ public class GoodsFrameFragment extends BaseFragment<Void> {
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_goods_frame, null);
         ButterKnife.bind(this, view);
-        FragmentUtils.changeRbFragment(getActivity(), R.id.goods_frame_layout, new GoodsDetailFragment(goods));
+        FragmentUtils.changeRbFragment(requireActivity(), R.id.goods_frame_layout, new GoodsDetailFragment(goods));
         return view;
     }
 
@@ -96,7 +96,7 @@ public class GoodsFrameFragment extends BaseFragment<Void> {
 
     @OnClick(R.id.goods_frame_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 
     @OnClick(R.id.goods_frame_tv_favorite)
@@ -184,7 +184,7 @@ public class GoodsFrameFragment extends BaseFragment<Void> {
     public void buy(){
         if (MainActivity.user.getUid() != null) {
             BuyDialogFragment buyFragment = new BuyDialogFragment(goods);
-            buyFragment.show(getActivity().getSupportFragmentManager(), "buyFragment");
+            buyFragment.show(requireActivity().getSupportFragmentManager(), "buyFragment");
         } else {
             Toast.makeText(mContext, "请先登录", Toast.LENGTH_SHORT).show();
         }
@@ -204,7 +204,7 @@ public class GoodsFrameFragment extends BaseFragment<Void> {
                 }.getType();
                 PostMessage<Business> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage() == null){
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new BznsStoreFragment(postMessage.getData()));
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new BznsStoreFragment(postMessage.getData()));
                 } else {
                     Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -219,6 +219,6 @@ public class GoodsFrameFragment extends BaseFragment<Void> {
 
     @OnClick(R.id.goods_frame_ib_report)
     public void report() {
-        FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new RequestFragment(false, goods.getGid()));
+        FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new RequestFragment(false, goods.getGid()));
     }
 }

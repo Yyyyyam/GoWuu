@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/background_gray">
 
-    <cn.edu.neusoft.ypq.gowuu.utils.ImageViewCircle
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/me_img_avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        app:round="50dp"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
         android:src="@drawable/ic_launcher_foreground"
@@ -39,47 +40,50 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/me_guideline_for_pic"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/me_cstr_layout_for_order"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/item_shape_half_fillet_top"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/me_guideline_for_order"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/me_tv_order_mine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="我的订单"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
+                    android:text="我的订单"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/me_tv_order_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:drawableEnd="@drawable/ic_go"
                     android:text="查看全部"
                     android:textSize="14sp"
-                    android:drawableEnd="@drawable/ic_go"
-                    android:layout_marginEnd="4dp"
                     app:layout_constraintBottom_toBottomOf="@id/me_tv_order_mine"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.Guideline
@@ -191,84 +195,84 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/item_shape_fillet"
                 android:layout_marginTop="6dp"
-                app:layout_constraintTop_toBottomOf="@id/me_guideline_for_order_statement"
+                android:background="@drawable/item_shape_fillet"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/me_guideline_for_order_statement">
 
                 <TextView
                     android:id="@+id/me_bt_my_favorite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="我的收藏"
-                    android:textSize="18sp"
-                    android:textColor="@color/goods_black"
-                    android:drawableStart="@drawable/cstm_me_ic_favorites"
-                    android:drawablePadding="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="12dp"
+                    android:drawableStart="@drawable/cstm_me_ic_favorites"
+                    android:drawablePadding="10dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="我的收藏"
+                    android:textColor="@color/goods_black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/background_gray"
                     android:layout_marginEnd="18dp"
-                    app:layout_constraintStart_toStartOf="@id/me_bt_my_favorite"
+                    android:background="@color/background_gray"
+                    app:layout_constraintBottom_toTopOf="@+id/me_bt_address_management"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/me_bt_my_favorite"
-                    app:layout_constraintBottom_toTopOf="@+id/me_bt_address_management"/>
+                    app:layout_constraintStart_toStartOf="@id/me_bt_my_favorite"
+                    app:layout_constraintTop_toBottomOf="@id/me_bt_my_favorite" />
 
                 <TextView
                     android:id="@+id/me_bt_address_management"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="地址管理"
-                    android:textSize="18sp"
-                    android:textColor="@color/goods_black"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="12dp"
                     android:drawableStart="@drawable/cstm_me_ic_address"
                     android:drawablePadding="10dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/me_bt_my_favorite"
+                    android:text="地址管理"
+                    android:textColor="@color/goods_black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/me_bt_my_favorite" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/background_gray"
                     android:layout_marginEnd="18dp"
-                    app:layout_constraintStart_toStartOf="@id/me_bt_address_management"
+                    android:background="@color/background_gray"
+                    app:layout_constraintBottom_toTopOf="@id/me_bt_my_shop"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/me_bt_address_management"
-                    app:layout_constraintBottom_toTopOf="@id/me_bt_my_shop"/>
+                    app:layout_constraintStart_toStartOf="@id/me_bt_address_management"
+                    app:layout_constraintTop_toBottomOf="@id/me_bt_address_management" />
 
                 <TextView
                     android:id="@+id/me_bt_my_shop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="申请店铺"
-                    android:textSize="18sp"
-                    android:textColor="@color/goods_black"
-                    android:drawableStart="@drawable/cstm_me_ic_store"
-                    android:drawablePadding="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
+                    android:drawableStart="@drawable/cstm_me_ic_store"
+                    android:drawablePadding="10dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    app:layout_constraintTop_toBottomOf="@id/me_bt_address_management"
+                    android:text="申请店铺"
+                    android:textColor="@color/goods_black"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/me_bt_address_management" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -286,84 +290,84 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/item_shape_fillet"
-                app:layout_constraintTop_toBottomOf="@id/me_guideline_for_quit"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/me_guideline_for_quit">
 
                 <TextView
                     android:id="@+id/me_bt_switch_admin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="管理员"
-                    android:textSize="18sp"
-                    android:textColor="@color/goods_black"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="12dp"
                     android:drawableStart="@drawable/cstm_me_ic_manager"
                     android:drawablePadding="10dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="10dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="管理员"
+                    android:textColor="@color/goods_black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/me_view1"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/background_gray"
                     android:layout_marginEnd="18dp"
-                    app:layout_constraintStart_toStartOf="@id/me_bt_switch_admin"
+                    android:background="@color/background_gray"
+                    app:layout_constraintBottom_toTopOf="@+id/me_bt_message"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/me_bt_switch_admin"
-                    app:layout_constraintBottom_toTopOf="@+id/me_bt_message"/>
+                    app:layout_constraintStart_toStartOf="@id/me_bt_switch_admin"
+                    app:layout_constraintTop_toBottomOf="@id/me_bt_switch_admin" />
 
                 <TextView
                     android:id="@+id/me_bt_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="通知中心"
-                    android:textSize="18sp"
-                    android:textColor="@color/goods_black"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="12dp"
                     android:drawableStart="@drawable/cstm_me_ic_message"
                     android:drawablePadding="10dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="10dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    app:layout_constraintTop_toBottomOf="@+id/me_bt_switch_admin"
+                    android:text="通知中心"
+                    android:textColor="@color/goods_black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@+id/me_bt_switch_admin" />
 
                 <View
                     android:id="@+id/me_view2"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/background_gray"
                     android:layout_marginEnd="18dp"
-                    app:layout_constraintStart_toStartOf="@id/me_bt_message"
+                    android:background="@color/background_gray"
+                    app:layout_constraintBottom_toTopOf="@+id/me_bt_quit_account"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/me_bt_message"
-                    app:layout_constraintBottom_toTopOf="@+id/me_bt_quit_account"/>
+                    app:layout_constraintStart_toStartOf="@id/me_bt_message"
+                    app:layout_constraintTop_toBottomOf="@id/me_bt_message" />
 
                 <TextView
                     android:id="@+id/me_bt_quit_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="退出账号"
-                    android:textSize="18sp"
-                    android:textColor="@color/goods_black"
-                    android:drawableStart="@drawable/cstm_me_ic_quit_account"
-                    android:drawablePadding="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="12dp"
+                    android:drawableStart="@drawable/cstm_me_ic_quit_account"
+                    android:drawablePadding="10dp"
                     android:paddingTop="6dp"
                     android:paddingBottom="6dp"
-                    app:layout_constraintTop_toBottomOf="@+id/me_bt_message"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="退出账号"
+                    android:textColor="@color/goods_black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/me_bt_message" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -371,17 +375,16 @@
                 android:id="@+id/me_tv_describe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="developed by @yanpeiqi in 2022,02"
                 android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/me_cl_usr"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/me_cl_usr" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

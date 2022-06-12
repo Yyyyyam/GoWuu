@@ -1,6 +1,8 @@
 package cn.edu.neusoft.ypq.gowuu.customer.classify.fragment;
 
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
 import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsDetailFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsFrameFragment;
+import cn.edu.neusoft.ypq.gowuu.customer.home.extra.search.SearchResultFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
@@ -45,6 +48,7 @@ import cz.msebera.android.httpclient.Header;
 public class ClassifyGoodsFragment extends BaseFragment<Goods> {
     private Integer cid;
     private String category;
+    private int position = 0;
 
     @BindView(R.id.cstm_type_tv_title)
     TextView tvTitle;
@@ -52,6 +56,8 @@ public class ClassifyGoodsFragment extends BaseFragment<Goods> {
     TextView tvScore;
     @BindView(R.id.cstm_bzns_goods_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.cstm_bzns_goods_spinner)
+    Spinner spinner;
 
     public ClassifyGoodsFragment(Integer cid, String category) {
         this.cid = cid;
@@ -98,6 +104,7 @@ public class ClassifyGoodsFragment extends BaseFragment<Goods> {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("cid", cid);
+        params.put("sort", position);
         params.put("page",page+=1);
         params.put("pageSize",pageSize);
         client.get(url, params, new AsyncHttpResponseHandler() {
@@ -128,14 +135,29 @@ public class ClassifyGoodsFragment extends BaseFragment<Goods> {
         adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
             @Override
             public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
             }
+        });
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (ClassifyGoodsFragment.this.position != position) {
+                    ClassifyGoodsFragment.this.position = position;
+                    adapter.reset();
+                    page = 0;
+                    pageEnd = false;
+                    getGoodsPage();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
     @OnClick(R.id.cstm_type_goods_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 }
 

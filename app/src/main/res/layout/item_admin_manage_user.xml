@@ -16,8 +16,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <cn.edu.neusoft.ypq.gowuu.utils.ImageViewCircle
+        <androidx.constraintlayout.utils.widget.ImageFilterView
             android:id="@+id/itm_admin_mng_iv"
+            app:round="50dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:layout_constraintStart_toStartOf="parent"

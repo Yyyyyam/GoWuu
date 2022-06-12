@@ -1,7 +1,6 @@
 package cn.edu.neusoft.ypq.gowuu.business.fragment.home;
 
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -10,7 +9,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.business.bean.Business;
 import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 
@@ -84,19 +82,19 @@ public class BusinessHomeFragment extends BaseFragment<Void> {
 
     @OnClick(R.id.bzns_home_constraint_goods)
     public void toGoods(){
-        RadioButton rbGoods = getActivity().findViewById(R.id.rb_2);
+        RadioButton rbGoods = requireActivity().findViewById(R.id.rb_2);
         rbGoods.setChecked(true);
     }
 
     @OnClick(R.id.bzns_home_constraint_order)
     public void toOrder(){
-        RadioButton rbOrder = getActivity().findViewById(R.id.rb_3);
+        RadioButton rbOrder = requireActivity().findViewById(R.id.rb_3);
         rbOrder.setChecked(true);
     }
 
     @OnClick(R.id.bzns_home_constraint_statistic)
     public void toStatistic(){
-        RadioButton rbStatistic = getActivity().findViewById(R.id.rb_4);
+        RadioButton rbStatistic = requireActivity().findViewById(R.id.rb_4);
         rbStatistic.setChecked(true);
     }
 }

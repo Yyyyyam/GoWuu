@@ -5,8 +5,9 @@
     android:paddingBottom="8dp"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <cn.edu.neusoft.ypq.gowuu.utils.ImageViewCircle
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/itm_goods_evlt_iv_avatar"
+        app:round="25dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/ic_launcher_foreground"

@@ -1,7 +1,5 @@
 package cn.edu.neusoft.ypq.gowuu.customer.me.extra.change_info;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +38,7 @@ import cz.msebera.android.httpclient.Header;
 public class ChangeInfoFragment extends BaseFragment {
 
     private int gender = -1;
-    private User user;
+    private final User user;
     private boolean isManage = false;
 
     @BindView(R.id.usr_et_name)
@@ -66,7 +64,7 @@ public class ChangeInfoFragment extends BaseFragment {
 
     public ChangeInfoFragment(User user, boolean isManage){
         this.user = user;
-        if (user.getUid() == MainActivity.user.getUid()) {
+        if (user.getUid().equals(MainActivity.user.getUid())) {
             isManage = false;
         } else {
             this.isManage = isManage;
@@ -143,7 +141,7 @@ public class ChangeInfoFragment extends BaseFragment {
                             FileUtils.saveUserInfo(mContext);
                         }
                         Toast.makeText(mContext,"修改成功",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     }else {
                         Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }

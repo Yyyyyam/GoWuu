@@ -159,7 +159,7 @@ public class GoodsEvaluation extends BaseFragment<Void> {
             Toast.makeText(mContext,"请选择评分",Toast.LENGTH_SHORT).show();
         } else {
             //提交数据
-            List<String> paths = FileUtils.getPathList(getActivity(), uriList);
+            List<String> paths = FileUtils.getPathList(requireActivity(), uriList);
             File[] files = new File[paths.size()];
             for (int i=0; i<paths.size(); i++){
                 files[i] = new File(paths.get(i));
@@ -197,7 +197,7 @@ public class GoodsEvaluation extends BaseFragment<Void> {
                             OrderReceived.adapter.getDataList().get(order.getPosition()).getGoodsList().get(goods.getPosition()).setState(2);
                             OrderReceived.adapter.notifyItemChanged(order.getPosition());
                         }
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     } else {
                         Toast.makeText(mContext,postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }
@@ -212,7 +212,7 @@ public class GoodsEvaluation extends BaseFragment<Void> {
 
     @OnClick(R.id.goods_evlt_iv_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 
     @Override

@@ -115,7 +115,7 @@ public class FavoriteFragment extends BaseFragment<Favorite> {
                     data.setIsChecked(!data.getIsChecked());
                     holder.setChecked(R.id.itm_favorite_goods_cb, data.getIsChecked());
                 } else {
-                    FragmentUtils.changeFragment(getActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data.getGoods()));
+                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data.getGoods()));
                 }
             }
         });
@@ -143,7 +143,7 @@ public class FavoriteFragment extends BaseFragment<Favorite> {
 
     @OnClick(R.id.cstm_favorite_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 
     private void updateSelect(boolean isSelect){

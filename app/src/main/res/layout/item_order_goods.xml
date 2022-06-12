@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <cn.edu.neusoft.ypq.gowuu.utils.ImageViewFillet
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/itm_odr_iv_goods_img"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -15,10 +15,6 @@
         android:scaleType="fitXY"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        app:left_top_radius="10dp"
-        app:left_bottom_radius="10dp"
-        app:right_top_radius="10dp"
-        app:right_bottom_radius="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />

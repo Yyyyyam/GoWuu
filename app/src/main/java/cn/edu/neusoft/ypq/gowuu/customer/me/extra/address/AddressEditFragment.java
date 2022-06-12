@@ -272,7 +272,7 @@ public class AddressEditFragment extends BaseFragment<Void> {
                     PostMessage postMessage = new Gson().fromJson(response, PostMessage.class);
                     if (postMessage.getMessage()==null){
                         Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(getActivity());
+                        FragmentUtils.popBack(requireActivity());
                     }else {
                         Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }
@@ -288,7 +288,7 @@ public class AddressEditFragment extends BaseFragment<Void> {
 
     @OnClick(R.id.address_edit_ib_back)
     public void back(){
-        FragmentUtils.popBack(getActivity());
+        FragmentUtils.popBack(requireActivity());
     }
 
     @OnClick(R.id.address_edit_tv_delete)
@@ -305,7 +305,7 @@ public class AddressEditFragment extends BaseFragment<Void> {
                 PostMessage postMessage = new Gson().fromJson(response, PostMessage.class);
                 if (postMessage.getMessage()==null){
                     Toast.makeText(mContext,"删除成功",Toast.LENGTH_SHORT).show();
-                    FragmentUtils.popBack(getActivity());
+                    FragmentUtils.popBack(requireActivity());
                 }else {
                     Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                 }
