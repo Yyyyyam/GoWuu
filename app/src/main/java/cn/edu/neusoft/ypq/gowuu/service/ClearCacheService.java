@@ -30,9 +30,8 @@ public class ClearCacheService extends Service {
     public static class ClearController extends Binder {
         public void clearGlide(Context context) {
             Glide.get(context).clearMemory();
-            new Thread(() -> {
-                Glide.get(context).clearDiskCache();
-            }).start();
+            new Thread(() ->
+                    Glide.get(context).clearDiskCache()).start();
         }
     }
 }

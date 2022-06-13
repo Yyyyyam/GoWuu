@@ -24,8 +24,6 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.order.OrderConfirmFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.AddressAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Address;
@@ -123,23 +121,17 @@ public class AddressFragment extends BaseFragment<Address> {
     }
 
     private void setClickListener(){
-        adapter.setOnItemClickListener(new OnItemClickListener<Address>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Address data, int position) {
-                address.setAddress(data);
-                isModify = true;
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new AddressEditFragment());
-            }
+        adapter.setOnItemClickListener((holder, data, position) -> {
+            address.setAddress(data);
+            isModify = true;
+            FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new AddressEditFragment());
         });
 
-        adapter.select(new AddressAdapter.OnSelectListener() {
-            @Override
-            public void select(ViewHolder viewHolder, Address address, int position) {
-                if (OrderConfirmFragment.selectAddress) {
-                    OrderConfirmFragment.selectAddress = false;
-                    OrderConfirmFragment.address = address;
-                    FragmentUtils.popBack(requireActivity());
-                }
+        adapter.select((viewHolder, address, position) -> {
+            if (OrderConfirmFragment.selectAddress) {
+                OrderConfirmFragment.selectAddress = false;
+                OrderConfirmFragment.address = address;
+                FragmentUtils.popBack(requireActivity());
             }
         });
     }

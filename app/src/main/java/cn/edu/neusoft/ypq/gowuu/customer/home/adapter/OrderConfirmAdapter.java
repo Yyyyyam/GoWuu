@@ -50,7 +50,7 @@ public class OrderConfirmAdapter extends BaseAdapter<Cart> {
         return R.layout.item_order;
     }
 
-    public class OrderConfirmGoodsAdapter extends BaseAdapter<CartGoods> {
+    public static class OrderConfirmGoodsAdapter extends BaseAdapter<CartGoods> {
         public OrderConfirmGoodsAdapter(Context context, List<CartGoods> dataList) {
             super(context, dataList);
         }

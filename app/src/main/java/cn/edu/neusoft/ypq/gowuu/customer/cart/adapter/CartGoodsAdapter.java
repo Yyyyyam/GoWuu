@@ -26,9 +26,9 @@ import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
  * 功能:购物车商品适配器
  */
 public class CartGoodsAdapter extends RecyclerView.Adapter<CartGoodsAdapter.MyHolder> {
-    private Context mContext;
-    private List<CartGoods> goodsList;
-    private int fPosition;
+    private final Context mContext;
+    private final List<CartGoods> goodsList;
+    private final int fPosition;
 
     public CartGoodsAdapter(Context context, List<CartGoods> goodsList, int fPosition){
         this.mContext = context;
@@ -61,14 +61,14 @@ public class CartGoodsAdapter extends RecyclerView.Adapter<CartGoodsAdapter.MyHo
     public class MyHolder extends RecyclerView.ViewHolder {
         CartGoods cartGoods;
 
-        private TextView tvName;
-        private TextView tvCategory;
-        private TextView tvPrice;
-        private TextView tvCount;
-        private CheckBox cbSelect;
-        private ImageView btAdd;
-        private ImageView btSub;
-        private ImageView image;
+        private final TextView tvName;
+        private final TextView tvCategory;
+        private final TextView tvPrice;
+        private final TextView tvCount;
+        private final CheckBox cbSelect;
+        private final ImageView btAdd;
+        private final ImageView btSub;
+        private final ImageView image;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,48 +91,36 @@ public class CartGoodsAdapter extends RecyclerView.Adapter<CartGoodsAdapter.MyHo
             GlideUtils.setImage(mContext, Constants.RES_URL+data.getGoods().getPathList().get(0), image);
             cbSelect.setChecked(data.getSelect());
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClickListener != null){
-                        onItemClickListener.setOnItemClickListener(goodsList, v, fPosition, getAdapterPosition());
-                    }
+            itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null){
+                    onItemClickListener.setOnItemClickListener(goodsList, v, fPosition, getAdapterPosition());
                 }
             });
 
-            cbSelect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onSelectListener != null){
-                        onSelectListener.setOnSelectListener(cbSelect.isChecked(), v, fPosition, getAdapterPosition());
-                    }
+            cbSelect.setOnClickListener(v -> {
+                if (onSelectListener != null){
+                    onSelectListener.setOnSelectListener(cbSelect.isChecked(), v, fPosition, getAdapterPosition());
                 }
             });
 
-            btAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (goodsList.get(getAdapterPosition()).getCount() < goodsList.get(getAdapterPosition()).getGoods().getCount()){
-                        goodsList.get(getAdapterPosition()).setCount(goodsList.get(getAdapterPosition()).getCount()+1);
-                        notifyItemChanged(getAdapterPosition());
-                    } else {
-                        Toast.makeText(mContext, "数量已达到该商品最大库存", Toast.LENGTH_SHORT).show();
-                    }
-                    onCountChangeListener.setOnCountChangeListener(goodsList.get(getAdapterPosition()), v, fPosition, getAdapterPosition());
+            btAdd.setOnClickListener(v -> {
+                if (goodsList.get(getAdapterPosition()).getCount() < goodsList.get(getAdapterPosition()).getGoods().getCount()){
+                    goodsList.get(getAdapterPosition()).setCount(goodsList.get(getAdapterPosition()).getCount()+1);
+                    notifyItemChanged(getAdapterPosition());
+                } else {
+                    Toast.makeText(mContext, "数量已达到该商品最大库存", Toast.LENGTH_SHORT).show();
                 }
+                onCountChangeListener.setOnCountChangeListener(goodsList.get(getAdapterPosition()), v, fPosition, getAdapterPosition());
             });
 
-            btSub.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (goodsList.get(getAdapterPosition()).getCount() > 1){
-                        goodsList.get(getAdapterPosition()).setCount(goodsList.get(getAdapterPosition()).getCount()-1);
-                        notifyItemChanged(getAdapterPosition());
-                    } else {
-                        Toast.makeText(mContext, "购物车数量至少为1", Toast.LENGTH_SHORT).show();
-                    }
-                    onCountChangeListener.setOnCountChangeListener(goodsList.get(getAdapterPosition()), v, fPosition, getAdapterPosition());
+            btSub.setOnClickListener(v -> {
+                if (goodsList.get(getAdapterPosition()).getCount() > 1){
+                    goodsList.get(getAdapterPosition()).setCount(goodsList.get(getAdapterPosition()).getCount()-1);
+                    notifyItemChanged(getAdapterPosition());
+                } else {
+                    Toast.makeText(mContext, "购物车数量至少为1", Toast.LENGTH_SHORT).show();
                 }
+                onCountChangeListener.setOnCountChangeListener(goodsList.get(getAdapterPosition()), v, fPosition, getAdapterPosition());
             });
         }
     }

@@ -23,7 +23,6 @@ import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
 public class FavoriteAdapter extends BaseAdapter<Favorite> {
 
     private boolean edit = false;
-    private boolean selectAll = false;
 
     public FavoriteAdapter(Context context, List<Favorite> dataList) {
         super(context, dataList);
@@ -58,20 +57,13 @@ public class FavoriteAdapter extends BaseAdapter<Favorite> {
         }
 
         CheckBox checkBox = holder.getView(R.id.itm_favorite_goods_cb);
-        checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSelectListener.setOnSelectListener(checkBox.isChecked(), data, position);
-            }
-        });
+        checkBox.setOnClickListener(v ->
+                onSelectListener.setOnSelectListener(checkBox.isChecked(), data, position));
 
-        holder.setOnClickListener(holder.getConvertView(),new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItemClickListener != null){
-                    mItemClickListener.onItemClick(holder,data,position);
-                    onSelectListener.setOnSelectListener(checkBox.isChecked(), data, position);
-                }
+        holder.setOnClickListener(holder.getConvertView(), v -> {
+            if (mItemClickListener != null){
+                mItemClickListener.onItemClick(holder,data,position);
+                onSelectListener.setOnSelectListener(checkBox.isChecked(), data, position);
             }
         });
     }

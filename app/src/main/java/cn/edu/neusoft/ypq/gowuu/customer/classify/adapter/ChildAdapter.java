@@ -1,7 +1,6 @@
 package cn.edu.neusoft.ypq.gowuu.customer.classify.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,12 +46,8 @@ public class ChildAdapter extends BaseAdapter<GoodsClassify> {
         @Override
         protected void convert(ViewHolder holder, GoodsClassifyItem data, int position) {
             holder.setText(R.id.classify_child_name, data.getName());
-            holder.setOnClickListener(holder.getConvertView(), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemSelectListener.setOnSelectListener(holder, data, position);
-                }
-            });
+            holder.setOnClickListener(holder.getConvertView(), v ->
+                    onItemSelectListener.setOnSelectListener(holder, data, position));
         }
 
         @Override

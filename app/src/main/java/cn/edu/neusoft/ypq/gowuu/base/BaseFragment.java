@@ -24,7 +24,7 @@ public abstract class BaseFragment<T> extends Fragment {
     protected Context mContext;
     protected List<T> dataList;
 
-    protected BaseAdapter<T> adapter;
+//    protected BaseAdapter<T> adapter;
     protected Integer page;
     protected Integer pageSize;
     public Boolean pageEnd = false;

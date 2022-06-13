@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,15 +21,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.customer.classify.adapter.ChildAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.classify.adapter.ParentAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.classify.bean.GoodsClassify;
 import cn.edu.neusoft.ypq.gowuu.customer.classify.bean.GoodsClassifyItem;
-import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.RequestImgAdapter;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
@@ -46,7 +42,7 @@ import cz.msebera.android.httpclient.Header;
  *      4.
  */
 
-public class ClassifyFragment extends BaseFragment {
+public class ClassifyFragment extends BaseFragment<Void> {
 
     ParentAdapter parentAdapter = new ParentAdapter(mContext, null);
     ChildAdapter childAdapter = new ChildAdapter(mContext, null);
@@ -139,18 +135,10 @@ public class ClassifyFragment extends BaseFragment {
     }
 
     public void setOnListener() {
-        parentAdapter.setOnSelectListener(new ParentAdapter.OnItemSelectListener() {
-            @Override
-            public void setOnSelectListener(ViewHolder holder, GoodsClassifyItem data, int position) {
-                getChild(data.getId());
-            }
-        });
+        parentAdapter.setOnSelectListener((holder, data, position) -> getChild(data.getId()));
 
-        childAdapter.setOnSelectListener(new ChildAdapter.OnItemSelectListener() {
-            @Override
-            public void setOnSelectListener(ViewHolder holder, GoodsClassifyItem data, int position) {
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new ClassifyGoodsFragment(data.getId(), data.getName()));
-            }
-        });
+        childAdapter.setOnSelectListener((holder, data, position) ->
+                FragmentUtils.changeFragment(requireActivity(),
+                        R.id.main_frameLayout, new ClassifyGoodsFragment(data.getId(), data.getName())));
     }
 }

@@ -52,6 +52,7 @@ import cz.msebera.android.httpclient.Header;
 public class GoodsEditFragment extends BaseFragment<Uri> {
     private final Goods goods;
     private final boolean isEdit;
+    private RequestImgAdapter adapter;
     String[] category = new String[3];
 
     private final String url = Constants.GOODS_CATEGORY_URL;

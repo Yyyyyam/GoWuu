@@ -40,7 +40,7 @@ public class AdminManageFragment extends BaseFragment<Void> {
                 switch (position){
                     case 0: return new ManageUserFragment();
                     case 1: return new ManageGoodsFragment();
-                    default: return null;
+                    default: return new ManageUserFragment();
                 }
             }
 

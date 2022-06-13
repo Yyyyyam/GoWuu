@@ -42,10 +42,9 @@ import cz.msebera.android.httpclient.Header;
  * 时间:2022/3/10
  * 功能:OrderNotPayFragment
  */
-public class OrderSendFragment extends BaseFragment {
-    public static boolean pageEnd = false;
+public class OrderSendFragment extends BaseFragment<Order> {
 
-    public static BusinessOrderAdapter adapter;
+    private BusinessOrderAdapter adapter;
     private OrderChangeReceiver receiver;
     private LocalBroadcastManager broadcastManager;
 

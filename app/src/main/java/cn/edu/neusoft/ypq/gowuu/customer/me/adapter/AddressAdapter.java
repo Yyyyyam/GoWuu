@@ -32,19 +32,11 @@ public class AddressAdapter extends BaseAdapter<Address> {
         holder.setText(R.id.itm_address_tv_detail, data.getDetail());
         holder.setText(R.id.itm_address_tv_name, data.getName());
         holder.setText(R.id.itm_address_tv_phone, data.getPhone());
-        holder.setOnClickListener(R.id.itm_address_ib_edit, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mItemClickListener.onItemClick(holder, data, position);
-            }
-        });
+        holder.setOnClickListener(R.id.itm_address_ib_edit, v ->
+                mItemClickListener.onItemClick(holder, data, position));
 
-        holder.getConvertView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSelectListener.select(holder, data, position);
-            }
-        });
+        holder.getConvertView().setOnClickListener(v ->
+                mSelectListener.select(holder, data, position));
     }
 
     @Override

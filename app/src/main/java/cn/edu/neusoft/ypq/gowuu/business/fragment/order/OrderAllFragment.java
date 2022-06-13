@@ -3,7 +3,6 @@ package cn.edu.neusoft.ypq.gowuu.business.fragment.order;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
@@ -22,7 +21,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -47,7 +45,7 @@ import cz.msebera.android.httpclient.Header;
  * 功能:OrderNotPayFragment
  */
 public class OrderAllFragment extends BaseFragment<Order> {
-    public static BusinessOrderAdapter adapter;
+    private BusinessOrderAdapter adapter;
     private OrderChangeReceiver receiver;
 
     @BindView(R.id.fragment_recycler_view)
@@ -135,9 +133,10 @@ public class OrderAllFragment extends BaseFragment<Order> {
                     }.getType();
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage() == null){
+                        Order orderData = new Order(order);
                         Intent intent = new Intent();
                         intent.setAction(OrderChangeReceiver.ORDER_STATE_CANCELED);
-                        intent.putExtra("order", new Order(order));
+                        intent.putExtra("order", orderData);
                         broadcastManager.sendBroadcast(intent);
                     } else {
                         Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
@@ -179,9 +178,10 @@ public class OrderAllFragment extends BaseFragment<Order> {
                     }.getType();
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage() == null){
+                        Order orderData = new Order(order);
                         Intent intent = new Intent();
                         intent.setAction(OrderChangeReceiver.ORDER_STATE_SEND);
-                        intent.putExtra("order", new Order(order));
+                        intent.putExtra("order", orderData);
                         LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
                     } else {
                         Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
@@ -210,9 +210,10 @@ public class OrderAllFragment extends BaseFragment<Order> {
                         }.getType();
                         PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                         if (postMessage.getMessage() == null){
+                            Order orderData = new Order(order);
                             Intent intent = new Intent();
                             intent.setAction(OrderChangeReceiver.ORDER_PRICE_MODIFIED);
-                            intent.putExtra("order", new Order(order));
+                            intent.putExtra("order", orderData);
                             intent.putExtra("price", price);
                             LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
                         } else {

@@ -24,7 +24,6 @@ import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Business;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
-import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.CartHeader;
 import cn.edu.neusoft.ypq.gowuu.customer.home.bean.Favorite;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.dialog.BuyDialogFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.me.extra.request.RequestFragment;
@@ -39,7 +38,7 @@ import cz.msebera.android.httpclient.Header;
  * 功能:GoodsFrameFragment
  */
 public class GoodsFrameFragment extends BaseFragment<Void> {
-    private Goods goods;
+    private final Goods goods;
     private Favorite favorite;
     @BindView(R.id.goods_frame_tv_favorite)
     TextView tvFavorite;

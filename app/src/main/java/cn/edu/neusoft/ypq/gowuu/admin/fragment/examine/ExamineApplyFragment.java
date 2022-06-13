@@ -36,6 +36,8 @@ import cz.msebera.android.httpclient.Header;
  */
 public class ExamineApplyFragment extends BaseFragment<Examine> {
 
+    private ExamineAdapter adapter;
+
     @BindView(R.id.fragment_recycler_view)
     RecyclerView recyclerView;
 

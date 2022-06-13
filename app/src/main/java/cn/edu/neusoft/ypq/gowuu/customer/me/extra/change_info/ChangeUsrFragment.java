@@ -1,9 +1,10 @@
 package cn.edu.neusoft.ypq.gowuu.customer.me.extra.change_info;
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -24,11 +25,11 @@ import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
  * 时间:2022/3/4
  * 功能:ChangeUsrFragment
  */
-public class ChangeUsrFragment extends BaseFragment {
+public class ChangeUsrFragment extends BaseFragment<Void> {
 
-    private int position;
-    private User user;
-    private boolean isManage;
+    private final int position;
+    private final User user;
+    private final boolean isManage;
 
     @BindView(R.id.usr_info_tablayout)
     TabLayout tabLayout;
@@ -47,7 +48,7 @@ public class ChangeUsrFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         viewPager2.setAdapter(new FragmentStateAdapter((FragmentActivity) mContext) {
             @Override
-            public androidx.fragment.app.Fragment createFragment(int position) {
+            public Fragment createFragment(int position) {
                 switch (position){
                     case 0: return new ChangeInfoFragment(user, isManage);
                     case 1: return new ChangePasFragment(user, isManage);
@@ -64,7 +65,7 @@ public class ChangeUsrFragment extends BaseFragment {
 
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
-            public void onConfigureTab(TabLayout.Tab tab, int position) {
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 switch (position){
                     case 0:
                         tab.setText("修改资料");

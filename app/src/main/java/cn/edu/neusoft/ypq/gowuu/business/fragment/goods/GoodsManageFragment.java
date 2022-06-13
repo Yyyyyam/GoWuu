@@ -39,6 +39,7 @@ import cz.msebera.android.httpclient.Header;
  * 功能:GoodsManageFragment
  */
 public class GoodsManageFragment  extends BaseFragment<Goods> {
+    private GoodsAdapter adapter;
     @BindView(R.id.fragment_recycler_view)
     RecyclerView recyclerView;
 

@@ -1,7 +1,5 @@
 package cn.edu.neusoft.ypq.gowuu.customer.me.extra.address;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,9 +45,9 @@ public class AddressEditFragment extends BaseFragment<Void> {
     private List<District> pDistrict = new ArrayList<>();
     private List<District> cDistrict = new ArrayList<>();
     private List<District> aDistrict = new ArrayList<>();
-    private List<String> pList = new ArrayList<>();
-    private List<String> cList = new ArrayList<>();
-    private List<String> aList = new ArrayList<>();
+    private final List<String> pList = new ArrayList<>();
+    private final List<String> cList = new ArrayList<>();
+    private final List<String> aList = new ArrayList<>();
     private ArrayAdapter<String> adapter;
     String url = Constants.DISTRICT_URL;
 
@@ -93,11 +91,7 @@ public class AddressEditFragment extends BaseFragment<Void> {
             etPhone.setText(address.getPhone());
             etDetail.setText(address.getDetail());
             etTag.setText(address.getTag());
-            if (address.getIsDefault() == 1){
-                isDefault.setChecked(true);
-            }else {
-                isDefault.setChecked(false);
-            }
+            isDefault.setChecked(address.getIsDefault() == 1);
         }
         initLocation();
     }
@@ -269,7 +263,8 @@ public class AddressEditFragment extends BaseFragment<Void> {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                     String response = new String(responseBody, StandardCharsets.UTF_8);
-                    PostMessage postMessage = new Gson().fromJson(response, PostMessage.class);
+                    Type type = new TypeToken<PostMessage<Void>>() {}.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage()==null){
                         Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
                         FragmentUtils.popBack(requireActivity());
@@ -302,7 +297,8 @@ public class AddressEditFragment extends BaseFragment<Void> {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody, StandardCharsets.UTF_8);
-                PostMessage postMessage = new Gson().fromJson(response, PostMessage.class);
+                Type type = new TypeToken<PostMessage<Void>>() {}.getType();
+                PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage()==null){
                     Toast.makeText(mContext,"删除成功",Toast.LENGTH_SHORT).show();
                     FragmentUtils.popBack(requireActivity());

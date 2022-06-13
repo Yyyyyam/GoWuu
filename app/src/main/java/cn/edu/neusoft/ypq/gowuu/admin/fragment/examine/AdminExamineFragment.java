@@ -40,7 +40,7 @@ public class AdminExamineFragment extends BaseFragment<Void> {
                 switch (position){
                     case 0: return new ExamineApplyFragment();
                     case 1: return new ExamineReportFragment();
-                    default: return null;
+                    default: return new ExamineApplyFragment();
                 }
             }
 

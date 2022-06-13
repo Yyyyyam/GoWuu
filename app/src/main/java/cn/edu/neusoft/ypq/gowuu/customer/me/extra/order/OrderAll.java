@@ -1,9 +1,14 @@
 package cn.edu.neusoft.ypq.gowuu.customer.me.extra.order;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,15 +28,11 @@ import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
-import cn.edu.neusoft.ypq.gowuu.business.fragment.goods.GoodsEditFragment;
-import cn.edu.neusoft.ypq.gowuu.business.fragment.order.OrderNotPayFragment;
-import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.AddressAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.OrderAdapter;
-import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Address;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.OrderGoods;
 import cn.edu.neusoft.ypq.gowuu.customer.me.extra.evaluation.GoodsEvaluation;
+import cn.edu.neusoft.ypq.gowuu.receiver.OrderChangeReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
@@ -44,7 +45,9 @@ import cz.msebera.android.httpclient.Header;
  * 功能:OrderAll
  */
 public class OrderAll extends BaseFragment<Order> {
-    public static OrderAdapter adapter;
+    private OrderAdapter adapter;
+    private OrderChangeReceiver receiver;
+    private LocalBroadcastManager broadcastManager;
 
     @BindView(R.id.order_state_rv)
     RecyclerView recyclerView;
@@ -129,22 +132,11 @@ public class OrderAll extends BaseFragment<Order> {
                     }.getType();
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage() == null){
-                        if (order.getState() == 0 && OrderNotPay.adapter != null){
-                            int p = OrderNotPay.adapter.getDataList().indexOf(order);
-                            if (p != -1){
-                                OrderNotPay.adapter.getDataList().remove(p);
-                                OrderNotPay.adapter.notifyItemRemoved(p);
-                            }
-                        } else if (order.getState() == 1 && OrderNotSend.adapter != null){
-                            int p = OrderNotSend.adapter.getDataList().indexOf(order);
-                            if (p != -1){
-                                OrderNotSend.adapter.getDataList().remove(p);
-                                OrderNotSend.adapter.notifyItemRemoved(p);
-                            }
-                        }
-                        int p = adapter.getDataList().indexOf(order);
-                        adapter.getDataList().remove(order);
-                        adapter.notifyItemRemoved(p);
+                        Order orderData = new Order(order);
+                        Intent i = new Intent();
+                        i.setAction(OrderChangeReceiver.ORDER_STATE_CANCELED);
+                        i.putExtra("order", orderData);
+                        broadcastManager.sendBroadcast(i);
                     } else {
                         Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -157,108 +149,148 @@ public class OrderAll extends BaseFragment<Order> {
             });
         });
 
-        adapter.pay(new OrderAdapter.OnOrderPayListener() {
-            @Override
-            public void pay(ViewHolder holder, Order order, int position) {
-                String url = Constants.ORDER_URL+"/change_state";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("oid", order.getOid());
-                params.put("state", 1);
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null){
-                            if (OrderNotPay.adapter != null){
-                                int p = OrderNotPay.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderNotPay.adapter.getDataList().remove(p);
-                                    OrderNotPay.adapter.notifyItemRemoved(p);
-                                }
-                            }
-                            adapter.getDataList().get(position).setState(1);
-                            adapter.notifyItemChanged(position);
-                            if (OrderNotSend.adapter != null && OrderNotSend.pageEnd){
-                                Order paidData = adapter.getDataList().get(position);
-                                OrderNotSend.adapter.insert(paidData);
-                            }
-                        } else {
-                            Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+        adapter.pay((holder, order, position) -> {
+            String url = Constants.ORDER_URL+"/change_state";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("oid", order.getOid());
+            params.put("state", 1);
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<Void>>() {}.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null){
+                        Order orderData = new Order(order);
+                        Intent i = new Intent();
+                        i.setAction(OrderChangeReceiver.ORDER_STATE_PAID);
+                        i.putExtra("order", orderData);
+                        broadcastManager.sendBroadcast(i);
+                    } else {
+                        Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
-        adapter.receive(new OrderAdapter.OnOrderReceiveListener() {
-            @Override
-            public void receive(ViewHolder holder, Order order, int position) {
-                String url = Constants.ORDER_URL+"/change_state";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("oid", order.getOid());
-                params.put("state", 3);
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null){
-                            if (OrderNotReceive.adapter != null){
-                                int p = OrderNotReceive.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderNotReceive.adapter.getDataList().remove(p);
-                                    OrderNotReceive.adapter.notifyItemRemoved(p);
-                                }
-                            }
-                            order.setState(3);
-                            for (int i=0; i<order.getGoodsList().size(); i++){
-                                OrderGoods goods = order.getGoodsList().get(i);
-                                goods.setState(2);
-                            }
-                            adapter.notifyItemChanged(position);
-                            if (OrderReceived.adapter != null && OrderReceived.pageEnd){
-                                Order receivedData = adapter.getDataList().get(position);
-                                OrderReceived.adapter.insert(receivedData);
-                            }
-                        } else {
-                            Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+        adapter.receive((holder, order, position) -> {
+            String url = Constants.ORDER_URL+"/change_state";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("oid", order.getOid());
+            params.put("state", 3);
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<Void>>() {
+                    }.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null){
+                        Order orderData = new Order(order);
+                        Intent i = new Intent();
+                        i.setAction(OrderChangeReceiver.ORDER_STATE_RECEIVED);
+                        i.putExtra("order", orderData);
+                        broadcastManager.sendBroadcast(i);
+                    } else {
+                        Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
-        adapter.evaluation(new OrderAdapter.OnGoodsEvaluationListener() {
-            @Override
-            public void evaluation(ViewHolder holder, OrderGoods goods, int fPosition, int position) {
-                //设计评价界面，包括好评差评、评价内容和图片
-                Order data = adapter.getDataList().get(fPosition);
-                GoodsEvaluation.order = new Order();
-                GoodsEvaluation.order.setBznsName(data.getBznsName());
-                GoodsEvaluation.order.setPosition(fPosition);
-                List<OrderGoods> goodsList = new ArrayList<>();
-                goods.setPosition(position);
-                goodsList.add(goods);
-                GoodsEvaluation.order.setGoodsList(goodsList);
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsEvaluation());
-            }
+        adapter.evaluation((holder, goods, fPosition, position) -> {
+            //设计评价界面，包括好评差评、评价内容和图片
+            Order data = adapter.getDataList().get(fPosition);
+            GoodsEvaluation.order = new Order(data);
+            GoodsEvaluation.position = position;
+            FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsEvaluation());
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_CANCELED);
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_PAID);
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_RECEIVED);
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_EVALUATION);
+        receiver = new OrderChangeReceiver();
+        broadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        broadcastManager.registerReceiver(receiver, filter);
+
+        receiver.canceled(this::cancel);
+        receiver.paid(this::pay);
+        receiver.received(this::receive);
+        receiver.evaluation(this::evaluation);
+    }
+
+    private void cancel(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        int position = adapter.getDataList().indexOf(order);
+        if (position != -1) {
+            adapter.getDataList().remove(order);
+            adapter.notifyItemRemoved(position);
+        }
+    }
+
+    private void pay(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (order != null) {
+            order.setState(0);
+            int position = adapter.getDataList().indexOf(order);
+            if (position != -1) {
+                adapter.getDataList().get(position).setState(1);
+                adapter.notifyItemChanged(position);
+            }
+        }
+
+    }
+
+    private void receive(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (order != null) {
+            order.setState(2);
+            int position = adapter.getDataList().indexOf(order);
+            if (position != -1) {
+                Order data = adapter.getDataList().get(position);
+                data.setState(3);
+                for (int i = 0; i< data.getGoodsList().size(); i++){
+                    OrderGoods goods = data.getGoodsList().get(i);
+                    goods.setState(1);
+                }
+            }
+            adapter.notifyItemChanged(position);
+        }
+    }
+
+    private void evaluation(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (order != null) {
+            order.setState(3);
+            int pOrder = adapter.getDataList().indexOf(order);
+            if (pOrder != -1) {
+                adapter.getDataList().get(pOrder).getGoodsList().get(GoodsEvaluation.position).setState(2);
+                adapter.notifyItemChanged(pOrder);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(receiver);
     }
 }

@@ -1,9 +1,14 @@
 package cn.edu.neusoft.ypq.gowuu.customer.me.extra.order;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,12 +28,9 @@ import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
-import cn.edu.neusoft.ypq.gowuu.business.fragment.order.OrderSendFragment;
-import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.CartGoods;
 import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.OrderAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
-import cn.edu.neusoft.ypq.gowuu.customer.me.bean.OrderGoods;
+import cn.edu.neusoft.ypq.gowuu.receiver.OrderChangeReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
 import cn.edu.neusoft.ypq.gowuu.utils.RecyclerViewUtils;
@@ -40,7 +42,9 @@ import cz.msebera.android.httpclient.Header;
  * 功能:OrderNotReceive
  */
 public class OrderNotReceive extends BaseFragment<Order> {
-    public static OrderAdapter adapter;
+    private OrderAdapter adapter;
+    private OrderChangeReceiver receiver;
+    private LocalBroadcastManager broadcastManager;
 
     @BindView(R.id.order_state_rv)
     RecyclerView recyclerView;
@@ -113,58 +117,65 @@ public class OrderNotReceive extends BaseFragment<Order> {
     }
 
     private void setClickListener(){
-        adapter.receive(new OrderAdapter.OnOrderReceiveListener() {
-            @Override
-            public void receive(ViewHolder holder, Order order, int position) {
-                String url = Constants.ORDER_URL+"/change_state";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("oid", order.getOid());
-                params.put("state", 3);
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null){
-                            if (OrderAll.adapter != null){
-                                int p = OrderAll.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderAll.adapter.getDataList().get(p).setState(3);
-                                    OrderAll.adapter.notifyItemChanged(p);
-                                    List<OrderGoods> goodsList = OrderAll.adapter.goodsAdapterList.get(p).getDataList();
-                                    for (int i=0; i<goodsList.size(); i++){
-                                        OrderGoods goods = goodsList.get(i);
-                                        goods.setState(1);
-                                        OrderAll.adapter.goodsAdapterList.get(p).notifyItemChanged(i);
-                                    }
-                                }
-                            }
-                            if (OrderSendFragment.adapter != null && OrderSendFragment.pageEnd){
-                                Order receivedData = adapter.getDataList().get(position);
-                                receivedData.setState(3);
-                                for (int i=0; i<receivedData.getGoodsList().size(); i++) {
-                                    OrderGoods goods = receivedData.getGoodsList().get(i);
-                                    goods.setState(2);
-                                }
-                                OrderSendFragment.adapter.insert(receivedData);
-                            }
-                            int p = adapter.getDataList().indexOf(order);
-                            adapter.getDataList().remove(order);
-                            adapter.notifyItemRemoved(p);
-                        } else {
-                            Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+        adapter.receive((holder, order, position) -> {
+            String url = Constants.ORDER_URL+"/change_state";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("oid", order.getOid());
+            params.put("state", 3);
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<Void>>() {
+                    }.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null){
+                        Order orderData = new Order(order);
+                        Intent i = new Intent();
+                        i.setAction(OrderChangeReceiver.ORDER_STATE_RECEIVED);
+                        i.putExtra("order", orderData);
+                        broadcastManager.sendBroadcast(i);
+                    } else {
+                        Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_RECEIVED);
+        receiver = new OrderChangeReceiver();
+        broadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        broadcastManager.registerReceiver(receiver, filter);
+
+        receiver.received(this::receive);
+    }
+
+    private void receive(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (order != null){
+            order.setState(2);
+            int position = adapter.getDataList().indexOf(order);
+            if (position != -1){
+                adapter.getDataList().remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(receiver);
     }
 }

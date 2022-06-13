@@ -37,6 +37,7 @@ import cz.msebera.android.httpclient.Header;
  * 功能:ExamineReportFragment
  */
 public class ExamineReportFragment extends BaseFragment<Examine> {
+    private ExamineAdapter adapter;
 
     @BindView(R.id.fragment_recycler_view)
     RecyclerView recyclerView;

@@ -1,7 +1,6 @@
 package cn.edu.neusoft.ypq.gowuu.admin.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import java.util.List;
 

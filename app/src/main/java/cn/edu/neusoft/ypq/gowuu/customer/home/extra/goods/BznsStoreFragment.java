@@ -26,12 +26,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.GoodsAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Business;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
-import cn.edu.neusoft.ypq.gowuu.customer.classify.fragment.ClassifyGoodsFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.CheckUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
@@ -45,8 +42,9 @@ import cz.msebera.android.httpclient.Header;
  * 功能:BznsStoreFragment
  */
 public class BznsStoreFragment extends BaseFragment<Goods> {
-    private Business business;
+    private final Business business;
     private int position = 0;
+    private GoodsAdapter adapter;
 
     @BindView(R.id.cstm_type_tv_title)
     TextView tvTitle;
@@ -130,12 +128,9 @@ public class BznsStoreFragment extends BaseFragment<Goods> {
     }
 
     public void setClickListener(){
-        adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Goods data, int position) {
-                pageEnd = false;
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
-            }
+        adapter.setOnItemClickListener((holder, data, position) -> {
+            pageEnd = false;
+            FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
         });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

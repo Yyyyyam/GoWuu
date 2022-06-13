@@ -41,7 +41,8 @@ import cz.msebera.android.httpclient.Header;
  * 功能:ManageUserFragment
  */
 public class ManageUserFragment extends BaseFragment<User> {
-    String name;
+    private String name;
+    private UserAdapter adapter;
 
     @BindView(R.id.admin_manage_rv)
     RecyclerView recyclerView;

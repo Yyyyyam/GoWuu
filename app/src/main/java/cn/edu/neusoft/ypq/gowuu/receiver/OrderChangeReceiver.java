@@ -31,6 +31,8 @@ public class OrderChangeReceiver extends BroadcastReceiver {
             sendListener.send(intent);
         } else if (ORDER_STATE_RECEIVED.equals(intent.getAction())) {
             receivedListener.received(intent);
+        } else if (ORDER_STATE_EVALUATION.equals(intent.getAction())) {
+            evaluationListener.evaluation(intent);
         }
     }
     // 订单付款状态

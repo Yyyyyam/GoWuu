@@ -28,7 +28,6 @@ import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.Cart;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.CartGoods;
-import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsDetailFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.order.OrderConfirmFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.order.OrderConfirmFrameFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
@@ -41,7 +40,7 @@ import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
  * 功能:BuyDialogFragment
  */
 public class BuyDialogFragment extends DialogFragment {
-    private Goods goods;
+    private final Goods goods;
     public static boolean state = false;
     private int buyCount = 1;
 
@@ -62,14 +61,15 @@ public class BuyDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         //将对话框外部（未被遮挡的部分）的背景设置为透明
-        Window window = getDialog().getWindow();
-        WindowManager.LayoutParams params = window.getAttributes();
-        params.gravity = Gravity.BOTTOM;
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.6);//显示高度为60%
-        params.height = height;
-        window.setAttributes(params);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        if (getDialog() != null) {
+            Window window = getDialog().getWindow();
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.gravity = Gravity.BOTTOM;
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.6);
+            window.setAttributes(params);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
     }
 
     @Nullable
@@ -115,16 +115,18 @@ public class BuyDialogFragment extends DialogFragment {
 
     @OnClick(R.id.dialog_buy_bt_buy)
     public void buy(){
-        getDialog().dismiss();
-        //将商品数据传输到提交订单界面
-        OrderConfirmFragment.cart = new Cart();
-        List<CartGoods> goodsList = new ArrayList<>();
-        CartGoods cartGoods = new CartGoods();
-        cartGoods.setGoods(goods);
-        cartGoods.setCount(buyCount);
-        goodsList.add(cartGoods);
-        OrderConfirmFragment.cart.setGoodsList(goodsList);
-        state = true;
-        FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new OrderConfirmFrameFragment());
+        if (getDialog() != null) {
+            getDialog().dismiss();
+            //将商品数据传输到提交订单界面
+            OrderConfirmFragment.cart = new Cart();
+            List<CartGoods> goodsList = new ArrayList<>();
+            CartGoods cartGoods = new CartGoods();
+            cartGoods.setGoods(goods);
+            cartGoods.setCount(buyCount);
+            goodsList.add(cartGoods);
+            OrderConfirmFragment.cart.setGoodsList(goodsList);
+            state = true;
+            FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new OrderConfirmFrameFragment());
+        }
     }
 }

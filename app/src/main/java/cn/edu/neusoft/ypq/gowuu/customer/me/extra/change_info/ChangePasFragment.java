@@ -30,9 +30,9 @@ import cz.msebera.android.httpclient.Header;
  * 时间:2022/3/4
  * 功能:ChangePasFragment
  */
-public class ChangePasFragment extends BaseFragment {
-    private User user;
-    private boolean isManage = false;
+public class ChangePasFragment extends BaseFragment<Void> {
+    private final User user;
+    private boolean isManage;
 
     @BindView(R.id.usr_et_old_pas)
     EditText etOldPas;

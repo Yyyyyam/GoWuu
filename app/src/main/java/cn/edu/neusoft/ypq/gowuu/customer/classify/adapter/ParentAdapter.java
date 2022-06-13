@@ -1,7 +1,6 @@
 package cn.edu.neusoft.ypq.gowuu.customer.classify.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import java.util.List;
 
@@ -29,15 +28,12 @@ public class ParentAdapter extends BaseAdapter<GoodsClassifyItem> {
             holder.setTextSelect(R.id.classify_parent_name, R.color.orange, 18, true);
         else
             holder.setTextSelect(R.id.classify_parent_name, R.color.back_gray, 16, false);
-        holder.setOnClickListener(holder.getConvertView(), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int lastPosition = selectedPosition;
-                selectedPosition = position;
-                notifyItemChanged(lastPosition);
-                notifyItemChanged(selectedPosition);
-                itemSelectListener.setOnSelectListener(holder, data, position);
-            }
+        holder.setOnClickListener(holder.getConvertView(), v -> {
+            int lastPosition = selectedPosition;
+            selectedPosition = position;
+            notifyItemChanged(lastPosition);
+            notifyItemChanged(selectedPosition);
+            itemSelectListener.setOnSelectListener(holder, data, position);
         });
     }
 

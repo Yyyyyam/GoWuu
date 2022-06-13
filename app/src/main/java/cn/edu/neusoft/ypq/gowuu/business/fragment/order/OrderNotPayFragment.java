@@ -47,12 +47,12 @@ import cz.msebera.android.httpclient.Header;
  * 功能:OrderNotPayFragment
  */
 public class OrderNotPayFragment extends BaseFragment<Order> {
-    public static BusinessOrderAdapter adapter;
+    private BusinessOrderAdapter adapter;
+    private OrderChangeReceiver receiver;
+    private LocalBroadcastManager broadcastManager;
 
     @BindView(R.id.fragment_recycler_view)
     RecyclerView recyclerView;
-    private OrderChangeReceiver receiver;
-    private LocalBroadcastManager broadcastManager;
 
     @Override
     public View initView() {
@@ -135,9 +135,10 @@ public class OrderNotPayFragment extends BaseFragment<Order> {
                     }.getType();
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage() == null){
+                        Order orderData = new Order(order);
                         Intent intent = new Intent();
                         intent.setAction(OrderChangeReceiver.ORDER_STATE_CANCELED);
-                        intent.putExtra("order", new Order(order));
+                        intent.putExtra("order", orderData);
                         broadcastManager.sendBroadcast(intent);
                     } else {
                         Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
@@ -180,9 +181,10 @@ public class OrderNotPayFragment extends BaseFragment<Order> {
                 }.getType();
                 PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage() == null){
+                    Order orderData = new Order(order);
                     Intent intent = new Intent();
                     intent.setAction(OrderChangeReceiver.ORDER_PRICE_MODIFIED);
-                    intent.putExtra("order", new Order(order));
+                    intent.putExtra("order", orderData);
                     intent.putExtra("price", price);
                     LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
                 } else {

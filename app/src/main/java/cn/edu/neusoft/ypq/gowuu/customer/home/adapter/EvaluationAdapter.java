@@ -22,7 +22,7 @@ import cn.edu.neusoft.ypq.gowuu.utils.Constants;
  * 功能:EvaluationAdapter
  */
 public class EvaluationAdapter extends BaseAdapter<Evaluation> {
-    private Boolean isGoodsDetail;
+    private final Boolean isGoodsDetail;
 
     public EvaluationAdapter(Context context, List<Evaluation> dataList, Boolean isGoodsDetail) {
         super(context, dataList);

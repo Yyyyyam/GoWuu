@@ -9,13 +9,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 
-import com.bumptech.glide.Glide;
-import com.loopj.android.http.AsyncHttpClient;
 
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.fragment.MainFragment;
@@ -81,25 +78,21 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.main_frameLayout, new WelcomeFragment())
                 .commit();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.main_frameLayout, new MainFragment())
-                            .commit();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        new Handler().postDelayed(() -> {
+            try {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_frameLayout, new MainFragment())
+                        .commit();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         },1000);
     }
 
     public boolean checkPermission() {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M
-                && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
+        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        &&checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             //请求权限
             requestPermissions(new String[]{
                     Manifest.permission.READ_EXTERNAL_STORAGE,

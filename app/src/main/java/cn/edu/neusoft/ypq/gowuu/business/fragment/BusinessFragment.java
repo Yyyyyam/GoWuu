@@ -40,7 +40,7 @@ public class BusinessFragment extends BaseFragment<Void>{
     @BindView(R.id.rb_4)
     RadioButton rb4;
 
-    private Drawable[] drawables = new Drawable[6];
+    private final Drawable[] drawables = new Drawable[6];
 
 
     @Override

@@ -63,18 +63,18 @@ public class AdminHomeFragment extends BaseFragment<Void> {
     }
 
     public void initAdmin(){
-        tvUserCount.setText("用户数量:"+admin.getUserCount());
-        tvBznsCount.setText("商家数量:"+admin.getBznsCount());
-        tvGoodsCount.setText("商品数量:"+admin.getGoodsCount());
-        tvOrderCount.setText("订单数量:"+admin.getOrderCount());
-        tvRequestCount.setText("申请数量:"+admin.getRequestCount());
-        tvRequestUnhandled.setText("未处理申请:"+admin.getRequestUnHandledCount());
-        tvReportCount.setText("举报数量"+admin.getReportCount());
-        tvReportUnhandled.setText("未处理举报:"+admin.getReportUnHandledCount());
-        tvDealtCount.setText("成交数量:"+admin.getDealtCount());
-        tvDealtMoney.setText("成交额度￥"+CheckUtils.doubleTrim(admin.getDealtMoney()));
-        tvDealingCount.setText("交易中数量:"+admin.getDealingCount());
-        tvDealingMoney.setText("交易中额度￥"+ CheckUtils.doubleTrim(admin.getDealingMoney()));
+        tvUserCount.setText("用户数量:" + admin.getUserCount());
+        tvBznsCount.setText("商家数量:" + admin.getBznsCount());
+        tvGoodsCount.setText("商品数量:" + admin.getGoodsCount());
+        tvOrderCount.setText("订单数量:" + admin.getOrderCount());
+        tvRequestCount.setText("申请数量:" + admin.getRequestCount());
+        tvRequestUnhandled.setText("未处理申请:" + admin.getRequestUnHandledCount());
+        tvReportCount.setText("举报数量" + admin.getReportCount());
+        tvReportUnhandled.setText("未处理举报:" + admin.getReportUnHandledCount());
+        tvDealtCount.setText("成交数量:" + admin.getDealtCount());
+        tvDealtMoney.setText("成交额度￥" + CheckUtils.doubleTrim(admin.getDealtMoney()));
+        tvDealingCount.setText("交易中数量:" + admin.getDealingCount());
+        tvDealingMoney.setText("交易中额度￥" + CheckUtils.doubleTrim(admin.getDealingMoney()));
     }
 
     @OnClick(R.id.admin_home_constraint_request)

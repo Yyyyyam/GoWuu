@@ -13,7 +13,6 @@ import java.util.List;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseAdapter;
 import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
-import cn.edu.neusoft.ypq.gowuu.customer.home.adapter.OrderConfirmAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.OrderGoods;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
@@ -41,46 +40,42 @@ public class OrderAdapter extends BaseAdapter<Order> {
         holder.setText(R.id.itm_odr_tv_business_name, data.getBznsName());
         switch (data.getState()){
             case NOT_PAY:
+                holder.setVisibility(R.id.itm_odr_bt_1, View.VISIBLE);
+                holder.setVisibility(R.id.itm_odr_bt_2, View.VISIBLE);
                 holder.setText(R.id.itm_odr_tv_tag1, "需付款￥");
                 holder.setText(R.id.itm_odr_tv_order_state, "未付款");
                 holder.setText(R.id.itm_odr_bt_1, "取消订单");
                 holder.setText(R.id.itm_odr_bt_2, "确认付款");
-                holder.setOnClickListener(R.id.itm_odr_bt_1, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (onOrderCancelListener != null) onOrderCancelListener.cancel(holder, data, position);
-                    }
+                holder.setOnClickListener(R.id.itm_odr_bt_1, v -> {
+                    if (onOrderCancelListener != null)
+                        onOrderCancelListener.cancel(holder, data, position);
                 });
 
-                holder.setOnClickListener(R.id.itm_odr_bt_2, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (onOrderPayListener != null) onOrderPayListener.pay(holder, data, position);
-                    }
+                holder.setOnClickListener(R.id.itm_odr_bt_2, v -> {
+                    if (onOrderPayListener != null)
+                        onOrderPayListener.pay(holder, data, position);
                 });
                 break;
             case PAID_NOT_SEND:
                 holder.setText(R.id.itm_odr_tv_order_state, "未发货");
                 holder.setVisibility(R.id.itm_odr_bt_1, View.GONE);
                 holder.setText(R.id.itm_odr_bt_2, "取消订单");
+                holder.setVisibility(R.id.itm_odr_bt_2, View.VISIBLE);
                 holder.setTextColor(R.id.itm_odr_bt_2, R.color.gray);
                 holder.setBackground(R.id.itm_odr_bt_2, R.drawable.item_shape_fillet_gray);
-                holder.setOnClickListener(R.id.itm_odr_bt_2, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (onOrderCancelListener != null) onOrderCancelListener.cancel(holder, data, position);
-                    }
+                holder.setOnClickListener(R.id.itm_odr_bt_2, v -> {
+                    if (onOrderCancelListener != null)
+                        onOrderCancelListener.cancel(holder, data, position);
                 });
                 break;
             case SEND_NOT_RECEIVE:
                 holder.setText(R.id.itm_odr_tv_order_state, "未收货");
                 holder.setVisibility(R.id.itm_odr_bt_1, View.GONE);
                 holder.setText(R.id.itm_odr_bt_2, "确认收货");
-                holder.setOnClickListener(R.id.itm_odr_bt_2, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (onOrderReceiveListener != null) onOrderReceiveListener.receive(holder, data, position);
-                    }
+                holder.setVisibility(R.id.itm_odr_bt_2, View.VISIBLE);
+                holder.setOnClickListener(R.id.itm_odr_bt_2, v -> {
+                    if (onOrderReceiveListener != null)
+                        onOrderReceiveListener.receive(holder, data, position);
                 });
                 break;
             case RECEIVED:
@@ -141,7 +136,7 @@ public class OrderAdapter extends BaseAdapter<Order> {
 
     public class OrderGoodsAdapter extends BaseAdapter<OrderGoods> {
 
-        private Integer fPosition;
+        private final Integer fPosition;
 
         public OrderGoodsAdapter(Context context, List<OrderGoods> dataList, int fPosition) {
             super(context, dataList);
@@ -158,12 +153,8 @@ public class OrderAdapter extends BaseAdapter<Order> {
             holder.setText(R.id.itm_odr_tv_goods_count, String.valueOf(data.getCount()));
             if (data.getState() == 1){
                 holder.setVisibility(R.id.itm_odr_bt_appraise, View.VISIBLE);
-                holder.setOnClickListener(R.id.itm_odr_bt_appraise, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onGoodsEvaluationListener.evaluation(holder, data, fPosition, position);
-                    }
-                });
+                holder.setOnClickListener(R.id.itm_odr_bt_appraise, v ->
+                        onGoodsEvaluationListener.evaluation(holder, data, fPosition, position));
             }
         }
 

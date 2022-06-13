@@ -57,7 +57,7 @@ import cz.msebera.android.httpclient.Header;
  * 4.进入
  */
 
-public class MeFragment extends BaseFragment {
+public class MeFragment extends BaseFragment<Void> {
 
     @BindView(R.id.me_tv_user_name)
     TextView tvName;
@@ -289,7 +289,7 @@ public class MeFragment extends BaseFragment {
         SharedPreferences preferences = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
 
         initData();
         Toast.makeText(mContext,"退出成功",Toast.LENGTH_SHORT).show();

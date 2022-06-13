@@ -44,8 +44,9 @@ import cz.msebera.android.httpclient.Header;
  */
 public class RequestFragment extends BaseFragment<Uri> {
 
-    private boolean isRequest = false;
-    private Integer gid;
+    private final boolean isRequest;
+    private final Integer gid;
+    private RequestImgAdapter adapter;
 
     @BindView(R.id.cstm_request_rv)
     RecyclerView recyclerView;
@@ -141,11 +142,10 @@ public class RequestFragment extends BaseFragment<Uri> {
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage()==null){
                         Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(requireActivity());
                     }else {
                         Toast.makeText(mContext, postMessage.getMessage(),Toast.LENGTH_SHORT).show();
-                        FragmentUtils.popBack(requireActivity());
                     }
+                    FragmentUtils.popBack(requireActivity());
                 }
 
                 @Override
@@ -159,13 +159,12 @@ public class RequestFragment extends BaseFragment<Uri> {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case 1:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri uri = data.getData();
-                    //根据uri添加图片到UriList
-                    adapter.insert(uri);
-                }
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getData();
+                //根据uri添加图片到UriList
+                adapter.insert(uri);
+            }
         }
     }
 }

@@ -6,7 +6,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,8 +28,8 @@ import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
  * 功能:ViewHolder
  */
 public class ViewHolder extends RecyclerView.ViewHolder {
-    private SparseArray<View> mViews;
-    private View mConvertView;
+    private final SparseArray<View> mViews;
+    private final View mConvertView;
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -50,9 +49,9 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     /**
      * 通过id获得控件
      *
-     * @param viewId
-     * @param <T>
-     * @return
+     * @param viewId 视图id
+     * @param <T> 泛型
+     * @return 视图
      */
     public <T extends View> T getView(int viewId) {
         View view = mViews.get(viewId);

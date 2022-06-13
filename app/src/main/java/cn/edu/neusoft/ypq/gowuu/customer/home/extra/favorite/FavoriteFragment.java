@@ -1,13 +1,10 @@
 package cn.edu.neusoft.ypq.gowuu.customer.home.extra.favorite;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,18 +26,12 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.customer.home.adapter.FavoriteAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.home.bean.Favorite;
-import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsDetailFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsFrameFragment;
-import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.AddressAdapter;
-import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Address;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
-import cn.edu.neusoft.ypq.gowuu.utils.RecyclerViewUtils;
 import cz.msebera.android.httpclient.Header;
 
 /**
@@ -108,37 +99,26 @@ public class FavoriteFragment extends BaseFragment<Favorite> {
     }
 
     private void setClickListener(){
-        adapter.setOnItemClickListener(new OnItemClickListener<Favorite>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Favorite data, int position) {
-                if (adapter.getEdit()){
-                    data.setIsChecked(!data.getIsChecked());
-                    holder.setChecked(R.id.itm_favorite_goods_cb, data.getIsChecked());
-                } else {
-                    FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data.getGoods()));
-                }
+        adapter.setOnItemClickListener((holder, data, position) -> {
+            if (adapter.getEdit()){
+                data.setIsChecked(!data.getIsChecked());
+                holder.setChecked(R.id.itm_favorite_goods_cb, data.getIsChecked());
+            } else {
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data.getGoods()));
             }
         });
 
-        adapter.setOnSelectListener(new FavoriteAdapter.OnSelectListener() {
-            @Override
-            public void setOnSelectListener(boolean isChecked, Favorite favorite, int position) {
-                List<Favorite> dataList = adapter.getDataList();
-                dataList.get(position).setChecked(isChecked);
-                int count = 0;
-                for (int i=0; i<dataList.size(); i++){
-                    if (dataList.get(i).getChecked()) count+=1;
-                }
-                cbSelectAll.setChecked(count == dataList.size());
+        adapter.setOnSelectListener((isChecked, favorite, position) -> {
+            List<Favorite> dataList = adapter.getDataList();
+            dataList.get(position).setChecked(isChecked);
+            int count = 0;
+            for (int i=0; i<dataList.size(); i++){
+                if (dataList.get(i).getChecked()) count+=1;
             }
+            cbSelectAll.setChecked(count == dataList.size());
         });
 
-        cbSelectAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateSelect(cbSelectAll.isChecked());
-            }
-        });
+        cbSelectAll.setOnClickListener(v -> updateSelect(cbSelectAll.isChecked()));
     }
 
     @OnClick(R.id.cstm_favorite_ib_back)

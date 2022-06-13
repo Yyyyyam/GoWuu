@@ -1,29 +1,21 @@
 package cn.edu.neusoft.ypq.gowuu.customer.home.extra.search;
 
 import android.app.Activity;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.RequestParams;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
-import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 
 /**
@@ -50,24 +42,19 @@ public class SearchFragment extends BaseFragment<String> {
         }
 
         //自动弹出软键盘
-        new Handler().postDelayed(new Runnable(){
-            public void run() {
-                etName.requestFocus();
-                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(etName, InputMethodManager.SHOW_IMPLICIT);
-            }
+        new Handler().postDelayed(() -> {
+            etName.requestFocus();
+            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(etName, InputMethodManager.SHOW_IMPLICIT);
         }, 100);
         //键盘输入的搜索监听
-        etName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                // 按下按钮，这里和xml文件中的EditText中属性imeOptions对应;
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    search();
-                    return false;
-                }
-                return true;//返回true，保留软键盘;false，隐藏软键盘
+        etName.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            // 按下按钮，这里和xml文件中的EditText中属性imeOptions对应;
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                search();
+                return false;
             }
+            return true;//返回true，保留软键盘;false，隐藏软键盘
         });
         return view;
     }

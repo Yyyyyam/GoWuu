@@ -2,13 +2,11 @@ package cn.edu.neusoft.ypq.gowuu.customer.home.extra.order;
 
 import android.view.View;
 
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 
 /**
@@ -17,8 +15,6 @@ import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
  * 功能:OrderConfirmFrameFragment
  */
 public class OrderConfirmFrameFragment extends BaseFragment<Void> {
-
-    public static List<Order> orderList;
 
     @Override
     public View initView() {

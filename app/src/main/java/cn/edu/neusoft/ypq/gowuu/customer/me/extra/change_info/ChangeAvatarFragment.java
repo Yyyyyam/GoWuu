@@ -40,11 +40,11 @@ import cz.msebera.android.httpclient.Header;
  * 时间:2022/3/4
  * 功能:ChangeAvatarFragment
  */
-public class ChangeAvatarFragment extends BaseFragment {
+public class ChangeAvatarFragment extends BaseFragment<Void> {
 
     private File imgFile = null;
     private final User user;
-    private boolean isManage = false;
+    private final boolean isManage;
 
     @BindView(R.id.usr_iv_change_avatar)
     ImageView imgAvatar;
@@ -135,11 +135,13 @@ public class ChangeAvatarFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK) {
-                Uri uri = data.getData();
-                String picPath = FileUtils.getPath(requireActivity(), uri);
-                imgFile = new File(picPath);
-                imgAvatar.setImageURI(uri);
-                Log.d("result", "uri:" + uri + "filePathForN" + picPath);
+                if (data != null) {
+                    Uri uri = data.getData();
+                    String picPath = FileUtils.getPath(requireActivity(), uri);
+                    imgFile = new File(picPath);
+                    imgAvatar.setImageURI(uri);
+                    Log.d("result", "uri:" + uri + "filePathForN" + picPath);
+                }
             }
         }
     }

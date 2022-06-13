@@ -22,7 +22,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     public BaseAdapter(Context context, List<T> dataList) {
         mContext = context;
-        mDataList = dataList == null ? new ArrayList<T>() : dataList;
+        mDataList = dataList == null ? new ArrayList<>() : dataList;
     }
 
     protected abstract void convert(ViewHolder holder, T data, int position);
@@ -32,8 +32,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewHolder viewHolder = ViewHolder.create(mContext, getItemLayoutId(viewType), parent);
-        return viewHolder;
+        return ViewHolder.create(mContext, getItemLayoutId(viewType), parent);
     }
 
     @Override
@@ -63,15 +62,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
         notifyItemRangeInserted(mDataList.size(), list.size());
     }
 
-    public void setNewDataList(List<T> list){
-        mDataList.clear();
-        mDataList.addAll(list);
-        notifyDataSetChanged();
-    }
-
     /**
      * 删除某个位置的数据
-     * @param position
+     * @param position 未知
      */
     public void remove(int position){
         if (position >= mDataList.size() || position < 0) {
@@ -85,8 +78,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     }
     /**
      * 从某个位置开始添加若干个数据
-     * @param datas
-     * @param position
+     * @param datas 数据
+     * @param position 位置
      */
     public void insert(List<T> datas, int position) {
         if (position > mDataList.size() || position < 0) {
@@ -98,7 +91,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
     }
     /**
      * 给列表末尾追加多个数据
-     * @param datas
+     * @param datas 数据
      */
     public void insert(List<T> datas) {
         insert(datas, mDataList.size());
@@ -106,8 +99,8 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 添加单个数据到指定位置
-     * @param data
-     * @param position
+     * @param data 数据
+     * @param position 位置
      */
     public void insert(T data, int position) {
         if (position > mDataList.size() || position < 0) {
@@ -120,7 +113,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 给列表末尾追加单个数据
-     * @param data
+     * @param data 数据
      */
     public void insert(T data) {
         insert(data, mDataList.size());
@@ -128,7 +121,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     /**
      * 更新某个位置的数据
-     * @param position
+     * @param position 位置
      */
     public void change(int position) {
         notifyItemChanged(position);

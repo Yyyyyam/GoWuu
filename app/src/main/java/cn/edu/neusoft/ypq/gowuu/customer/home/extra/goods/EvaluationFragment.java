@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.business.adapter.BusinessOrderAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.home.adapter.EvaluationAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Evaluation;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
@@ -39,6 +38,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class EvaluationFragment extends BaseFragment<Evaluation> {
     public static Integer gid;
+    private EvaluationAdapter adapter;
 
     @BindView(R.id.evaluation_rv)
     RecyclerView recyclerView;
@@ -64,7 +64,7 @@ public class EvaluationFragment extends BaseFragment<Evaluation> {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!pageEnd && ((recyclerView.computeVerticalScrollOffset() > 0)
                         ||(RecyclerViewUtils.isVisBottom(recyclerView)))){
-                    getOrderPage();
+                    getEvaluationPage();
                 }
             }
         });
@@ -74,16 +74,16 @@ public class EvaluationFragment extends BaseFragment<Evaluation> {
     @Override
     public void initData() {
         super.initData();
-        getOrderPage();
+        getEvaluationPage();
     }
 
-    private void getOrderPage(){
+    private void getEvaluationPage(){
         String url = Constants.EVALUATION_URL+"/get_evaluation";
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("gid", gid);
-        params.put("page", 1);
-        params.put("pageSize", 3);
+        params.put("page", page+=1);
+        params.put("pageSize", pageSize);
         client.get(url, params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -92,7 +92,8 @@ public class EvaluationFragment extends BaseFragment<Evaluation> {
                 }.getType();
                 PostMessage<List<Evaluation>> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage() == null){
-                    List<Evaluation> evaluationList = postMessage.getData();
+//                    List<Evaluation> evaluationList = postMessage.getData();
+                    dataList.clear();
                     if (postMessage.getData().size() < pageSize) pageEnd = true;
                     dataList = postMessage.getData();
                     adapter.addMoreData(dataList);

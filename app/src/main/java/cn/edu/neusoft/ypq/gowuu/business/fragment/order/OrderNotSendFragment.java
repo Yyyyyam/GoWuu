@@ -42,7 +42,7 @@ import cz.msebera.android.httpclient.Header;
  * 功能:OrderNotPayFragment
  */
 public class OrderNotSendFragment extends BaseFragment<Order> {
-    public static BusinessOrderAdapter adapter;
+    private BusinessOrderAdapter adapter;
     private OrderChangeReceiver receiver;
     private LocalBroadcastManager broadcastManager;
 
@@ -131,21 +131,11 @@ public class OrderNotSendFragment extends BaseFragment<Order> {
                     }.getType();
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage() == null){
-                        if (OrderAllFragment.adapter != null){
-                            int p = OrderAllFragment.adapter.getDataList().indexOf(order);
-                            if (p != -1){
-                                OrderAllFragment.adapter.getDataList().get(p).setState(3);
-                                OrderAllFragment.adapter.notifyItemChanged(p);
-                            }
-                        }
-                        if (OrderSendFragment.adapter != null && OrderSendFragment.pageEnd){
-                            Order receivedData = adapter.getDataList().get(position);
-                            receivedData.setState(2);
-                            OrderSendFragment.adapter.insert(receivedData);
-                        }
-                        int p = adapter.getDataList().indexOf(order);
-                        adapter.getDataList().remove(order);
-                        adapter.notifyItemRemoved(p);
+                        Order orderData = new Order(order);
+                        Intent intent = new Intent();
+                        intent.setAction(OrderChangeReceiver.ORDER_STATE_SEND);
+                        intent.putExtra("order", orderData);
+                        LocalBroadcastManager.getInstance(requireActivity()).sendBroadcast(intent);
                     } else {
                         Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }

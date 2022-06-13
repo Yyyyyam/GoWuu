@@ -38,6 +38,7 @@ import cz.msebera.android.httpclient.Header;
  * 功能:MessageFragment
  */
 public class MessageFragment extends BaseFragment<Message> {
+    private MessageAdapter adapter;
 
     @BindView(R.id.cstm_message_rv)
     RecyclerView recyclerView;

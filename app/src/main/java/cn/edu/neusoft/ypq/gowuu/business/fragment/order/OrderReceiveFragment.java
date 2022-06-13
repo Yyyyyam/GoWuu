@@ -22,7 +22,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.BusinessOrderAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.fragment.BusinessFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
@@ -36,8 +35,8 @@ import cz.msebera.android.httpclient.Header;
  * 时间:2022/4/1
  * 功能:OrderReceiveFragment
  */
-public class OrderReceiveFragment extends BaseFragment {
-    public static BusinessOrderAdapter adapter;
+public class OrderReceiveFragment extends BaseFragment<Order> {
+    private BusinessOrderAdapter adapter;
 
     @BindView(R.id.fragment_recycler_view)
     RecyclerView recyclerView;

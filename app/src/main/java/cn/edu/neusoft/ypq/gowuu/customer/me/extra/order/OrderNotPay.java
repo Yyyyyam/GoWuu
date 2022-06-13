@@ -1,9 +1,14 @@
 package cn.edu.neusoft.ypq.gowuu.customer.me.extra.order;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,9 +28,9 @@ import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.OrderAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
+import cn.edu.neusoft.ypq.gowuu.receiver.OrderChangeReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
 import cn.edu.neusoft.ypq.gowuu.utils.RecyclerViewUtils;
@@ -37,7 +42,9 @@ import cz.msebera.android.httpclient.Header;
  * 功能:OrderNotPay
  */
 public class OrderNotPay extends BaseFragment<Order> {
-    public static OrderAdapter adapter;
+    private OrderAdapter adapter;
+    private OrderChangeReceiver receiver;
+    private LocalBroadcastManager broadcastManager;
 
     @BindView(R.id.order_state_rv)
     RecyclerView recyclerView;
@@ -110,85 +117,110 @@ public class OrderNotPay extends BaseFragment<Order> {
     }
 
     private void setClickListener(){
-        adapter.cancel(new OrderAdapter.OnOrderCancelListener() {
-            @Override
-            public void cancel(ViewHolder holder, Order order, int position) {
-                String url = Constants.ORDER_URL+"/remove_order";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("oid", order.getOid());
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<List<Order>>>() {
-                        }.getType();
-                        PostMessage<List<Order>> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null){
-                            if (OrderAll.adapter != null){
-                                int p = OrderNotPay.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderAll.adapter.getDataList().remove(p);
-                                    OrderAll.adapter.notifyItemRemoved(p);
-                                }
-                            }
-                            int p = adapter.getDataList().indexOf(order);
-                            adapter.getDataList().remove(order);
-                            adapter.notifyItemRemoved(p);
-                        } else {
-                            Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+        adapter.cancel((holder, order, position) -> {
+            String url = Constants.ORDER_URL+"/remove_order";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("oid", order.getOid());
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<List<Order>>>() {
+                    }.getType();
+                    PostMessage<List<Order>> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null){
+                        Order orderData = new Order(order);
+                        Intent i = new Intent();
+                        i.setAction(OrderChangeReceiver.ORDER_STATE_CANCELED);
+                        i.putExtra("order", orderData);
+                        broadcastManager.sendBroadcast(i);
+                    } else {
+                        Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext,"OrderNotPay(cancel):请求失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext,"OrderNotPay(cancel):请求失败",Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
-        adapter.pay(new OrderAdapter.OnOrderPayListener() {
-            @Override
-            public void pay(ViewHolder holder, Order order, int position) {
-                String url = Constants.ORDER_URL+"/change_state";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("oid", order.getOid());
-                params.put("state", 1);
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null){
-                            if (OrderAll.adapter != null){
-                                int p = OrderAll.adapter.getDataList().indexOf(order);
-                                if (p != -1){
-                                    OrderAll.adapter.getDataList().get(p).setState(1);
-                                    OrderAll.adapter.notifyItemChanged(p);
-                                }
-                            }
-                            if (OrderNotSend.adapter != null){
-                                order.setState(1);
-                                OrderNotSend.adapter.insert(order);
-                            }
-                            int p = adapter.getDataList().indexOf(order);
-                            adapter.getDataList().remove(order);
-                            adapter.notifyItemRemoved(p);
-                        } else {
-                            Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+        adapter.pay((holder, order, position) -> {
+            String url = Constants.ORDER_URL+"/change_state";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("oid", order.getOid());
+            params.put("state", 1);
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<Void>>() {
+                    }.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null){
+                        Order orderData = new Order(order);
+                        Intent i = new Intent();
+                        i.setAction(OrderChangeReceiver.ORDER_STATE_PAID);
+                        i.putExtra("order", orderData);
+                        broadcastManager.sendBroadcast(i);
+                    } else {
+                        Toast.makeText(mContext, postMessage.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext,"OrderALL(140):请求失败",Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_CANCELED);
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_PAID);
+        receiver = new OrderChangeReceiver();
+        broadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        broadcastManager.registerReceiver(receiver, filter);
+
+        receiver.canceled(this::cancel);
+        receiver.paid(this::pay);
+    }
+
+    private void cancel(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (order != null) {
+            if (order.getState() == 0) {
+                int position = adapter.getDataList().indexOf(order);
+                if (position != -1) {
+                    adapter.getDataList().remove(order);
+                    adapter.notifyItemRemoved(position);
+                }
+            }
+        }
+    }
+
+    private void pay(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (order != null) {
+            order.setState(0);
+            int position = adapter.getDataList().indexOf(order);
+            if (position != -1){
+                adapter.getDataList().remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(receiver);
     }
 }

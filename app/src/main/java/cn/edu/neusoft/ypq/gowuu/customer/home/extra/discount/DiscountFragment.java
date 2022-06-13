@@ -30,7 +30,6 @@ import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
 import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.GoodsAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
-import cn.edu.neusoft.ypq.gowuu.customer.classify.fragment.ClassifyGoodsFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsFrameFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
@@ -44,8 +43,8 @@ import cz.msebera.android.httpclient.Header;
  * 功能:DiscountFragment
  */
 public class DiscountFragment extends BaseFragment<Goods> {
-
     private int position = 0;
+    private GoodsAdapter adapter;
 
     @BindView(R.id.cstm_type_tv_title)
     TextView tvTitle;
@@ -123,12 +122,8 @@ public class DiscountFragment extends BaseFragment<Goods> {
     }
 
     public void setClickListener(){
-        adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
-            }
-        });
+        adapter.setOnItemClickListener((holder, data, position) ->
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data)));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

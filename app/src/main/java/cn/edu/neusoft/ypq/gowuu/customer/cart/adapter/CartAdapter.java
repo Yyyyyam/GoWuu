@@ -6,31 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.Cart;
 import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.CartGoods;
-import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.ListCopyUtils;
-import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
-import cz.msebera.android.httpclient.Header;
 
 /**
  * 作者:颜培琦
@@ -39,8 +26,8 @@ import cz.msebera.android.httpclient.Header;
  */
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
 
-    private Context mContext;
-    private List<Cart> cartList;
+    private final Context mContext;
+    private final List<Cart> cartList;
     private boolean selectAll;
     public List<CartGoodsAdapter> goodsAdapterList = new ArrayList<>();
 
@@ -139,21 +126,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
     public List<Cart> getConfirmCart(){
         int removeCarts = 0;
         List<Cart> cartConfirm = ListCopyUtils.deepCopy(cartList);
-        for (int i=0; i<cartConfirm.size()+removeCarts; i++) {
-            Cart cart = cartConfirm.get(i-removeCarts);
-            if (!cart.isSelect()){
-                int removeGoods = 0;
-                List<CartGoods> goodsList = cart.getGoodsList();
-                for (int j=0; j<goodsList.size()+removeGoods; j++){
-                    CartGoods goods = goodsList.get(j-removeGoods);
-                    if (!goods.getSelect()){
-                        removeGoods+=1;
-                        goodsList.remove(goods);
+        if (cartConfirm != null) {
+            for (int i=0; i<cartConfirm.size()+removeCarts; i++) {
+                Cart cart = cartConfirm.get(i-removeCarts);
+                if (!cart.isSelect()){
+                    int removeGoods = 0;
+                    List<CartGoods> goodsList = cart.getGoodsList();
+                    for (int j=0; j<goodsList.size()+removeGoods; j++){
+                        CartGoods goods = goodsList.get(j-removeGoods);
+                        if (!goods.getSelect()){
+                            removeGoods+=1;
+                            goodsList.remove(goods);
+                        }
                     }
-                }
-                if (goodsList.size() == 0){
-                    removeCarts+=1;
-                    cartConfirm.remove(cart);
+                    if (goodsList.size() == 0){
+                        removeCarts+=1;
+                        cartConfirm.remove(cart);
+                    }
                 }
             }
         }
@@ -185,52 +174,40 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
             recyclerView.setLayoutManager(manager);
             recyclerView.setAdapter(goodsAdapterList.get(p));
 
-            cbSelect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectAllItemListener.setOnSelectAllItemListener(cbSelect.isChecked(), v, getAdapterPosition());
-                }
-            });
+            cbSelect.setOnClickListener(v ->
+                    selectAllItemListener
+                            .setOnSelectAllItemListener(cbSelect.isChecked(), v, getAdapterPosition()));
 
             // 购物车商家商品的选中监听
-            goodsAdapterList.get(data.getPosition()).setOnSelectListener(new CartGoodsAdapter.OnSelectListener() {
-                @Override
-                public void setOnSelectListener(boolean selected, View view, int fPosition, int position) {
-                    cartList.get(fPosition).getGoodsList().get(position).setSelect(selected);
-                    int length = cartList.get(fPosition).getGoodsList().size();
-                    if (length == 1) {
-                        selectAllItemListener.setOnSelectAllItemListener(selected, view, fPosition);
-                    } else {
-                        for (int i = 0; i < length; i++) {
-                            if (cartList.get(fPosition).getGoodsList().get(i).getSelect()) {//true,true,true
-                                selectAll = true;
-                            } else {
-                                selectAll = false;
-                                break;
-                            }
+            goodsAdapterList.get(data.getPosition()).setOnSelectListener((selected, view, fPosition, position1) -> {
+                cartList.get(fPosition).getGoodsList().get(position1).setSelect(selected);
+                int length = cartList.get(fPosition).getGoodsList().size();
+                if (length == 1) {
+                    selectAllItemListener.setOnSelectAllItemListener(selected, view, fPosition);
+                } else {
+                    for (int i = 0; i < length; i++) {
+                        if (cartList.get(fPosition).getGoodsList().get(i).getSelect()) {//true,true,true
+                            selectAll = true;
+                        } else {
+                            selectAll = false;
+                            break;
                         }
-
-                        cartList.get(fPosition).setSelect(selectAll);
-                        onMoneyChangeListener.setOnMoneyChangeListener(view, fPosition);
-                        onBznsSelectListener.setOnBznsSelectListener(cartList, view, fPosition, position);
-                        notifyItemChanged(fPosition);
                     }
-                }
-            });
 
-            goodsAdapterList.get(data.getPosition()).setOnCountChangeListener(new CartGoodsAdapter.OnCountChangeListener() {
-                @Override
-                public void setOnCountChangeListener(CartGoods goods, View view, int fPosition, int position) {
+                    cartList.get(fPosition).setSelect(selectAll);
                     onMoneyChangeListener.setOnMoneyChangeListener(view, fPosition);
+                    onBznsSelectListener.setOnBznsSelectListener(cartList, view, fPosition, position1);
+                    notifyItemChanged(fPosition);
                 }
             });
 
-            goodsAdapterList.get(data.getPosition()).setOnItemClickListener(new CartGoodsAdapter.OnItemClickListener() {
-                @Override
-                public void setOnItemClickListener(List<CartGoods> goodsList, View view, int fPosition, int position) {
-                    onChildSelectListener.setOnChildSelectListener(cartList, view, holder, fPosition, position);
-                }
-            });
+            goodsAdapterList.get(data.getPosition())
+                    .setOnCountChangeListener((goods, view, fPosition, position12) ->
+                            onMoneyChangeListener.setOnMoneyChangeListener(view, fPosition));
+
+            goodsAdapterList.get(data.getPosition())
+                    .setOnItemClickListener((goodsList, view, fPosition, position13) ->
+                            onChildSelectListener.setOnChildSelectListener(cartList, view, holder, fPosition, position13));
         }
     }
 
@@ -272,10 +249,5 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyHolder> {
 
     public void setOnBznsSelectListener(OnBznsSelectListener onBznsSelectListener){
         this.onBznsSelectListener = onBznsSelectListener;
-    }
-
-
-    public interface OnRemoveCartSelecter{
-        void remove(List<Cart> cartList);
     }
 }

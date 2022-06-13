@@ -35,7 +35,7 @@ import cz.msebera.android.httpclient.Header;
  * 时间:2022/3/4
  * 功能:ChangeInfoFragment
  */
-public class ChangeInfoFragment extends BaseFragment {
+public class ChangeInfoFragment extends BaseFragment<Void> {
 
     private int gender = -1;
     private final User user;

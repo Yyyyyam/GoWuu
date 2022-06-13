@@ -1,8 +1,6 @@
 package cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods;
 
-import static androidx.constraintlayout.motion.utils.Oscillator.TAG;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,8 +28,6 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.admin.adapter.ImageAdapter;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.GoodsAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
 import cn.edu.neusoft.ypq.gowuu.customer.home.adapter.EvaluationAdapter;
@@ -48,7 +44,9 @@ import cz.msebera.android.httpclient.Header;
  * 功能:GoodsDetailFragment
  */
 public class GoodsDetailFragment extends BaseFragment<Goods> {
-    private Goods goods;
+    private final Goods goods;
+    private GoodsAdapter adapter;
+    private boolean toast = true;
 
     @BindView(R.id.goods_detail_scroll)
     ScrollView scrollView;
@@ -149,13 +147,14 @@ public class GoodsDetailFragment extends BaseFragment<Goods> {
     public void onScrollToEnd() {
         if (!pageEnd&&page<3){
             getGoodsPage();
-        } else {
+        } else if(toast){
+            toast = false;
             Toast.makeText(mContext, "到底啦", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setEvaluation(){
-        String url = Constants.EVALUATION_URL+"/get_evaluation";
+        String url = Constants.EVALUATION_URL + "/get_evaluation";
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("gid", goods.getGid());
@@ -170,7 +169,6 @@ public class GoodsDetailFragment extends BaseFragment<Goods> {
                 PostMessage<List<Evaluation>> postMessage = new Gson().fromJson(response, type);
                 if (postMessage.getMessage() == null){
                     List<Evaluation> evaluationList = postMessage.getData();
-                    tvEvaluationCount.setText("商品评价("+evaluationList.size()+")");
                     EvaluationAdapter evaluationAdapter = new EvaluationAdapter(mContext, evaluationList, true);
                     LinearLayoutManager manager = new LinearLayoutManager(mContext);
                     manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -184,15 +182,32 @@ public class GoodsDetailFragment extends BaseFragment<Goods> {
                 Toast.makeText(mContext,"GoodsDetailFragment(175):请求失败",Toast.LENGTH_SHORT).show();
             }
         });
+
+        url = Constants.EVALUATION_URL + "/get_count";
+        params = new RequestParams();
+        params.put("gid", goods.getGid());
+        client.get(url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = new String(responseBody, StandardCharsets.UTF_8);
+                Type type = new TypeToken<PostMessage<Integer>>() {
+                }.getType();
+                PostMessage<Integer> postMessage = new Gson().fromJson(response, type);
+                if (postMessage.getMessage() == null){
+                    tvEvaluationCount.setText("商品评价(" + postMessage.getData() + ")");
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(mContext,"GoodsDetailFragment(175):请求失败",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void setClickListener(){
-        adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
-            }
-        });
+        adapter.setOnItemClickListener((holder, data, position) ->
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data)));
     }
 
     @OnClick(R.id.goods_detail_tv_all)

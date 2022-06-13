@@ -27,11 +27,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.GoodsAdapter;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
-import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsDetailFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsFrameFragment;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
@@ -48,6 +45,7 @@ public class SearchResultFragment extends BaseFragment<Goods> {
 
     public static String searchName;
     private int position = 0;
+    private GoodsAdapter adapter;
 
     @BindView(R.id.search_result_rv)
     RecyclerView recyclerView;
@@ -127,12 +125,7 @@ public class SearchResultFragment extends BaseFragment<Goods> {
     }
 
     public void setClickListener(){
-        adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
-            }
-        });
+        adapter.setOnItemClickListener((holder, data, position) -> FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data)));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -1,6 +1,5 @@
 package cn.edu.neusoft.ypq.gowuu.customer.me.extra.order;
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.view.View;
 
@@ -24,7 +23,7 @@ import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
  * 时间:2022/3/8
  * 功能:UsrOrderFragment
  */
-public class UsrOrderFragment extends BaseFragment {
+public class UsrOrderFragment extends BaseFragment<Void> {
 
     private int position = 0;
 
@@ -36,7 +35,6 @@ public class UsrOrderFragment extends BaseFragment {
     public UsrOrderFragment() {
     }
 
-    @SuppressLint("ValidFragment")
     public UsrOrderFragment(int position){
         this.position = position;
     }
@@ -57,7 +55,7 @@ public class UsrOrderFragment extends BaseFragment {
                     case 2: return new OrderNotSend();
                     case 3: return new OrderNotReceive();
                     case 4: return new OrderReceived();
-                    default: return null;
+                    default: return new OrderAll();
                 }
             }
 
@@ -67,35 +65,27 @@ public class UsrOrderFragment extends BaseFragment {
             }
         });
 
-        new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(TabLayout.Tab tab, int position) {
-                switch (position){
-                    case 0:
-                        tab.setText("全部");
-                        break;
-                    case 1:
-                        tab.setText("待付款");
-                        break;
-                    case 2:
-                        tab.setText("待发货");
-                        break;
-                    case 3:
-                        tab.setText("待收货");
-                        break;
-                    case 4:
-                        tab.setText("已完成");
-                        break;
-                }
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            switch (position){
+                case 0:
+                    tab.setText("全部");
+                    break;
+                case 1:
+                    tab.setText("待付款");
+                    break;
+                case 2:
+                    tab.setText("待发货");
+                    break;
+                case 3:
+                    tab.setText("待收货");
+                    break;
+                case 4:
+                    tab.setText("已完成");
+                    break;
             }
         }).attach();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tabLayout.getTabAt(position).select();
-            }
-        },100);
+        new Handler().postDelayed(() -> tabLayout.getTabAt(position).select(),100);
         return view;
     }
 

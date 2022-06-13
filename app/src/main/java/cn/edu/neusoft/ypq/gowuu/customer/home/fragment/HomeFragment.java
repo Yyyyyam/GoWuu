@@ -1,10 +1,7 @@
 package cn.edu.neusoft.ypq.gowuu.customer.home.fragment;
 
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,19 +28,14 @@ import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.admin.adapter.ImageAdapter;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.OnItemClickListener;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
 import cn.edu.neusoft.ypq.gowuu.business.bean.Goods;
 import cn.edu.neusoft.ypq.gowuu.business.adapter.GoodsAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.home.bean.HomeData;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.discount.DiscountFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsFrameFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.home.extra.search.SearchFragment;
-import cn.edu.neusoft.ypq.gowuu.customer.home.extra.goods.GoodsDetailFragment;
-import cn.edu.neusoft.ypq.gowuu.receiver.ClearCacheReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
-import cn.edu.neusoft.ypq.gowuu.utils.GlideUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
 import cn.edu.neusoft.ypq.gowuu.utils.RecyclerViewUtils;
 import cz.msebera.android.httpclient.Header;
@@ -60,7 +52,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class HomeFragment extends BaseFragment<Goods> {
     private GoodsAdapter discountAdapter;
-    private List<Goods> discountGoods;
+    private GoodsAdapter adapter;
 
     @BindView(R.id.tv_search_home)
     TextView tvSearchHome;
@@ -97,7 +89,7 @@ public class HomeFragment extends BaseFragment<Goods> {
             }
         });
 
-        discountGoods = new ArrayList<>();
+        List<Goods> discountGoods = new ArrayList<>();
         discountAdapter = new GoodsAdapter(mContext, discountGoods);
         LinearLayoutManager discountManager = new LinearLayoutManager(mContext);
         discountManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -139,12 +131,8 @@ public class HomeFragment extends BaseFragment<Goods> {
                     ImageAdapter imageAdapter = new ImageAdapter(pathList, true);
                     banner.setAdapter(imageAdapter);
                     banner.setLoopTime(5000);
-                    imageAdapter.onClick(new ImageAdapter.OnClickListener() {
-                        @Override
-                        public void onClick(String data, int position) {
-                            Toast.makeText(mContext, "点击位置为第"+position+"张", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    imageAdapter.onClick((data, position) ->
+                            Toast.makeText(mContext, "点击位置为第"+position+"张", Toast.LENGTH_SHORT).show());
                     discountAdapter.addMoreData(postMessage.getData().getDiscountGoods());
                 } else {
                     Toast.makeText(mContext,postMessage.getMessage(),Toast.LENGTH_SHORT).show();
@@ -189,19 +177,11 @@ public class HomeFragment extends BaseFragment<Goods> {
     }
 
     private void setClickListener(){
-        adapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
-            }
-        });
+        adapter.setOnItemClickListener((holder, data, position) ->
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data)));
 
-        discountAdapter.setOnItemClickListener(new OnItemClickListener<Goods>() {
-            @Override
-            public void onItemClick(ViewHolder holder, Goods data, int position) {
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data));
-            }
-        });
+        discountAdapter.setOnItemClickListener((holder, data, position) ->
+                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsFrameFragment(data)));
     }
 
     @OnClick(R.id.tv_home_discount_all)

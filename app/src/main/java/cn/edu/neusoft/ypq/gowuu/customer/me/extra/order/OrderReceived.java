@@ -1,9 +1,14 @@
 package cn.edu.neusoft.ypq.gowuu.customer.me.extra.order;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,12 +28,11 @@ import butterknife.ButterKnife;
 import cn.edu.neusoft.ypq.gowuu.R;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.base.ViewHolder;
-import cn.edu.neusoft.ypq.gowuu.business.fragment.goods.GoodsEditFragment;
 import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.OrderAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.OrderGoods;
 import cn.edu.neusoft.ypq.gowuu.customer.me.extra.evaluation.GoodsEvaluation;
+import cn.edu.neusoft.ypq.gowuu.receiver.OrderChangeReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.PostMessage;
@@ -42,9 +46,9 @@ import cz.msebera.android.httpclient.Header;
  */
 public class OrderReceived extends BaseFragment<Order> {
 
-    public static boolean pageEnd = false;
-    public static OrderAdapter adapter;
-    public static List<Order> dataList;
+    private OrderAdapter adapter;
+    private OrderChangeReceiver receiver;
+    private LocalBroadcastManager broadcastManager;
 
     @BindView(R.id.order_state_rv)
     RecyclerView recyclerView;
@@ -118,20 +122,57 @@ public class OrderReceived extends BaseFragment<Order> {
     }
 
     private void setClickListener(){
-        adapter.evaluation(new OrderAdapter.OnGoodsEvaluationListener() {
-            @Override
-            public void evaluation(ViewHolder holder, OrderGoods goods, int fPosition, int position) {
-                //评价
-                Order data = adapter.getDataList().get(fPosition);
-                GoodsEvaluation.order = new Order();
-                GoodsEvaluation.order.setBznsName(data.getBznsName());
-                GoodsEvaluation.order.setPosition(fPosition);
-                List<OrderGoods> goodsList = new ArrayList<>();
-                goods.setPosition(position);
-                goodsList.add(goods);
-                GoodsEvaluation.order.setGoodsList(goodsList);
-                FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsEvaluation());
-            }
+        adapter.evaluation((holder, goods, fPosition, position) -> {
+            //评价
+            Order data = adapter.getDataList().get(fPosition);
+            GoodsEvaluation.order = new Order(data);
+            GoodsEvaluation.position = position;
+            FragmentUtils.changeFragment(requireActivity(), R.id.main_frameLayout, new GoodsEvaluation());
         });
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_RECEIVED);
+        filter.addAction(OrderChangeReceiver.ORDER_STATE_EVALUATION);
+        receiver = new OrderChangeReceiver();
+        broadcastManager = LocalBroadcastManager.getInstance(requireActivity());
+        broadcastManager.registerReceiver(receiver, filter);
+
+        receiver.received(this::received);
+        receiver.evaluation(this::evaluation);
+    }
+
+    private void received(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (pageEnd) {
+            if (order != null) {
+                order.setState(3);
+                for (int i = 0; i< order.getGoodsList().size(); i++){
+                    OrderGoods goods = order.getGoodsList().get(i);
+                    goods.setState(1);
+                }
+                adapter.insert(order);
+            }
+        }
+    }
+
+    private void evaluation(Intent intent) {
+        Order order = (Order) intent.getSerializableExtra("order");
+        if (order != null) {
+            order.setState(3);
+            int pOrder = adapter.getDataList().indexOf(order);
+            if (pOrder != -1) {
+                adapter.getDataList().get(pOrder).getGoodsList().get(GoodsEvaluation.position).setState(2);
+                adapter.notifyItemChanged(pOrder);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        broadcastManager.unregisterReceiver(receiver);
     }
 }

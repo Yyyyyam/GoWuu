@@ -3,7 +3,6 @@ package cn.edu.neusoft.ypq.gowuu.customer.me.extra.evaluation;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRatingBar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,15 +34,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.edu.neusoft.ypq.gowuu.R;
-import cn.edu.neusoft.ypq.gowuu.admin.adapter.ImageAdapter;
 import cn.edu.neusoft.ypq.gowuu.app.MainActivity;
 import cn.edu.neusoft.ypq.gowuu.base.BaseFragment;
-import cn.edu.neusoft.ypq.gowuu.customer.cart.bean.CartGoods;
 import cn.edu.neusoft.ypq.gowuu.customer.me.adapter.RequestImgAdapter;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.Order;
 import cn.edu.neusoft.ypq.gowuu.customer.me.bean.OrderGoods;
-import cn.edu.neusoft.ypq.gowuu.customer.me.extra.order.OrderAll;
-import cn.edu.neusoft.ypq.gowuu.customer.me.extra.order.OrderReceived;
+import cn.edu.neusoft.ypq.gowuu.receiver.OrderChangeReceiver;
 import cn.edu.neusoft.ypq.gowuu.utils.Constants;
 import cn.edu.neusoft.ypq.gowuu.utils.FileUtils;
 import cn.edu.neusoft.ypq.gowuu.utils.FragmentUtils;
@@ -57,6 +54,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class GoodsEvaluation extends BaseFragment<Void> {
     public static Order order;
+    public static int position;
     private List<Uri> uriList;
     private RequestImgAdapter imageAdapter;
 
@@ -146,7 +144,6 @@ public class GoodsEvaluation extends BaseFragment<Void> {
                 evltState = 2;
                 break;
             default:
-                evltState = -1;
                 break;
         }
         if (evltState == -1){
@@ -167,7 +164,7 @@ public class GoodsEvaluation extends BaseFragment<Void> {
             String url = Constants.EVALUATION_URL+"/add";
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams params = new RequestParams();
-            OrderGoods goods = order.getGoodsList().get(0);
+            OrderGoods goods = order.getGoodsList().get(position);
             params.put("gid", goods.getGid());
             params.put("uid", MainActivity.user.getUid());
             params.put("id", goods.getId());
@@ -189,15 +186,13 @@ public class GoodsEvaluation extends BaseFragment<Void> {
                     PostMessage<Void> postMessage = new Gson().fromJson(response, type);
                     if (postMessage.getMessage() == null){
                         Toast.makeText(mContext,"提交成功",Toast.LENGTH_SHORT).show();
-                        if (OrderAll.adapter != null) {
-                            OrderAll.adapter.getDataList().get(order.getPosition()).getGoodsList().get(goods.getPosition()).setState(2);
-                            OrderAll.adapter.notifyItemChanged(order.getPosition());
-                        }
-                        if (OrderReceived.adapter != null) {
-                            OrderReceived.adapter.getDataList().get(order.getPosition()).getGoodsList().get(goods.getPosition()).setState(2);
-                            OrderReceived.adapter.notifyItemChanged(order.getPosition());
-                        }
-                        FragmentUtils.popBack(requireActivity());
+                        Order orderData = new Order(order);
+                        Intent i = new Intent();
+                        i.setAction(OrderChangeReceiver.ORDER_STATE_EVALUATION);
+                        i.putExtra("order", orderData);
+                        i.putExtra("pGoods", goods);
+                        LocalBroadcastManager.getInstance(mContext).sendBroadcast(i);
+                        back();
                     } else {
                         Toast.makeText(mContext,postMessage.getMessage(),Toast.LENGTH_SHORT).show();
                     }
@@ -218,13 +213,14 @@ public class GoodsEvaluation extends BaseFragment<Void> {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case 1:
-                if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data.getData() != null) {
                     Uri uri = data.getData();
                     //根据uri添加图片到UriList
                     imageAdapter.insert(uri);
                 }
+            }
         }
     }
 }

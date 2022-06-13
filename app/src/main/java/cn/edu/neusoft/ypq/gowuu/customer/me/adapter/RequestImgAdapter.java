@@ -3,7 +3,6 @@ package cn.edu.neusoft.ypq.gowuu.customer.me.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.util.List;
 
@@ -25,12 +24,7 @@ public class RequestImgAdapter extends BaseAdapter<Uri> {
     @Override
     protected void convert(ViewHolder holder, Uri data, int position) {
         holder.setImageView(R.id.itm_usr_request_img, data);
-        holder.setOnClickListener(R.id.itm_usr_request_bt_delete, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                remove(position);
-            }
-        });
+        holder.setOnClickListener(R.id.itm_usr_request_bt_delete, v -> remove(position));
     }
 
     @Override

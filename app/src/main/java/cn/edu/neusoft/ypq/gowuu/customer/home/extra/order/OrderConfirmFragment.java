@@ -52,6 +52,7 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
     public static Address address;
     public static List<Cart> cartList;
     public static boolean selectAddress = false;
+    private OrderConfirmAdapter adapter;
 
     @BindView(R.id.order_cfm_tv_addressee_name)
     TextView tvName;
@@ -205,35 +206,32 @@ public class OrderConfirmFragment extends BaseFragment<Cart> {
 
     public void buyListener(){
         Button btBuy = requireActivity().findViewById(R.id.order_cfm_frame_bt_commit);
-        btBuy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Order> orderList = getOrderList();
-                String url = Constants.ORDER_URL+"/create_order";
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-                params.put("orderJson", new Gson().toJson(orderList));
-                client.post(url, params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        String response = new String(responseBody, StandardCharsets.UTF_8);
-                        Type type = new TypeToken<PostMessage<Void>>() {
-                        }.getType();
-                        PostMessage<Void> postMessage = new Gson().fromJson(response, type);
-                        if (postMessage.getMessage() == null) {
-                            Toast.makeText(mContext, "提交成功", Toast.LENGTH_SHORT).show();
-                            BuyDialogFragment.state = false;
-                            //后续弹出是否付款，付款直接提交改变订单状态为1
-                            FragmentUtils.popBack(requireActivity());
-                        }
+        btBuy.setOnClickListener(v -> {
+            List<Order> orderList = getOrderList();
+            String url = Constants.ORDER_URL+"/create_order";
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams params = new RequestParams();
+            params.put("orderJson", new Gson().toJson(orderList));
+            client.post(url, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    String response = new String(responseBody, StandardCharsets.UTF_8);
+                    Type type = new TypeToken<PostMessage<Void>>() {
+                    }.getType();
+                    PostMessage<Void> postMessage = new Gson().fromJson(response, type);
+                    if (postMessage.getMessage() == null) {
+                        Toast.makeText(mContext, "提交成功", Toast.LENGTH_SHORT).show();
+                        BuyDialogFragment.state = false;
+                        //后续弹出是否付款，付款直接提交改变订单状态为1
+                        FragmentUtils.popBack(requireActivity());
                     }
+                }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        Toast.makeText(mContext, "OrderConfirmFragment():请求失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                    Toast.makeText(mContext, "OrderConfirmFragment():请求失败", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 

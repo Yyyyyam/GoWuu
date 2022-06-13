@@ -40,7 +40,9 @@ public class BusinessOrderAdapter extends BaseAdapter<Order> {
         switch (data.getState()){
             case NOT_PAY:
                 holder.setText(R.id.itm_odr_tv_tag1, "需付款￥");
+                holder.setVisibility(R.id.itm_odr_bt_1, View.VISIBLE);
                 holder.setText(R.id.itm_odr_tv_order_state, "未付款");
+                holder.setVisibility(R.id.itm_odr_bt_2, View.VISIBLE);
                 holder.setText(R.id.itm_odr_bt_1, "取消订单");
                 holder.setVisibility(R.id.itm_odr_bt_1, View.VISIBLE);
                 holder.setText(R.id.itm_odr_bt_2, "更改价格");
@@ -58,6 +60,7 @@ public class BusinessOrderAdapter extends BaseAdapter<Order> {
                 holder.setText(R.id.itm_odr_tv_order_state, "未发货");
                 holder.setVisibility(R.id.itm_odr_bt_1, View.GONE);
                 holder.setText(R.id.itm_odr_bt_2, "发货");
+                holder.setVisibility(R.id.itm_odr_bt_2, View.VISIBLE);
                 holder.setOnClickListener(R.id.itm_odr_bt_2, v -> {
                     if (onOrderSendListener != null) onOrderSendListener.send(holder, data, position);
                 });
@@ -122,9 +125,9 @@ public class BusinessOrderAdapter extends BaseAdapter<Order> {
         this.onOrderSendListener = onOrderSendListener;
     }
 
-    public class OrderGoodsAdapter extends BaseAdapter<OrderGoods> {
+    public static class OrderGoodsAdapter extends BaseAdapter<OrderGoods> {
 
-        private Integer fPosition;
+        private final Integer fPosition;
 
         public OrderGoodsAdapter(Context context, List<OrderGoods> dataList, int fPosition) {
             super(context, dataList);
